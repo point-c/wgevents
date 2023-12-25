@@ -1,0 +1,547 @@
+events:
+  HandshakeSendFailed:
+    type: errorf
+    level: error
+    nice: "Failed to send handshake response"
+    format: "%v - Failed to send handshake response: %v"
+    args:
+      - Peer: "*device.Peer"
+      - Err: error
+  LoadMTUFailed:
+    type: errorf
+    level: error
+    nice: "Failed to load updated MTU of device"
+    format: "Failed to load updated MTU of device: %v"
+    args:
+      - Err: error
+  Value:
+    type: errorf
+    level: error
+    nice: "error"
+    format: "%v"
+    args:
+      - Err: error
+  InvalidOperation:
+    type: errorf
+    level: error
+    nice: "invalid UAPI operation"
+    format: "invalid UAPI operation: %v"
+    args:
+      - Op: string
+  NegativeMTU:
+    type: errorf
+    level: error
+    nice: "MTU not updated to negative value"
+    format: "MTU not updated to negative value: %v"
+    args:
+      - MTU: int
+  TunPacketReadFailed:
+    type: errorf
+    level: error
+    nice: "Failed to read packet from TUN device"
+    format: "Failed to read packet from TUN device: %v"
+    args:
+      - Err: error
+  PacketDataSendFailed:
+    type: errorf
+    level: error
+    nice: "Failed to send data packets"
+    format: "%v - Failed to send data packets: %v"
+    args:
+      - Peer: "*device.Peer"
+      - Err: error
+  CreateCookieReplyFailed:
+    type: errorf
+    level: error
+    nice: "Failed to create cookie reply"
+    format: "Failed to create cookie reply: %v"
+    args:
+      - Err: error
+  CreateInitiationMessageFailed:
+    type: errorf
+    level: error
+    nice: "Failed to create initiation message"
+    format: "%v - Failed to create initiation message: %v"
+    args:
+      - Peer: "*device.Peer"
+      - Err: error
+  SendHandshakeInitiationFailed:
+    type: errorf
+    level: error
+    nice: "Failed to send handshake initiation"
+    format: "%v - Failed to send handshake initiation: %v"
+    args:
+      - Peer: "*device.Peer"
+      - Err: error
+  CreateResponseMessageFailed:
+    type: errorf
+    level: error
+    nice: "Failed to create response message"
+    format: "%v - Failed to create response message: %v"
+    args:
+      - Peer: "*device.Peer"
+      - Err: error
+  DeriveKeypairFailed:
+    type: errorf
+    level: error
+    nice: "Failed to derive keypair"
+    format: "%v - Failed to derive keypair: %v"
+    args:
+      - Peer: "*device.Peer"
+      - Err: error
+  BindCloseFailed:
+    type: errorf
+    level: error
+    nice: "Bind close failed"
+    format: "Bind close failed: %v"
+    args:
+      - Err: error
+  AssumingDefaultMTU:
+    type: errorf
+    level: error
+    nice: "Trouble determining MTU, assuming default"
+    format: "Trouble determining MTU, assuming default: %v"
+    args:
+      - Err: error
+  UpdateBind:
+    type: errorf
+    level: error
+    nice: "Unable to update bind"
+    format: "Unable to update bind: %v"
+    args:
+      - Err: error
+  InvalidPacketInHandshakeQueue:
+    type: errorf
+    level: error
+    format: "Invalid packet ended up in the handshake queue"
+  InitiationMessageDecodeFailed:
+    type: errorf
+    level: error
+    format: "Failed to decode initiation message"
+  ResponseMessageDecodeFailed:
+    type: errorf
+    level: error
+    format: "Failed to decode response message"
+  TUNWriteFailed:
+    type: errorf
+    level: error
+    nice: "Failed to write packets to TUN device"
+    format: "Failed to write packets to TUN device: %v"
+    args:
+      - Err: error
+  BindUpdated:
+    type: verbosef
+    level: info
+    format: "UDP bind has been updated"
+  DeviceClosing:
+    type: verbosef
+    level: debug
+    format: "Device closing"
+  DeviceClosed:
+    type: verbosef
+    level: debug
+    format: "Device closed"
+  PeerStarting:
+    type: verbosef
+    level: debug
+    nice: "Starting"
+    format: "%v - Starting"
+    args:
+      - Peer: "*device.Peer"
+  PeerStopping:
+    type: verbosef
+    level: debug
+    nice: "Stopping"
+    format: "%v - Stopping"
+    args:
+      - Peer: "*device.Peer"
+  HandshakeFlood:
+    type: verbosef
+    level: warn
+    nice: "ConsumeMessageInitiation: handshake flood"
+    format: "%v - ConsumeMessageInitiation: handshake flood"
+    args:
+      - Peer: "*device.Peer"
+  HandshakeReplay:
+    type: verbosef
+    level: warn
+    nice: "ConsumeMessageInitiation: handshake replay"
+    format: "%v - ConsumeMessageInitiation: handshake replay @ %v"
+    args:
+      - Peer: "*device.Peer"
+      - Timestamp: tai64n.Timestamp
+  InterfaceCloseIgnoreRequestedState:
+    type: verbosef
+    level: warn
+    nice: "Interface closed, ignored requested state"
+    format: "Interface closed, ignored requested state %s"
+    args:
+      - Want: fmt.Stringer
+  InterfaceStateChanged:
+    type: verbosef
+    level: info
+    nice: "Interface state changed"
+    format: "Interface state was %s, requested %s, now %s"
+    args:
+      - Old: fmt.Stringer
+      - Want: fmt.Stringer
+      - Now: fmt.Stringer
+  DecryptionWorkerStopped:
+    type: verbosef
+    level: debug
+    nice: "Routine: decryption worker stopped"
+    format: "Routine: decryption worker %d - stopped"
+    args:
+      - ID: int
+  EventWorkerStarted:
+    type: verbosef
+    level: debug
+    format: "Routine: event worker - started"
+  InterfaceUpRequested:
+    type: verbosef
+    level: debug
+    format: "Interface up requested"
+  InterfaceDownRequested:
+    type: verbosef
+    level: debug
+    format: "Interface down requested"
+  EventWorkerStopped:
+    type: verbosef
+    level: debug
+    format: "Routine: event worker - stopped"
+  UAPIUpdatingPrivateKey:
+    type: verbosef
+    level: debug
+    format: "UAPI: Updating private key"
+  UAPIUpdatingListenPort:
+    type: verbosef
+    level: debug
+    format: "UAPI: Updating listen port"
+  UAPIUpdatingFWMark:
+    type: verbosef
+    level: debug
+    format: "UAPI: Updating fwmark"
+  UAPIRemovingAllPeers:
+    type: verbosef
+    level: debug
+    format: "UAPI: Removing all peers"
+  UAPIRemovingPeer:
+    type: verbosef
+    level: debug
+    nice: "UAPI: Removing"
+    format: "%v - UAPI: Removing"
+    args:
+      - Peer: "*device.Peer"
+  UAPIUpdatingPresharedKey:
+    type: verbosef
+    level: debug
+    nice: "UAPI: Updating preshared key"
+    format: "%v - UAPI: Updating preshared key"
+    args:
+      - Peer: "*device.Peer"
+  UAPIUpdatingEndpoint:
+    type: verbosef
+    level: debug
+    nice: "UAPI: Updating endpoint"
+    format: "%v - UAPI: Updating endpoint"
+    args:
+      - Peer: "*device.Peer"
+  UAPIUpdatingPersistentKeepalive:
+    type: verbosef
+    level: debug
+    nice: "UAPI: Updating persistent keepalive interval"
+    format: "%v - UAPI: Updating persistent keepalive interval"
+    args:
+      - Peer: "*device.Peer"
+  UAPIRemovingAllAllowedIPs:
+    type: verbosef
+    level: debug
+    nice: "UAPI: Removing all allowedips"
+    format: "%v - UAPI: Removing all allowedips"
+    args:
+      - Peer: "*device.Peer"
+  UAPIAddingAllowedIP:
+    type: verbosef
+    level: debug
+    nice: "UAPI: Adding allowedip"
+    format: "%v - UAPI: Adding allowedip"
+    args:
+      - Peer: "*device.Peer"
+  DroppedPacketsFromMultiSegmentRead:
+    type: verbosef
+    level: error
+    nice: "Dropped some packets from multi-segment read"
+    format: "Dropped some packets from multi-segment read: %v"
+    args:
+      - Err: error
+  DecodeCookieReplyFailed:
+    type: verbosef
+    level: warn
+    format: "Failed to decode cookie reply"
+  CookieResponseInvalid:
+    type: verbosef
+    level: warn
+    format: "Could not decrypt invalid cookie response"
+  InvalidMAC1:
+    type: verbosef
+    level: warn
+    format: "Received packet with invalid mac1"
+  MessageUnknownType:
+    type: verbosef
+    level: warn
+    format: "Received message with unknown type"
+  TUNReaderStopped:
+    type: verbosef
+    level: debug
+    format: "Routine: TUN reader - stopped"
+  TUNReaderStarted:
+    type: verbosef
+    level: debug
+    format: "Routine: TUN reader - started"
+  PacketIPVersionUnknown:
+    type: verbosef
+    level: debug
+    format: "Received packet with unknown IP version"
+  StoppedEncryptionWorker:
+    type: verbosef
+    level: debug
+    nice: "Routine: encryption worker stopped"
+    format: "Routine: encryption worker %d - stopped"
+    args:
+      - ID: int
+  StartedEncryptionWorker:
+    type: verbosef
+    level: debug
+    nice: "Routine: encryption worker started"
+    format: "Routine: encryption worker %d - started"
+    args:
+      - ID: int
+  StartedDecryptionWorker:
+    type: verbosef
+    level: debug
+    nice: "Routine: decryption worker started"
+    format: "Routine: decryption worker %d - started"
+    args:
+      - ID: int
+  StoppedHandshakeWorker:
+    type: verbosef
+    level: debug
+    nice: "Routine: handshake worker stopped"
+    format: "Routine: handshake worker %d - stopped"
+    args:
+      - ID: int
+  StartedHandshakeWorker:
+    type: verbosef
+    level: debug
+    nice: "Routine: handshake worker started"
+    format: "Routine: handshake worker %d - started"
+    args:
+      - ID: int
+  UAPICreated:
+    type: verbosef
+    level: debug
+    nice: "UAPI: Created"
+    format: "%v - UAPI: Created"
+    args:
+      - Peer: "*device.Peer"
+  ReceivedHandshakeInitiation:
+    type: verbosef
+    level: debug
+    nice: "Received handshake initiation"
+    format: "%v - Received handshake initiation"
+    args:
+      - Peer: "*device.Peer"
+  ReceivedHandshakeResponse:
+    type: verbosef
+    level: debug
+    nice: "Received handshake response"
+    format: "%v - Received handshake response"
+    args:
+      - Peer: "*device.Peer"
+  SendingHandshakeInitiation:
+    type: verbosef
+    level: debug
+    nice: "Sending handshake initiation"
+    format: "%v - Sending handshake initiation"
+    args:
+      - Peer: "*device.Peer"
+  SendingHandshakeResponse:
+    type: verbosef
+    level: debug
+    nice: "Sending handshake response"
+    format: "%v - Sending handshake response"
+    args:
+      - Peer: "*device.Peer"
+  SendingKeepalivePacket:
+    type: verbosef
+    level: debug
+    nice: "Sending keepalive packet"
+    format: "%v - Sending keepalive packet"
+    args:
+      - Peer: "*device.Peer"
+  SequentialReaderStopped:
+    type: verbosef
+    level: debug
+    nice: "Routine: sequential sender - stopped"
+    format: "%v - Routine: sequential sender - stopped"
+    args:
+      - Peer: "*device.Peer"
+  SequentialSenderStarted:
+    type: verbosef
+    level: debug
+    nice: "Routine: sequential sender - started"
+    format: "%v - Routine: sequential sender - started"
+    args:
+      - Peer: "*device.Peer"
+  SequentialReceiverStopped:
+    type: verbosef
+    level: debug
+    nice: "Routine: sequential receiver - stopped"
+    format: "%v - Routine: sequential receiver - stopped"
+    args:
+      - Peer: "*device.Peer"
+  SequentialReceiverStarted:
+    type: verbosef
+    level: debug
+    nice: "Routine: sequential receiver - started"
+    format: "%v - Routine: sequential receiver - started"
+    args:
+      - Peer: "*device.Peer"
+  ReceivingKeepalivePacket:
+    type: verbosef
+    level: debug
+    nice: "Receiving keepalive packet"
+    format: "%v - Receiving keepalive packet"
+    args:
+      - Peer: "*device.Peer"
+  IPv4PacketDisallowed:
+    type: verbosef
+    level: warn
+    nice: "IPv4 packet with disallowed source address from"
+    format: "IPv4 packet with disallowed source address from %v"
+    args:
+      - Peer: "*device.Peer"
+  IPv6PacketDisallowed:
+    type: verbosef
+    level: warn
+    nice: "IPv6 packet with disallowed source address from"
+    format: "IPv6 packet with disallowed source address from %v"
+    args:
+      - Peer: "*device.Peer"
+  PacketIPVersionInvalid:
+    type: verbosef
+    level: warn
+    nice: "Packet with invalid IP version from"
+    format: "Packet with invalid IP version from %v"
+    args:
+      - Peer: "*device.Peer"
+  UDPGSODisabled:
+    type: verbosef
+    level: warn
+    nice: "disabled UDP GSO, NIC(s) may not support checksum offload"
+    format: "disabled UDP GSO on %s, NIC(s) may not support checksum offload"
+    custom: true
+    args:
+      - OnLAddr: string
+  RemovingAllKeys:
+    type: verbosef
+    level: debug
+    nice: "Removing all keys, since we haven't received a new one"
+    format: "%s - Removing all keys, since we haven't received a new one in %d seconds"
+    args:
+      - Peer: "*device.Peer"
+      - Timeout: int
+  RetryingHandshake:
+    type: verbosef
+    level: warn
+    nice: "Handshake did not complete, retrying"
+    format: "%s - Handshake did not complete after %d seconds, retrying (try %d)"
+    args:
+      - Peer: "*device.Peer"
+      - Timeout: int
+      - Try: uint32
+  RetryingHandshakeNoResponse:
+    type: verbosef
+    level: debug
+    nice: "Retrying handshake because we stopped hearing back"
+    format: "%s - Retrying handshake because we stopped hearing back after %d seconds"
+    args:
+      - Peer: "*device.Peer"
+      - Timeout: int
+  HandshakeDidNotComplete:
+    type: verbosef
+    level: info
+    nice: "Handshake did not complete, giving up"
+    format: "%s - Handshake did not complete after %d attempts, giving up"
+    args:
+      - Peer: "*device.Peer"
+      - Attempts: int
+  StartedReceivingIncoming:
+    type: verbosef
+    level: debug
+    nice: "Routine: receive incoming stopped"
+    format: "Routine: receive incoming %s - stopped"
+    args:
+      - RecvName: string
+  StoppedReceivingIncoming:
+    type: verbosef
+    level: debug
+    nice: "Routine: receive incoming started"
+    format: "Routine: receive incoming %s - started"
+    args:
+      - RecvName: string
+  PacketReceiveFailed:
+    type: verbosef
+    level: error
+    nice: "Failed to receive packet"
+    format: "Failed to receive %s packet: %v"
+    args:
+      - RecvName: string
+      - Err: error
+  ReceivingCookieResponse:
+    type: verbosef
+    level: debug
+    nice: "Receiving cookie response"
+    format: "Receiving cookie response from %s"
+    args:
+      - Destination: string
+  ReceivedInvalidInitiation:
+    type: verbosef
+    level: warn
+    nice: "Received invalid initiation message"
+    format: "Received invalid initiation message from %s"
+    args:
+      - Destination: string
+  ReceivedInvalidResponse:
+    type: verbosef
+    level: warn
+    nice: "Received invalid response message"
+    format: "Received invalid response message from %s"
+    args:
+      - Destination: string
+  SendCookieDenied:
+    type: verbosef
+    level: warn
+    nice: "Sending cookie response for denied handshake message"
+    format: "Sending cookie response for denied handshake message for %v"
+    args:
+      - Destination: string
+  MTUUpdated:
+    type: verbosef
+    level: info
+    nice: "MTU updated"
+    format: "MTU updated: %v"
+    args:
+      - MTU: int
+  MTUTooLarge:
+    type: verbosef
+    level: warn
+    nice: "MTU too large, capped"
+    format: "MTU updated: %v (too large, capped at %v)"
+    args:
+      - MTU: int
+      - Cap: int
+imports:
+  - golang.zx2c4.com/wireguard/tai64n
+  - golang.zx2c4.com/wireguard/device
+  - fmt

@@ -1,0 +1,24 @@
+{{- $isError := .IsError -}}
+{{- define "rtnAny" }}fn(&EventAny{format: format, args: args{{ if . }}, error: {{ . }}{{ end }}})
+return{{ end -}}
+
+switch format {
+{{ range .Events }}{{- /*gotype:github.com/point-c/wgevents/internal/events-generate.Event*/ -}}
+case Format{{ if eq .Type "errorf" }}Errorf{{ else }}Verbosef{{ end }}{{ .Name }}:{{ if not .Custom }}
+{{- $argsLen := len .Args -}}
+if len(args) != {{ $argsLen }} {
+        {{ template "rtnAny" $isError }}
+    }{{ range $i, $e := .Args }}
+v{{ $i }}, ok := args[{{ $i }}].({{ $e.Type }})
+if !ok {
+{{ template "rtnAny" $isError }}
+}{{ end }}
+fn(&Event{{ .Name }}{ {{ range $i, $e := .Args }} {{ $e.Name }}: v{{ $i }}, {{ end }} } ){{ end }}
+    {{ end }}default:{{ range $i, $e := .Events }}{{ if .Custom }}
+		var ev{{ $i }} Event{{ $e.Name }}
+		if parser.Parse{{ .Name }}(&ev{{ $i }}, format, args...) {
+			fn(&ev{{ $i }})
+			return
+}{{ end }}{{ end }}
+	{{ template "rtnAny" $isError }}
+}

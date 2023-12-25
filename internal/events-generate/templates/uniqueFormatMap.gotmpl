@@ -1,0 +1,4 @@
+var _ = map[string]struct{}{
+{{ range . }}{{- /*gotype:github.com/point-c/wgevents/internal/events-generate.Event*/ -}}Format{{ if eq .Type "errorf" }}Errorf{{ else }}Verbosef{{ end }}{{ .Name }}: {},
+{{ end -}}
+}

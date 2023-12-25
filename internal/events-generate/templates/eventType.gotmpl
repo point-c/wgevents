@@ -1,0 +1,18 @@
+{{- /*gotype:github.com/point-c/wgevents/internal/events-generate.Event*/ -}}
+var _ Event = (*Event{{ .Name }})(nil)
+
+// Event{{ .Name }} is an {{ .Type }} event recognized by the format string "{{ .Format }}".
+type Event{{ .Name }} struct {
+{{- range .Args }}{{ .Name }} {{ .Type }}
+{{ end -}}
+}
+
+
+func (e *Event{{ .Name }}) IsErrorf() bool { return {{ if eq .Type "errorf" }}true{{ else }}false{{ end }} }
+func (*Event{{ .Name }}) Format() string { return Format{{ if eq .Type "errorf" }}Errorf{{ else }}Verbosef{{ end }}{{ .Name }} }
+func (e *Event{{ .Name }}) Args() []any { return []any{ {{ range .Args }}e.{{ .Name }}, {{ end }} } }
+func (*Event{{ .Name }}) Nice() string { return "{{ .Nice }}" }
+func (e *Event{{ .Name }}) Slog(l *slog.Logger) { l.{{ if eq .Level "debug" }}Debug{{ end -}}
+{{- if eq .Level "warn" }}Warn{{ end -}}
+{{- if eq .Level "error" }}Error{{ end -}}
+{{- if eq .Level "info" }}Info{{ end }}(e.Nice(), {{ range .Args }}"{{ .Name }}", e.{{ .Name }}, {{ end }}) }
