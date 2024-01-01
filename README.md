@@ -62,3 +62,36 @@ case *wgevents.EventBindUpdated:
 ## Contributing
 
 This package allows for updates and additions of events. Modify `internal/events-generate/events.yml` and regenerate `events_generated.go` to update event handling.
+
+### File Layout
+
+Each section under the `events` key corresponds to a specific event that can be logged:
+
+```yaml
+<event name>:
+    type: string
+    level: string
+    nice: string (optional)
+    format: string
+    args: list (optional)
+    custom: bool (optional)
+```
+
+### Key Definitions
+
+- `type`: The type of logging or messaging method to be used. Only `errorf` for error logging, and `verbosef` for verbose logging are valid.
+- `level`: The level at which the logging should occur. Valid values are `debug`, `info`, `warn`, and `error`.
+- `nice`: An optional human-readable message for the event. If not specified `format` will be used.
+- `format`: The format string used by the `wireguard-go` library.
+- `args`: The arguments used in the format string in the following format:
+  
+    ```yaml
+    - <name>: <type>
+    - <name>: <type>
+    ```
+
+- `custom`: An optional flag indicating that parsing this event requires custom logic to be implemented.
+
+### Imports
+
+The final section of the configuration file lists the external packages used as part of the event processing mechanism. These are mentioned under the `imports` key.

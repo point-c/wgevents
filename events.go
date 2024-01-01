@@ -9,11 +9,10 @@ package wgevents
 
 import "strings"
 
-//go:generate go run github.com/point-c/wgevents/internal/events-generate
+//go:generate go run github.com/point-c/wgevents/internal/cmd
 
+// This also functions as an interface guard for [eventParser]
 func init() { parser = new(eventParser) }
-
-var _ parsers = (*eventParser)(nil)
 
 type eventParser struct{}
 

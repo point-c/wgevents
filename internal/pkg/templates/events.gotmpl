@@ -4,6 +4,7 @@ package {{ .Package }}
 
 import (
     {{ range .Imports }}"{{ . }}"
+    "log/slog"
 {{ end -}}
 )
 
@@ -25,7 +26,7 @@ const (
 // Verbosef formats. Used to verify uniqueness.
 {{ template "uniqueFormatMap.gotmpl" .Verbosef }}
 
-// Event is a generic even emitted from the logger. Use a `switch v := v.(type) {` to filter values and gain acces to arguments.
+// Event is a generic event emitted from the logger. Use a `switch v := v.(type) {` to filter values and gain access to arguments.
 type Event interface {
 	Nice() string
 	Format() string
