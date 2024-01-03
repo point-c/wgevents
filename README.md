@@ -33,20 +33,16 @@ The package handles known events with specific types, and unknown events are cat
 
 ## Example
 
+### Basic Usage
+
 ```go
-package main
-
-import (
-    "github.com/point-c/wgevents"
-)
-
-func main() {
-    logger := wgevents.Events(func(e wgevents.Event) {
-        // Handle logging event
-    })
-    // Use logger in your application
-}
+logger := wgevents.Events(func(e wgevents.Event) {
+    // Handle logging event
+})
+// Use logger in your application
 ```
+
+### Recognizing Events
 
 A type switch can be used to recognize specific events:
 
@@ -57,6 +53,14 @@ case *wgevents.EventBindCloseFailed:
 case *wgevents.EventBindUpdated:
 // And so on...
 }
+```
+
+### Logging
+
+```go
+logger := wgevents.Events(func(e wgevents.Event) {
+    e.Slog(slog.Default())
+})
 ```
 
 ## Contributing
