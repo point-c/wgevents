@@ -1,5 +1,7 @@
 # wgevents
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/point-c/wgevents@v0.0.2.svg)](https://pkg.go.dev/github.com/point-c/wgevents@v0.0.2)
+
 ## Overview
 
 `wgevents` is a logging package for [`wireguard-go`](https://github.com/WireGuard/wireguard-go). It transforms format strings and args passed to logger methods into concrete events.
