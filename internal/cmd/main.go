@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
+	helpers "github.com/point-c/generator-helpers"
 	"github.com/point-c/wgevents/internal/pkg/app"
-	"github.com/point-c/wgevents/internal/pkg/helpers"
 	"github.com/point-c/wgevents/internal/pkg/templates"
 	"log/slog"
 	"os"
@@ -15,8 +15,8 @@ var args = struct {
 	pkg     string
 }{
 	config:  "events.yml",
-	outfile: app.OutputFilename(app.GoFile()),
-	pkg:     app.GoPackage(),
+	outfile: helpers.OutputFilename(helpers.EnvGoFile()),
+	pkg:     helpers.EnvGoPackage(),
 }
 
 func init() {
@@ -54,7 +54,7 @@ func Cfg2Dot(cfg *app.Config) *templates.Dot {
 			Name:   name,
 			Type:   string(ev.Type),
 			Level:  string(ev.Level),
-			Nice:   app.IfStringEmptyUseDefault(ev.Nice, ev.Format),
+			Nice:   helpers.IfStringEmptyUseDefault(ev.Nice, ev.Format),
 			Format: ev.Format,
 			Args: func(args []templates.Arg) []templates.Arg {
 				for i, arg := range ev.Args {

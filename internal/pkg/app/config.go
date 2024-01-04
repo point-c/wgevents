@@ -3,9 +3,15 @@ package app
 import (
 	"errors"
 	"fmt"
+	helpers "github.com/point-c/generator-helpers"
 	"gopkg.in/yaml.v3"
 	"slices"
 )
+
+func init() {
+	helpers.EnvDefaultGoPackage = "wgevents"
+	helpers.EnvDefaultGoFile = "events.go"
+}
 
 type Config struct {
 	Imports []string `json:"import" yaml:"imports"`
