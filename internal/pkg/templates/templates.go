@@ -9,7 +9,7 @@ import (
 const mainTemplate = "events.gotmpl"
 
 var (
-	//go:embed *
+	//go:embed *.gotmpl
 	templates     embed.FS
 	templateFuncs = template.FuncMap{
 		"isError": isError,
