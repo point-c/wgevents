@@ -15,182 +15,269 @@ type parsers interface {
 }
 
 const (
-	FormatVerbosefReceivingKeepalivePacket           = "%v - Receiving keepalive packet"
-	FormatErrorfCreateCookieReplyFailed              = "Failed to create cookie reply: %v"
-	FormatErrorfCreateInitiationMessageFailed        = "%v - Failed to create initiation message: %v"
-	FormatVerbosefTUNReaderStarted                   = "Routine: TUN reader - started"
-	FormatErrorfDeriveKeypairFailed                  = "%v - Failed to derive keypair: %v"
-	FormatVerbosefPeerStarting                       = "%v - Starting"
 	FormatVerbosefInterfaceStateChanged              = "Interface state was %s, requested %s, now %s"
-	FormatVerbosefUAPIUpdatingFWMark                 = "UAPI: Updating fwmark"
-	FormatVerbosefSendingKeepalivePacket             = "%v - Sending keepalive packet"
-	FormatErrorfLoadMTUFailed                        = "Failed to load updated MTU of device: %v"
-	FormatErrorfNegativeMTU                          = "MTU not updated to negative value: %v"
-	FormatErrorfPacketDataSendFailed                 = "%v - Failed to send data packets: %v"
-	FormatErrorfBindCloseFailed                      = "Bind close failed: %v"
-	FormatVerbosefCookieResponseInvalid              = "Could not decrypt invalid cookie response"
-	FormatVerbosefDroppedPacketsFromMultiSegmentRead = "Dropped some packets from multi-segment read: %v"
 	FormatVerbosefPacketIPVersionUnknown             = "Received packet with unknown IP version"
-	FormatVerbosefIPv4PacketDisallowed               = "IPv4 packet with disallowed source address from %v"
-	FormatVerbosefRemovingAllKeys                    = "%s - Removing all keys, since we haven't received a new one in %d seconds"
-	FormatVerbosefUAPIUpdatingEndpoint               = "%v - UAPI: Updating endpoint"
-	FormatVerbosefUAPIUpdatingPersistentKeepalive    = "%v - UAPI: Updating persistent keepalive interval"
-	FormatVerbosefUAPIRemovingAllAllowedIPs          = "%v - UAPI: Removing all allowedips"
-	FormatVerbosefSequentialReceiverStarted          = "%v - Routine: sequential receiver - started"
-	FormatVerbosefRetryingHandshakeNoResponse        = "%s - Retrying handshake because we stopped hearing back after %d seconds"
-	FormatVerbosefSendCookieDenied                   = "Sending cookie response for denied handshake message for %v"
-	FormatVerbosefEventWorkerStopped                 = "Routine: event worker - stopped"
-	FormatVerbosefReceivedHandshakeInitiation        = "%v - Received handshake initiation"
 	FormatVerbosefSendingHandshakeInitiation         = "%v - Sending handshake initiation"
-	FormatErrorfCreateResponseMessageFailed          = "%v - Failed to create response message: %v"
-	FormatVerbosefUAPIAddingAllowedIP                = "%v - UAPI: Adding allowedip"
-	FormatVerbosefStoppedEncryptionWorker            = "Routine: encryption worker %d - stopped"
+	FormatVerbosefSendingHandshakeResponse           = "%v - Sending handshake response"
+	FormatVerbosefSequentialReceiverStarted          = "%v - Routine: sequential receiver - started"
+	FormatErrorfPacketDataSendFailed                 = "%v - Failed to send data packets: %v"
+	FormatErrorfCreateCookieReplyFailed              = "Failed to create cookie reply: %v"
+	FormatErrorfDeriveKeypairFailed                  = "%v - Failed to derive keypair: %v"
+	FormatVerbosefDeviceClosed                       = "Device closed"
+	FormatVerbosefUAPIRemovingPeer                   = "%v - UAPI: Removing"
+	FormatVerbosefCookieResponseInvalid              = "Could not decrypt invalid cookie response"
 	FormatVerbosefStartedEncryptionWorker            = "Routine: encryption worker %d - started"
-	FormatVerbosefSequentialReceiverStopped          = "%v - Routine: sequential receiver - stopped"
-	FormatVerbosefReceivedInvalidResponse            = "Received invalid response message from %s"
-	FormatErrorfTUNWriteFailed                       = "Failed to write packets to TUN device: %v"
-	FormatVerbosefPeerStopping                       = "%v - Stopping"
-	FormatVerbosefInvalidMAC1                        = "Received packet with invalid mac1"
-	FormatVerbosefUDPGSODisabled                     = "disabled UDP GSO on %s, NIC(s) may not support checksum offload"
-	FormatVerbosefDeviceClosing                      = "Device closing"
-	FormatVerbosefUAPIRemovingAllPeers               = "UAPI: Removing all peers"
-	FormatVerbosefUAPIUpdatingPresharedKey           = "%v - UAPI: Updating preshared key"
-	FormatVerbosefEventWorkerStarted                 = "Routine: event worker - started"
-	FormatVerbosefInterfaceUpRequested               = "Interface up requested"
-	FormatVerbosefMessageUnknownType                 = "Received message with unknown type"
+	FormatVerbosefRetryingHandshake                  = "%s - Handshake did not complete after %d seconds, retrying (try %d)"
+	FormatErrorfHandshakeSendFailed                  = "%v - Failed to send handshake response: %v"
+	FormatVerbosefPacketReceiveFailed                = "Failed to receive %s packet: %v"
+	FormatVerbosefEventWorkerStopped                 = "Routine: event worker - stopped"
 	FormatVerbosefUAPICreated                        = "%v - UAPI: Created"
-	FormatVerbosefReceivedInvalidInitiation          = "Received invalid initiation message from %s"
+	FormatVerbosefReceivedHandshakeResponse          = "%v - Received handshake response"
+	FormatErrorfLoadMTUFailed                        = "Failed to load updated MTU of device: %v"
+	FormatVerbosefSequentialReceiverStopped          = "%v - Routine: sequential receiver - stopped"
+	FormatVerbosefStoppedReceivingIncoming           = "Routine: receive incoming %s - started"
+	FormatVerbosefReceivedInvalidResponse            = "Received invalid response message from %s"
+	FormatVerbosefSendCookieDenied                   = "Sending cookie response for denied handshake message for %v"
+	FormatVerbosefPeerStopping                       = "%v - Stopping"
+	FormatErrorfTUNWriteFailed                       = "Failed to write packets to TUN device: %v"
+	FormatVerbosefSequentialSenderStarted            = "%v - Routine: sequential sender - started"
+	FormatVerbosefReceivingKeepalivePacket           = "%v - Receiving keepalive packet"
+	FormatVerbosefIPv6PacketDisallowed               = "IPv6 packet with disallowed source address from %v"
 	FormatErrorfAssumingDefaultMTU                   = "Trouble determining MTU, assuming default: %v"
+	FormatVerbosefStoppedHandshakeWorker             = "Routine: handshake worker %d - stopped"
+	FormatVerbosefPacketIPVersionInvalid             = "Packet with invalid IP version from %v"
+	FormatVerbosefTUNReaderStarted                   = "Routine: TUN reader - started"
+	FormatErrorfNegativeMTU                          = "MTU not updated to negative value: %v"
+	FormatErrorfSendHandshakeInitiationFailed        = "%v - Failed to send handshake initiation: %v"
+	FormatVerbosefMessageUnknownType                 = "Received message with unknown type"
+	FormatVerbosefStartedHandshakeWorker             = "Routine: handshake worker %d - started"
+	FormatVerbosefSendingKeepalivePacket             = "%v - Sending keepalive packet"
+	FormatErrorfInvalidOperation                     = "invalid UAPI operation: %v"
+	FormatVerbosefDeviceClosing                      = "Device closing"
+	FormatVerbosefHandshakeFlood                     = "%v - ConsumeMessageInitiation: handshake flood"
+	FormatVerbosefInterfaceUpRequested               = "Interface up requested"
+	FormatVerbosefUAPIAddingAllowedIP                = "%v - UAPI: Adding allowedip"
+	FormatVerbosefDecodeCookieReplyFailed            = "Failed to decode cookie reply"
+	FormatVerbosefStoppedEncryptionWorker            = "Routine: encryption worker %d - stopped"
+	FormatVerbosefHandshakeDidNotComplete            = "%s - Handshake did not complete after %d attempts, giving up"
+	FormatErrorfUpdateBind                           = "Unable to update bind: %v"
+	FormatVerbosefReceivedInvalidInitiation          = "Received invalid initiation message from %s"
+	FormatErrorfInvalidPacketInHandshakeQueue        = "Invalid packet ended up in the handshake queue"
+	FormatVerbosefReceivedHandshakeInitiation        = "%v - Received handshake initiation"
+	FormatErrorfTunPacketReadFailed                  = "Failed to read packet from TUN device: %v"
+	FormatVerbosefUAPIRemovingAllAllowedIPs          = "%v - UAPI: Removing all allowedips"
+	FormatVerbosefReceivingCookieResponse            = "Receiving cookie response from %s"
+	FormatErrorfInitiationMessageDecodeFailed        = "Failed to decode initiation message"
+	FormatVerbosefUAPIUpdatingPersistentKeepalive    = "%v - UAPI: Updating persistent keepalive interval"
+	FormatVerbosefHandshakeReplay                    = "%v - ConsumeMessageInitiation: handshake replay @ %v"
 	FormatVerbosefInterfaceCloseIgnoreRequestedState = "Interface closed, ignored requested state %s"
 	FormatVerbosefDecryptionWorkerStopped            = "Routine: decryption worker %d - stopped"
-	FormatVerbosefSequentialSenderStarted            = "%v - Routine: sequential sender - started"
-	FormatVerbosefRetryingHandshake                  = "%s - Handshake did not complete after %d seconds, retrying (try %d)"
-	FormatVerbosefHandshakeDidNotComplete            = "%s - Handshake did not complete after %d attempts, giving up"
-	FormatVerbosefMTUTooLarge                        = "MTU updated: %v (too large, capped at %v)"
-	FormatVerbosefUAPIRemovingPeer                   = "%v - UAPI: Removing"
-	FormatVerbosefStoppedHandshakeWorker             = "Routine: handshake worker %d - stopped"
-	FormatVerbosefSequentialReaderStopped            = "%v - Routine: sequential sender - stopped"
-	FormatErrorfResponseMessageDecodeFailed          = "Failed to decode response message"
-	FormatVerbosefDeviceClosed                       = "Device closed"
-	FormatVerbosefStartedDecryptionWorker            = "Routine: decryption worker %d - started"
-	FormatVerbosefUAPIUpdatingListenPort             = "UAPI: Updating listen port"
-	FormatVerbosefPacketIPVersionInvalid             = "Packet with invalid IP version from %v"
-	FormatVerbosefStartedReceivingIncoming           = "Routine: receive incoming %s - stopped"
-	FormatErrorfHandshakeSendFailed                  = "%v - Failed to send handshake response: %v"
-	FormatErrorfInvalidPacketInHandshakeQueue        = "Invalid packet ended up in the handshake queue"
-	FormatErrorfInitiationMessageDecodeFailed        = "Failed to decode initiation message"
-	FormatVerbosefReceivedHandshakeResponse          = "%v - Received handshake response"
-	FormatVerbosefSendingHandshakeResponse           = "%v - Sending handshake response"
-	FormatVerbosefPacketReceiveFailed                = "Failed to receive %s packet: %v"
-	FormatVerbosefMTUUpdated                         = "MTU updated: %v"
-	FormatErrorfSendHandshakeInitiationFailed        = "%v - Failed to send handshake initiation: %v"
-	FormatVerbosefHandshakeReplay                    = "%v - ConsumeMessageInitiation: handshake replay @ %v"
-	FormatVerbosefStartedHandshakeWorker             = "Routine: handshake worker %d - started"
+	FormatVerbosefUAPIUpdatingFWMark                 = "UAPI: Updating fwmark"
+	FormatVerbosefUAPIUpdatingPresharedKey           = "%v - UAPI: Updating preshared key"
 	FormatVerbosefTUNReaderStopped                   = "Routine: TUN reader - stopped"
-	FormatVerbosefReceivingCookieResponse            = "Receiving cookie response from %s"
-	FormatErrorfValue                                = "%v"
-	FormatErrorfTunPacketReadFailed                  = "Failed to read packet from TUN device: %v"
-	FormatVerbosefDecodeCookieReplyFailed            = "Failed to decode cookie reply"
-	FormatErrorfInvalidOperation                     = "invalid UAPI operation: %v"
-	FormatErrorfUpdateBind                           = "Unable to update bind: %v"
-	FormatVerbosefUAPIUpdatingPrivateKey             = "UAPI: Updating private key"
-	FormatVerbosefIPv6PacketDisallowed               = "IPv6 packet with disallowed source address from %v"
-	FormatVerbosefStoppedReceivingIncoming           = "Routine: receive incoming %s - started"
+	FormatVerbosefIPv4PacketDisallowed               = "IPv4 packet with disallowed source address from %v"
+	FormatErrorfCreateResponseMessageFailed          = "%v - Failed to create response message: %v"
+	FormatErrorfCreateInitiationMessageFailed        = "%v - Failed to create initiation message: %v"
 	FormatVerbosefBindUpdated                        = "UDP bind has been updated"
-	FormatVerbosefHandshakeFlood                     = "%v - ConsumeMessageInitiation: handshake flood"
+	FormatVerbosefEventWorkerStarted                 = "Routine: event worker - started"
+	FormatVerbosefUAPIUpdatingPrivateKey             = "UAPI: Updating private key"
+	FormatVerbosefStartedReceivingIncoming           = "Routine: receive incoming %s - stopped"
+	FormatVerbosefMTUTooLarge                        = "MTU updated: %v (too large, capped at %v)"
+	FormatErrorfValue                                = "%v"
+	FormatVerbosefMTUUpdated                         = "MTU updated: %v"
+	FormatVerbosefPeerStarting                       = "%v - Starting"
+	FormatErrorfResponseMessageDecodeFailed          = "Failed to decode response message"
 	FormatVerbosefInterfaceDownRequested             = "Interface down requested"
+	FormatVerbosefUAPIRemovingAllPeers               = "UAPI: Removing all peers"
+	FormatVerbosefDroppedPacketsFromMultiSegmentRead = "Dropped some packets from multi-segment read: %v"
+	FormatVerbosefInvalidMAC1                        = "Received packet with invalid mac1"
+	FormatVerbosefSequentialReaderStopped            = "%v - Routine: sequential sender - stopped"
+	FormatErrorfBindCloseFailed                      = "Bind close failed: %v"
+	FormatVerbosefUAPIUpdatingEndpoint               = "%v - UAPI: Updating endpoint"
+	FormatVerbosefStartedDecryptionWorker            = "Routine: decryption worker %d - started"
+	FormatVerbosefUDPGSODisabled                     = "disabled UDP GSO on %s, NIC(s) may not support checksum offload"
+	FormatVerbosefRemovingAllKeys                    = "%s - Removing all keys, since we haven't received a new one in %d seconds"
+	FormatVerbosefRetryingHandshakeNoResponse        = "%s - Retrying handshake because we stopped hearing back after %d seconds"
+	FormatVerbosefUAPIUpdatingListenPort             = "UAPI: Updating listen port"
+)
+
+const (
+	NiceVerbosefInterfaceStateChanged              = "Interface state changed"
+	NiceVerbosefPacketIPVersionUnknown             = "Received packet with unknown IP version"
+	NiceVerbosefSendingHandshakeInitiation         = "Sending handshake initiation"
+	NiceVerbosefSendingHandshakeResponse           = "Sending handshake response"
+	NiceVerbosefSequentialReceiverStarted          = "Routine: sequential receiver - started"
+	NiceErrorfPacketDataSendFailed                 = "Failed to send data packets"
+	NiceErrorfCreateCookieReplyFailed              = "Failed to create cookie reply"
+	NiceErrorfDeriveKeypairFailed                  = "Failed to derive keypair"
+	NiceVerbosefDeviceClosed                       = "Device closed"
+	NiceVerbosefUAPIRemovingPeer                   = "UAPI: Removing"
+	NiceVerbosefCookieResponseInvalid              = "Could not decrypt invalid cookie response"
+	NiceVerbosefStartedEncryptionWorker            = "Routine: encryption worker started"
+	NiceVerbosefRetryingHandshake                  = "Handshake did not complete, retrying"
+	NiceErrorfHandshakeSendFailed                  = "Failed to send handshake response"
+	NiceVerbosefPacketReceiveFailed                = "Failed to receive packet"
+	NiceVerbosefEventWorkerStopped                 = "Routine: event worker - stopped"
+	NiceVerbosefUAPICreated                        = "UAPI: Created"
+	NiceVerbosefReceivedHandshakeResponse          = "Received handshake response"
+	NiceErrorfLoadMTUFailed                        = "Failed to load updated MTU of device"
+	NiceVerbosefSequentialReceiverStopped          = "Routine: sequential receiver - stopped"
+	NiceVerbosefStoppedReceivingIncoming           = "Routine: receive incoming started"
+	NiceVerbosefReceivedInvalidResponse            = "Received invalid response message"
+	NiceVerbosefSendCookieDenied                   = "Sending cookie response for denied handshake message"
+	NiceVerbosefPeerStopping                       = "Stopping"
+	NiceErrorfTUNWriteFailed                       = "Failed to write packets to TUN device"
+	NiceVerbosefSequentialSenderStarted            = "Routine: sequential sender - started"
+	NiceVerbosefReceivingKeepalivePacket           = "Receiving keepalive packet"
+	NiceVerbosefIPv6PacketDisallowed               = "IPv6 packet with disallowed source address from"
+	NiceErrorfAssumingDefaultMTU                   = "Trouble determining MTU, assuming default"
+	NiceVerbosefStoppedHandshakeWorker             = "Routine: handshake worker stopped"
+	NiceVerbosefPacketIPVersionInvalid             = "Packet with invalid IP version from"
+	NiceVerbosefTUNReaderStarted                   = "Routine: TUN reader - started"
+	NiceErrorfNegativeMTU                          = "MTU not updated to negative value"
+	NiceErrorfSendHandshakeInitiationFailed        = "Failed to send handshake initiation"
+	NiceVerbosefMessageUnknownType                 = "Received message with unknown type"
+	NiceVerbosefStartedHandshakeWorker             = "Routine: handshake worker started"
+	NiceVerbosefSendingKeepalivePacket             = "Sending keepalive packet"
+	NiceErrorfInvalidOperation                     = "invalid UAPI operation"
+	NiceVerbosefDeviceClosing                      = "Device closing"
+	NiceVerbosefHandshakeFlood                     = "ConsumeMessageInitiation: handshake flood"
+	NiceVerbosefInterfaceUpRequested               = "Interface up requested"
+	NiceVerbosefUAPIAddingAllowedIP                = "UAPI: Adding allowedip"
+	NiceVerbosefDecodeCookieReplyFailed            = "Failed to decode cookie reply"
+	NiceVerbosefStoppedEncryptionWorker            = "Routine: encryption worker stopped"
+	NiceVerbosefHandshakeDidNotComplete            = "Handshake did not complete, giving up"
+	NiceErrorfUpdateBind                           = "Unable to update bind"
+	NiceVerbosefReceivedInvalidInitiation          = "Received invalid initiation message"
+	NiceErrorfInvalidPacketInHandshakeQueue        = "Invalid packet ended up in the handshake queue"
+	NiceVerbosefReceivedHandshakeInitiation        = "Received handshake initiation"
+	NiceErrorfTunPacketReadFailed                  = "Failed to read packet from TUN device"
+	NiceVerbosefUAPIRemovingAllAllowedIPs          = "UAPI: Removing all allowedips"
+	NiceVerbosefReceivingCookieResponse            = "Receiving cookie response"
+	NiceErrorfInitiationMessageDecodeFailed        = "Failed to decode initiation message"
+	NiceVerbosefUAPIUpdatingPersistentKeepalive    = "UAPI: Updating persistent keepalive interval"
+	NiceVerbosefHandshakeReplay                    = "ConsumeMessageInitiation: handshake replay"
+	NiceVerbosefInterfaceCloseIgnoreRequestedState = "Interface closed, ignored requested state"
+	NiceVerbosefDecryptionWorkerStopped            = "Routine: decryption worker stopped"
+	NiceVerbosefUAPIUpdatingFWMark                 = "UAPI: Updating fwmark"
+	NiceVerbosefUAPIUpdatingPresharedKey           = "UAPI: Updating preshared key"
+	NiceVerbosefTUNReaderStopped                   = "Routine: TUN reader - stopped"
+	NiceVerbosefIPv4PacketDisallowed               = "IPv4 packet with disallowed source address from"
+	NiceErrorfCreateResponseMessageFailed          = "Failed to create response message"
+	NiceErrorfCreateInitiationMessageFailed        = "Failed to create initiation message"
+	NiceVerbosefBindUpdated                        = "UDP bind has been updated"
+	NiceVerbosefEventWorkerStarted                 = "Routine: event worker - started"
+	NiceVerbosefUAPIUpdatingPrivateKey             = "UAPI: Updating private key"
+	NiceVerbosefStartedReceivingIncoming           = "Routine: receive incoming stopped"
+	NiceVerbosefMTUTooLarge                        = "MTU too large, capped"
+	NiceErrorfValue                                = "error"
+	NiceVerbosefMTUUpdated                         = "MTU updated"
+	NiceVerbosefPeerStarting                       = "Starting"
+	NiceErrorfResponseMessageDecodeFailed          = "Failed to decode response message"
+	NiceVerbosefInterfaceDownRequested             = "Interface down requested"
+	NiceVerbosefUAPIRemovingAllPeers               = "UAPI: Removing all peers"
+	NiceVerbosefDroppedPacketsFromMultiSegmentRead = "Dropped some packets from multi-segment read"
+	NiceVerbosefInvalidMAC1                        = "Received packet with invalid mac1"
+	NiceVerbosefSequentialReaderStopped            = "Routine: sequential sender - stopped"
+	NiceErrorfBindCloseFailed                      = "Bind close failed"
+	NiceVerbosefUAPIUpdatingEndpoint               = "UAPI: Updating endpoint"
+	NiceVerbosefStartedDecryptionWorker            = "Routine: decryption worker started"
+	NiceVerbosefUDPGSODisabled                     = "disabled UDP GSO, NIC(s) may not support checksum offload"
+	NiceVerbosefRemovingAllKeys                    = "Removing all keys, since we haven't received a new one"
+	NiceVerbosefRetryingHandshakeNoResponse        = "Retrying handshake because we stopped hearing back"
+	NiceVerbosefUAPIUpdatingListenPort             = "UAPI: Updating listen port"
 )
 
 // Errorf formats. Used to verify uniqueness.
 var _ = map[string]struct{}{
-	FormatErrorfCreateCookieReplyFailed:       {},
-	FormatErrorfCreateInitiationMessageFailed: {},
-	FormatErrorfDeriveKeypairFailed:           {},
-	FormatErrorfLoadMTUFailed:                 {},
-	FormatErrorfNegativeMTU:                   {},
 	FormatErrorfPacketDataSendFailed:          {},
-	FormatErrorfBindCloseFailed:               {},
-	FormatErrorfCreateResponseMessageFailed:   {},
+	FormatErrorfCreateCookieReplyFailed:       {},
+	FormatErrorfDeriveKeypairFailed:           {},
+	FormatErrorfHandshakeSendFailed:           {},
+	FormatErrorfLoadMTUFailed:                 {},
 	FormatErrorfTUNWriteFailed:                {},
 	FormatErrorfAssumingDefaultMTU:            {},
-	FormatErrorfResponseMessageDecodeFailed:   {},
-	FormatErrorfHandshakeSendFailed:           {},
-	FormatErrorfInvalidPacketInHandshakeQueue: {},
-	FormatErrorfInitiationMessageDecodeFailed: {},
+	FormatErrorfNegativeMTU:                   {},
 	FormatErrorfSendHandshakeInitiationFailed: {},
-	FormatErrorfValue:                         {},
-	FormatErrorfTunPacketReadFailed:           {},
 	FormatErrorfInvalidOperation:              {},
 	FormatErrorfUpdateBind:                    {},
+	FormatErrorfInvalidPacketInHandshakeQueue: {},
+	FormatErrorfTunPacketReadFailed:           {},
+	FormatErrorfInitiationMessageDecodeFailed: {},
+	FormatErrorfCreateResponseMessageFailed:   {},
+	FormatErrorfCreateInitiationMessageFailed: {},
+	FormatErrorfValue:                         {},
+	FormatErrorfResponseMessageDecodeFailed:   {},
+	FormatErrorfBindCloseFailed:               {},
 }
 
 // Verbosef formats. Used to verify uniqueness.
 var _ = map[string]struct{}{
-	FormatVerbosefReceivingKeepalivePacket:           {},
-	FormatVerbosefTUNReaderStarted:                   {},
-	FormatVerbosefPeerStarting:                       {},
 	FormatVerbosefInterfaceStateChanged:              {},
-	FormatVerbosefUAPIUpdatingFWMark:                 {},
-	FormatVerbosefSendingKeepalivePacket:             {},
-	FormatVerbosefCookieResponseInvalid:              {},
-	FormatVerbosefDroppedPacketsFromMultiSegmentRead: {},
 	FormatVerbosefPacketIPVersionUnknown:             {},
-	FormatVerbosefIPv4PacketDisallowed:               {},
-	FormatVerbosefRemovingAllKeys:                    {},
-	FormatVerbosefUAPIUpdatingEndpoint:               {},
-	FormatVerbosefUAPIUpdatingPersistentKeepalive:    {},
-	FormatVerbosefUAPIRemovingAllAllowedIPs:          {},
-	FormatVerbosefSequentialReceiverStarted:          {},
-	FormatVerbosefRetryingHandshakeNoResponse:        {},
-	FormatVerbosefSendCookieDenied:                   {},
-	FormatVerbosefEventWorkerStopped:                 {},
-	FormatVerbosefReceivedHandshakeInitiation:        {},
 	FormatVerbosefSendingHandshakeInitiation:         {},
-	FormatVerbosefUAPIAddingAllowedIP:                {},
-	FormatVerbosefStoppedEncryptionWorker:            {},
+	FormatVerbosefSendingHandshakeResponse:           {},
+	FormatVerbosefSequentialReceiverStarted:          {},
+	FormatVerbosefDeviceClosed:                       {},
+	FormatVerbosefUAPIRemovingPeer:                   {},
+	FormatVerbosefCookieResponseInvalid:              {},
 	FormatVerbosefStartedEncryptionWorker:            {},
-	FormatVerbosefSequentialReceiverStopped:          {},
-	FormatVerbosefReceivedInvalidResponse:            {},
-	FormatVerbosefPeerStopping:                       {},
-	FormatVerbosefInvalidMAC1:                        {},
-	FormatVerbosefUDPGSODisabled:                     {},
-	FormatVerbosefDeviceClosing:                      {},
-	FormatVerbosefUAPIRemovingAllPeers:               {},
-	FormatVerbosefUAPIUpdatingPresharedKey:           {},
-	FormatVerbosefEventWorkerStarted:                 {},
-	FormatVerbosefInterfaceUpRequested:               {},
-	FormatVerbosefMessageUnknownType:                 {},
+	FormatVerbosefRetryingHandshake:                  {},
+	FormatVerbosefPacketReceiveFailed:                {},
+	FormatVerbosefEventWorkerStopped:                 {},
 	FormatVerbosefUAPICreated:                        {},
+	FormatVerbosefReceivedHandshakeResponse:          {},
+	FormatVerbosefSequentialReceiverStopped:          {},
+	FormatVerbosefStoppedReceivingIncoming:           {},
+	FormatVerbosefReceivedInvalidResponse:            {},
+	FormatVerbosefSendCookieDenied:                   {},
+	FormatVerbosefPeerStopping:                       {},
+	FormatVerbosefSequentialSenderStarted:            {},
+	FormatVerbosefReceivingKeepalivePacket:           {},
+	FormatVerbosefIPv6PacketDisallowed:               {},
+	FormatVerbosefStoppedHandshakeWorker:             {},
+	FormatVerbosefPacketIPVersionInvalid:             {},
+	FormatVerbosefTUNReaderStarted:                   {},
+	FormatVerbosefMessageUnknownType:                 {},
+	FormatVerbosefStartedHandshakeWorker:             {},
+	FormatVerbosefSendingKeepalivePacket:             {},
+	FormatVerbosefDeviceClosing:                      {},
+	FormatVerbosefHandshakeFlood:                     {},
+	FormatVerbosefInterfaceUpRequested:               {},
+	FormatVerbosefUAPIAddingAllowedIP:                {},
+	FormatVerbosefDecodeCookieReplyFailed:            {},
+	FormatVerbosefStoppedEncryptionWorker:            {},
+	FormatVerbosefHandshakeDidNotComplete:            {},
 	FormatVerbosefReceivedInvalidInitiation:          {},
+	FormatVerbosefReceivedHandshakeInitiation:        {},
+	FormatVerbosefUAPIRemovingAllAllowedIPs:          {},
+	FormatVerbosefReceivingCookieResponse:            {},
+	FormatVerbosefUAPIUpdatingPersistentKeepalive:    {},
+	FormatVerbosefHandshakeReplay:                    {},
 	FormatVerbosefInterfaceCloseIgnoreRequestedState: {},
 	FormatVerbosefDecryptionWorkerStopped:            {},
-	FormatVerbosefSequentialSenderStarted:            {},
-	FormatVerbosefRetryingHandshake:                  {},
-	FormatVerbosefHandshakeDidNotComplete:            {},
-	FormatVerbosefMTUTooLarge:                        {},
-	FormatVerbosefUAPIRemovingPeer:                   {},
-	FormatVerbosefStoppedHandshakeWorker:             {},
-	FormatVerbosefSequentialReaderStopped:            {},
-	FormatVerbosefDeviceClosed:                       {},
-	FormatVerbosefStartedDecryptionWorker:            {},
-	FormatVerbosefUAPIUpdatingListenPort:             {},
-	FormatVerbosefPacketIPVersionInvalid:             {},
-	FormatVerbosefStartedReceivingIncoming:           {},
-	FormatVerbosefReceivedHandshakeResponse:          {},
-	FormatVerbosefSendingHandshakeResponse:           {},
-	FormatVerbosefPacketReceiveFailed:                {},
-	FormatVerbosefMTUUpdated:                         {},
-	FormatVerbosefHandshakeReplay:                    {},
-	FormatVerbosefStartedHandshakeWorker:             {},
+	FormatVerbosefUAPIUpdatingFWMark:                 {},
+	FormatVerbosefUAPIUpdatingPresharedKey:           {},
 	FormatVerbosefTUNReaderStopped:                   {},
-	FormatVerbosefReceivingCookieResponse:            {},
-	FormatVerbosefDecodeCookieReplyFailed:            {},
-	FormatVerbosefUAPIUpdatingPrivateKey:             {},
-	FormatVerbosefIPv6PacketDisallowed:               {},
-	FormatVerbosefStoppedReceivingIncoming:           {},
+	FormatVerbosefIPv4PacketDisallowed:               {},
 	FormatVerbosefBindUpdated:                        {},
-	FormatVerbosefHandshakeFlood:                     {},
+	FormatVerbosefEventWorkerStarted:                 {},
+	FormatVerbosefUAPIUpdatingPrivateKey:             {},
+	FormatVerbosefStartedReceivingIncoming:           {},
+	FormatVerbosefMTUTooLarge:                        {},
+	FormatVerbosefMTUUpdated:                         {},
+	FormatVerbosefPeerStarting:                       {},
 	FormatVerbosefInterfaceDownRequested:             {},
+	FormatVerbosefUAPIRemovingAllPeers:               {},
+	FormatVerbosefDroppedPacketsFromMultiSegmentRead: {},
+	FormatVerbosefInvalidMAC1:                        {},
+	FormatVerbosefSequentialReaderStopped:            {},
+	FormatVerbosefUAPIUpdatingEndpoint:               {},
+	FormatVerbosefStartedDecryptionWorker:            {},
+	FormatVerbosefUDPGSODisabled:                     {},
+	FormatVerbosefRemovingAllKeys:                    {},
+	FormatVerbosefRetryingHandshakeNoResponse:        {},
+	FormatVerbosefUAPIUpdatingListenPort:             {},
 }
 
 // Event is a generic event emitted from the logger. Use a `switch v := v.(type) {` to filter values and gain access to arguments.
@@ -201,92 +288,6 @@ type Event interface {
 	Slog(*slog.Logger)
 	IsErrorf() bool
 }
-
-var _ Event = (*EventReceivingKeepalivePacket)(nil)
-
-// EventReceivingKeepalivePacket is an verbosef event recognized by the format string "%v - Receiving keepalive packet".
-type EventReceivingKeepalivePacket struct {
-	Peer *device.Peer
-}
-
-func (e *EventReceivingKeepalivePacket) IsErrorf() bool      { return false }
-func (*EventReceivingKeepalivePacket) Format() string        { return FormatVerbosefReceivingKeepalivePacket }
-func (e *EventReceivingKeepalivePacket) Args() []any         { return []any{e.Peer} }
-func (*EventReceivingKeepalivePacket) Nice() string          { return "Receiving keepalive packet" }
-func (e *EventReceivingKeepalivePacket) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventCreateCookieReplyFailed)(nil)
-
-// EventCreateCookieReplyFailed is an errorf event recognized by the format string "Failed to create cookie reply: %v".
-type EventCreateCookieReplyFailed struct {
-	Err error
-}
-
-func (e *EventCreateCookieReplyFailed) IsErrorf() bool      { return true }
-func (*EventCreateCookieReplyFailed) Format() string        { return FormatErrorfCreateCookieReplyFailed }
-func (e *EventCreateCookieReplyFailed) Args() []any         { return []any{e.Err} }
-func (*EventCreateCookieReplyFailed) Nice() string          { return "Failed to create cookie reply" }
-func (e *EventCreateCookieReplyFailed) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
-
-var _ Event = (*EventCreateInitiationMessageFailed)(nil)
-
-// EventCreateInitiationMessageFailed is an errorf event recognized by the format string "%v - Failed to create initiation message: %v".
-type EventCreateInitiationMessageFailed struct {
-	Peer *device.Peer
-	Err  error
-}
-
-func (e *EventCreateInitiationMessageFailed) IsErrorf() bool { return true }
-func (*EventCreateInitiationMessageFailed) Format() string {
-	return FormatErrorfCreateInitiationMessageFailed
-}
-func (e *EventCreateInitiationMessageFailed) Args() []any { return []any{e.Peer, e.Err} }
-func (*EventCreateInitiationMessageFailed) Nice() string {
-	return "Failed to create initiation message"
-}
-func (e *EventCreateInitiationMessageFailed) Slog(l *slog.Logger) {
-	l.Error(e.Nice(), "Peer", e.Peer, "Err", e.Err)
-}
-
-var _ Event = (*EventTUNReaderStarted)(nil)
-
-// EventTUNReaderStarted is an verbosef event recognized by the format string "Routine: TUN reader - started".
-type EventTUNReaderStarted struct{}
-
-func (e *EventTUNReaderStarted) IsErrorf() bool      { return false }
-func (*EventTUNReaderStarted) Format() string        { return FormatVerbosefTUNReaderStarted }
-func (e *EventTUNReaderStarted) Args() []any         { return []any{} }
-func (*EventTUNReaderStarted) Nice() string          { return "Routine: TUN reader - started" }
-func (e *EventTUNReaderStarted) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventDeriveKeypairFailed)(nil)
-
-// EventDeriveKeypairFailed is an errorf event recognized by the format string "%v - Failed to derive keypair: %v".
-type EventDeriveKeypairFailed struct {
-	Peer *device.Peer
-	Err  error
-}
-
-func (e *EventDeriveKeypairFailed) IsErrorf() bool { return true }
-func (*EventDeriveKeypairFailed) Format() string   { return FormatErrorfDeriveKeypairFailed }
-func (e *EventDeriveKeypairFailed) Args() []any    { return []any{e.Peer, e.Err} }
-func (*EventDeriveKeypairFailed) Nice() string     { return "Failed to derive keypair" }
-func (e *EventDeriveKeypairFailed) Slog(l *slog.Logger) {
-	l.Error(e.Nice(), "Peer", e.Peer, "Err", e.Err)
-}
-
-var _ Event = (*EventPeerStarting)(nil)
-
-// EventPeerStarting is an verbosef event recognized by the format string "%v - Starting".
-type EventPeerStarting struct {
-	Peer *device.Peer
-}
-
-func (e *EventPeerStarting) IsErrorf() bool      { return false }
-func (*EventPeerStarting) Format() string        { return FormatVerbosefPeerStarting }
-func (e *EventPeerStarting) Args() []any         { return []any{e.Peer} }
-func (*EventPeerStarting) Nice() string          { return "Starting" }
-func (e *EventPeerStarting) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
 
 var _ Event = (*EventInterfaceStateChanged)(nil)
 
@@ -300,118 +301,9 @@ type EventInterfaceStateChanged struct {
 func (e *EventInterfaceStateChanged) IsErrorf() bool { return false }
 func (*EventInterfaceStateChanged) Format() string   { return FormatVerbosefInterfaceStateChanged }
 func (e *EventInterfaceStateChanged) Args() []any    { return []any{e.Old, e.Want, e.Now} }
-func (*EventInterfaceStateChanged) Nice() string     { return "Interface state changed" }
+func (*EventInterfaceStateChanged) Nice() string     { return NiceVerbosefInterfaceStateChanged }
 func (e *EventInterfaceStateChanged) Slog(l *slog.Logger) {
 	l.Info(e.Nice(), "Old", e.Old, "Want", e.Want, "Now", e.Now)
-}
-
-var _ Event = (*EventUAPIUpdatingFWMark)(nil)
-
-// EventUAPIUpdatingFWMark is an verbosef event recognized by the format string "UAPI: Updating fwmark".
-type EventUAPIUpdatingFWMark struct{}
-
-func (e *EventUAPIUpdatingFWMark) IsErrorf() bool      { return false }
-func (*EventUAPIUpdatingFWMark) Format() string        { return FormatVerbosefUAPIUpdatingFWMark }
-func (e *EventUAPIUpdatingFWMark) Args() []any         { return []any{} }
-func (*EventUAPIUpdatingFWMark) Nice() string          { return "UAPI: Updating fwmark" }
-func (e *EventUAPIUpdatingFWMark) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventSendingKeepalivePacket)(nil)
-
-// EventSendingKeepalivePacket is an verbosef event recognized by the format string "%v - Sending keepalive packet".
-type EventSendingKeepalivePacket struct {
-	Peer *device.Peer
-}
-
-func (e *EventSendingKeepalivePacket) IsErrorf() bool      { return false }
-func (*EventSendingKeepalivePacket) Format() string        { return FormatVerbosefSendingKeepalivePacket }
-func (e *EventSendingKeepalivePacket) Args() []any         { return []any{e.Peer} }
-func (*EventSendingKeepalivePacket) Nice() string          { return "Sending keepalive packet" }
-func (e *EventSendingKeepalivePacket) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventLoadMTUFailed)(nil)
-
-// EventLoadMTUFailed is an errorf event recognized by the format string "Failed to load updated MTU of device: %v".
-type EventLoadMTUFailed struct {
-	Err error
-}
-
-func (e *EventLoadMTUFailed) IsErrorf() bool      { return true }
-func (*EventLoadMTUFailed) Format() string        { return FormatErrorfLoadMTUFailed }
-func (e *EventLoadMTUFailed) Args() []any         { return []any{e.Err} }
-func (*EventLoadMTUFailed) Nice() string          { return "Failed to load updated MTU of device" }
-func (e *EventLoadMTUFailed) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
-
-var _ Event = (*EventNegativeMTU)(nil)
-
-// EventNegativeMTU is an errorf event recognized by the format string "MTU not updated to negative value: %v".
-type EventNegativeMTU struct {
-	MTU int
-}
-
-func (e *EventNegativeMTU) IsErrorf() bool      { return true }
-func (*EventNegativeMTU) Format() string        { return FormatErrorfNegativeMTU }
-func (e *EventNegativeMTU) Args() []any         { return []any{e.MTU} }
-func (*EventNegativeMTU) Nice() string          { return "MTU not updated to negative value" }
-func (e *EventNegativeMTU) Slog(l *slog.Logger) { l.Error(e.Nice(), "MTU", e.MTU) }
-
-var _ Event = (*EventPacketDataSendFailed)(nil)
-
-// EventPacketDataSendFailed is an errorf event recognized by the format string "%v - Failed to send data packets: %v".
-type EventPacketDataSendFailed struct {
-	Peer *device.Peer
-	Err  error
-}
-
-func (e *EventPacketDataSendFailed) IsErrorf() bool { return true }
-func (*EventPacketDataSendFailed) Format() string   { return FormatErrorfPacketDataSendFailed }
-func (e *EventPacketDataSendFailed) Args() []any    { return []any{e.Peer, e.Err} }
-func (*EventPacketDataSendFailed) Nice() string     { return "Failed to send data packets" }
-func (e *EventPacketDataSendFailed) Slog(l *slog.Logger) {
-	l.Error(e.Nice(), "Peer", e.Peer, "Err", e.Err)
-}
-
-var _ Event = (*EventBindCloseFailed)(nil)
-
-// EventBindCloseFailed is an errorf event recognized by the format string "Bind close failed: %v".
-type EventBindCloseFailed struct {
-	Err error
-}
-
-func (e *EventBindCloseFailed) IsErrorf() bool      { return true }
-func (*EventBindCloseFailed) Format() string        { return FormatErrorfBindCloseFailed }
-func (e *EventBindCloseFailed) Args() []any         { return []any{e.Err} }
-func (*EventBindCloseFailed) Nice() string          { return "Bind close failed" }
-func (e *EventBindCloseFailed) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
-
-var _ Event = (*EventCookieResponseInvalid)(nil)
-
-// EventCookieResponseInvalid is an verbosef event recognized by the format string "Could not decrypt invalid cookie response".
-type EventCookieResponseInvalid struct{}
-
-func (e *EventCookieResponseInvalid) IsErrorf() bool      { return false }
-func (*EventCookieResponseInvalid) Format() string        { return FormatVerbosefCookieResponseInvalid }
-func (e *EventCookieResponseInvalid) Args() []any         { return []any{} }
-func (*EventCookieResponseInvalid) Nice() string          { return "Could not decrypt invalid cookie response" }
-func (e *EventCookieResponseInvalid) Slog(l *slog.Logger) { l.Warn(e.Nice()) }
-
-var _ Event = (*EventDroppedPacketsFromMultiSegmentRead)(nil)
-
-// EventDroppedPacketsFromMultiSegmentRead is an verbosef event recognized by the format string "Dropped some packets from multi-segment read: %v".
-type EventDroppedPacketsFromMultiSegmentRead struct {
-	Err error
-}
-
-func (e *EventDroppedPacketsFromMultiSegmentRead) IsErrorf() bool { return false }
-func (*EventDroppedPacketsFromMultiSegmentRead) Format() string {
-	return FormatVerbosefDroppedPacketsFromMultiSegmentRead
-}
-func (e *EventDroppedPacketsFromMultiSegmentRead) Args() []any { return []any{e.Err} }
-func (*EventDroppedPacketsFromMultiSegmentRead) Nice() string {
-	return "Dropped some packets from multi-segment read"
-}
-func (e *EventDroppedPacketsFromMultiSegmentRead) Slog(l *slog.Logger) {
-	l.Error(e.Nice(), "Err", e.Err)
 }
 
 var _ Event = (*EventPacketIPVersionUnknown)(nil)
@@ -422,164 +314,8 @@ type EventPacketIPVersionUnknown struct{}
 func (e *EventPacketIPVersionUnknown) IsErrorf() bool      { return false }
 func (*EventPacketIPVersionUnknown) Format() string        { return FormatVerbosefPacketIPVersionUnknown }
 func (e *EventPacketIPVersionUnknown) Args() []any         { return []any{} }
-func (*EventPacketIPVersionUnknown) Nice() string          { return "Received packet with unknown IP version" }
+func (*EventPacketIPVersionUnknown) Nice() string          { return NiceVerbosefPacketIPVersionUnknown }
 func (e *EventPacketIPVersionUnknown) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventIPv4PacketDisallowed)(nil)
-
-// EventIPv4PacketDisallowed is an verbosef event recognized by the format string "IPv4 packet with disallowed source address from %v".
-type EventIPv4PacketDisallowed struct {
-	Peer *device.Peer
-}
-
-func (e *EventIPv4PacketDisallowed) IsErrorf() bool { return false }
-func (*EventIPv4PacketDisallowed) Format() string   { return FormatVerbosefIPv4PacketDisallowed }
-func (e *EventIPv4PacketDisallowed) Args() []any    { return []any{e.Peer} }
-func (*EventIPv4PacketDisallowed) Nice() string {
-	return "IPv4 packet with disallowed source address from"
-}
-func (e *EventIPv4PacketDisallowed) Slog(l *slog.Logger) { l.Warn(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventRemovingAllKeys)(nil)
-
-// EventRemovingAllKeys is an verbosef event recognized by the format string "%s - Removing all keys, since we haven't received a new one in %d seconds".
-type EventRemovingAllKeys struct {
-	Peer    *device.Peer
-	Timeout int
-}
-
-func (e *EventRemovingAllKeys) IsErrorf() bool { return false }
-func (*EventRemovingAllKeys) Format() string   { return FormatVerbosefRemovingAllKeys }
-func (e *EventRemovingAllKeys) Args() []any    { return []any{e.Peer, e.Timeout} }
-func (*EventRemovingAllKeys) Nice() string {
-	return "Removing all keys, since we haven't received a new one"
-}
-func (e *EventRemovingAllKeys) Slog(l *slog.Logger) {
-	l.Debug(e.Nice(), "Peer", e.Peer, "Timeout", e.Timeout)
-}
-
-var _ Event = (*EventUAPIUpdatingEndpoint)(nil)
-
-// EventUAPIUpdatingEndpoint is an verbosef event recognized by the format string "%v - UAPI: Updating endpoint".
-type EventUAPIUpdatingEndpoint struct {
-	Peer *device.Peer
-}
-
-func (e *EventUAPIUpdatingEndpoint) IsErrorf() bool      { return false }
-func (*EventUAPIUpdatingEndpoint) Format() string        { return FormatVerbosefUAPIUpdatingEndpoint }
-func (e *EventUAPIUpdatingEndpoint) Args() []any         { return []any{e.Peer} }
-func (*EventUAPIUpdatingEndpoint) Nice() string          { return "UAPI: Updating endpoint" }
-func (e *EventUAPIUpdatingEndpoint) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventUAPIUpdatingPersistentKeepalive)(nil)
-
-// EventUAPIUpdatingPersistentKeepalive is an verbosef event recognized by the format string "%v - UAPI: Updating persistent keepalive interval".
-type EventUAPIUpdatingPersistentKeepalive struct {
-	Peer *device.Peer
-}
-
-func (e *EventUAPIUpdatingPersistentKeepalive) IsErrorf() bool { return false }
-func (*EventUAPIUpdatingPersistentKeepalive) Format() string {
-	return FormatVerbosefUAPIUpdatingPersistentKeepalive
-}
-func (e *EventUAPIUpdatingPersistentKeepalive) Args() []any { return []any{e.Peer} }
-func (*EventUAPIUpdatingPersistentKeepalive) Nice() string {
-	return "UAPI: Updating persistent keepalive interval"
-}
-func (e *EventUAPIUpdatingPersistentKeepalive) Slog(l *slog.Logger) {
-	l.Debug(e.Nice(), "Peer", e.Peer)
-}
-
-var _ Event = (*EventUAPIRemovingAllAllowedIPs)(nil)
-
-// EventUAPIRemovingAllAllowedIPs is an verbosef event recognized by the format string "%v - UAPI: Removing all allowedips".
-type EventUAPIRemovingAllAllowedIPs struct {
-	Peer *device.Peer
-}
-
-func (e *EventUAPIRemovingAllAllowedIPs) IsErrorf() bool { return false }
-func (*EventUAPIRemovingAllAllowedIPs) Format() string {
-	return FormatVerbosefUAPIRemovingAllAllowedIPs
-}
-func (e *EventUAPIRemovingAllAllowedIPs) Args() []any         { return []any{e.Peer} }
-func (*EventUAPIRemovingAllAllowedIPs) Nice() string          { return "UAPI: Removing all allowedips" }
-func (e *EventUAPIRemovingAllAllowedIPs) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventSequentialReceiverStarted)(nil)
-
-// EventSequentialReceiverStarted is an verbosef event recognized by the format string "%v - Routine: sequential receiver - started".
-type EventSequentialReceiverStarted struct {
-	Peer *device.Peer
-}
-
-func (e *EventSequentialReceiverStarted) IsErrorf() bool { return false }
-func (*EventSequentialReceiverStarted) Format() string {
-	return FormatVerbosefSequentialReceiverStarted
-}
-func (e *EventSequentialReceiverStarted) Args() []any         { return []any{e.Peer} }
-func (*EventSequentialReceiverStarted) Nice() string          { return "Routine: sequential receiver - started" }
-func (e *EventSequentialReceiverStarted) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventRetryingHandshakeNoResponse)(nil)
-
-// EventRetryingHandshakeNoResponse is an verbosef event recognized by the format string "%s - Retrying handshake because we stopped hearing back after %d seconds".
-type EventRetryingHandshakeNoResponse struct {
-	Peer    *device.Peer
-	Timeout int
-}
-
-func (e *EventRetryingHandshakeNoResponse) IsErrorf() bool { return false }
-func (*EventRetryingHandshakeNoResponse) Format() string {
-	return FormatVerbosefRetryingHandshakeNoResponse
-}
-func (e *EventRetryingHandshakeNoResponse) Args() []any { return []any{e.Peer, e.Timeout} }
-func (*EventRetryingHandshakeNoResponse) Nice() string {
-	return "Retrying handshake because we stopped hearing back"
-}
-func (e *EventRetryingHandshakeNoResponse) Slog(l *slog.Logger) {
-	l.Debug(e.Nice(), "Peer", e.Peer, "Timeout", e.Timeout)
-}
-
-var _ Event = (*EventSendCookieDenied)(nil)
-
-// EventSendCookieDenied is an verbosef event recognized by the format string "Sending cookie response for denied handshake message for %v".
-type EventSendCookieDenied struct {
-	Destination string
-}
-
-func (e *EventSendCookieDenied) IsErrorf() bool { return false }
-func (*EventSendCookieDenied) Format() string   { return FormatVerbosefSendCookieDenied }
-func (e *EventSendCookieDenied) Args() []any    { return []any{e.Destination} }
-func (*EventSendCookieDenied) Nice() string {
-	return "Sending cookie response for denied handshake message"
-}
-func (e *EventSendCookieDenied) Slog(l *slog.Logger) { l.Warn(e.Nice(), "Destination", e.Destination) }
-
-var _ Event = (*EventEventWorkerStopped)(nil)
-
-// EventEventWorkerStopped is an verbosef event recognized by the format string "Routine: event worker - stopped".
-type EventEventWorkerStopped struct{}
-
-func (e *EventEventWorkerStopped) IsErrorf() bool      { return false }
-func (*EventEventWorkerStopped) Format() string        { return FormatVerbosefEventWorkerStopped }
-func (e *EventEventWorkerStopped) Args() []any         { return []any{} }
-func (*EventEventWorkerStopped) Nice() string          { return "Routine: event worker - stopped" }
-func (e *EventEventWorkerStopped) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventReceivedHandshakeInitiation)(nil)
-
-// EventReceivedHandshakeInitiation is an verbosef event recognized by the format string "%v - Received handshake initiation".
-type EventReceivedHandshakeInitiation struct {
-	Peer *device.Peer
-}
-
-func (e *EventReceivedHandshakeInitiation) IsErrorf() bool { return false }
-func (*EventReceivedHandshakeInitiation) Format() string {
-	return FormatVerbosefReceivedHandshakeInitiation
-}
-func (e *EventReceivedHandshakeInitiation) Args() []any         { return []any{e.Peer} }
-func (*EventReceivedHandshakeInitiation) Nice() string          { return "Received handshake initiation" }
-func (e *EventReceivedHandshakeInitiation) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
 
 var _ Event = (*EventSendingHandshakeInitiation)(nil)
 
@@ -593,52 +329,116 @@ func (*EventSendingHandshakeInitiation) Format() string {
 	return FormatVerbosefSendingHandshakeInitiation
 }
 func (e *EventSendingHandshakeInitiation) Args() []any         { return []any{e.Peer} }
-func (*EventSendingHandshakeInitiation) Nice() string          { return "Sending handshake initiation" }
+func (*EventSendingHandshakeInitiation) Nice() string          { return NiceVerbosefSendingHandshakeInitiation }
 func (e *EventSendingHandshakeInitiation) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
 
-var _ Event = (*EventCreateResponseMessageFailed)(nil)
+var _ Event = (*EventSendingHandshakeResponse)(nil)
 
-// EventCreateResponseMessageFailed is an errorf event recognized by the format string "%v - Failed to create response message: %v".
-type EventCreateResponseMessageFailed struct {
+// EventSendingHandshakeResponse is an verbosef event recognized by the format string "%v - Sending handshake response".
+type EventSendingHandshakeResponse struct {
+	Peer *device.Peer
+}
+
+func (e *EventSendingHandshakeResponse) IsErrorf() bool      { return false }
+func (*EventSendingHandshakeResponse) Format() string        { return FormatVerbosefSendingHandshakeResponse }
+func (e *EventSendingHandshakeResponse) Args() []any         { return []any{e.Peer} }
+func (*EventSendingHandshakeResponse) Nice() string          { return NiceVerbosefSendingHandshakeResponse }
+func (e *EventSendingHandshakeResponse) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventSequentialReceiverStarted)(nil)
+
+// EventSequentialReceiverStarted is an verbosef event recognized by the format string "%v - Routine: sequential receiver - started".
+type EventSequentialReceiverStarted struct {
+	Peer *device.Peer
+}
+
+func (e *EventSequentialReceiverStarted) IsErrorf() bool { return false }
+func (*EventSequentialReceiverStarted) Format() string {
+	return FormatVerbosefSequentialReceiverStarted
+}
+func (e *EventSequentialReceiverStarted) Args() []any         { return []any{e.Peer} }
+func (*EventSequentialReceiverStarted) Nice() string          { return NiceVerbosefSequentialReceiverStarted }
+func (e *EventSequentialReceiverStarted) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventPacketDataSendFailed)(nil)
+
+// EventPacketDataSendFailed is an errorf event recognized by the format string "%v - Failed to send data packets: %v".
+type EventPacketDataSendFailed struct {
 	Peer *device.Peer
 	Err  error
 }
 
-func (e *EventCreateResponseMessageFailed) IsErrorf() bool { return true }
-func (*EventCreateResponseMessageFailed) Format() string {
-	return FormatErrorfCreateResponseMessageFailed
-}
-func (e *EventCreateResponseMessageFailed) Args() []any { return []any{e.Peer, e.Err} }
-func (*EventCreateResponseMessageFailed) Nice() string  { return "Failed to create response message" }
-func (e *EventCreateResponseMessageFailed) Slog(l *slog.Logger) {
+func (e *EventPacketDataSendFailed) IsErrorf() bool { return true }
+func (*EventPacketDataSendFailed) Format() string   { return FormatErrorfPacketDataSendFailed }
+func (e *EventPacketDataSendFailed) Args() []any    { return []any{e.Peer, e.Err} }
+func (*EventPacketDataSendFailed) Nice() string     { return NiceErrorfPacketDataSendFailed }
+func (e *EventPacketDataSendFailed) Slog(l *slog.Logger) {
 	l.Error(e.Nice(), "Peer", e.Peer, "Err", e.Err)
 }
 
-var _ Event = (*EventUAPIAddingAllowedIP)(nil)
+var _ Event = (*EventCreateCookieReplyFailed)(nil)
 
-// EventUAPIAddingAllowedIP is an verbosef event recognized by the format string "%v - UAPI: Adding allowedip".
-type EventUAPIAddingAllowedIP struct {
+// EventCreateCookieReplyFailed is an errorf event recognized by the format string "Failed to create cookie reply: %v".
+type EventCreateCookieReplyFailed struct {
+	Err error
+}
+
+func (e *EventCreateCookieReplyFailed) IsErrorf() bool      { return true }
+func (*EventCreateCookieReplyFailed) Format() string        { return FormatErrorfCreateCookieReplyFailed }
+func (e *EventCreateCookieReplyFailed) Args() []any         { return []any{e.Err} }
+func (*EventCreateCookieReplyFailed) Nice() string          { return NiceErrorfCreateCookieReplyFailed }
+func (e *EventCreateCookieReplyFailed) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
+
+var _ Event = (*EventDeriveKeypairFailed)(nil)
+
+// EventDeriveKeypairFailed is an errorf event recognized by the format string "%v - Failed to derive keypair: %v".
+type EventDeriveKeypairFailed struct {
+	Peer *device.Peer
+	Err  error
+}
+
+func (e *EventDeriveKeypairFailed) IsErrorf() bool { return true }
+func (*EventDeriveKeypairFailed) Format() string   { return FormatErrorfDeriveKeypairFailed }
+func (e *EventDeriveKeypairFailed) Args() []any    { return []any{e.Peer, e.Err} }
+func (*EventDeriveKeypairFailed) Nice() string     { return NiceErrorfDeriveKeypairFailed }
+func (e *EventDeriveKeypairFailed) Slog(l *slog.Logger) {
+	l.Error(e.Nice(), "Peer", e.Peer, "Err", e.Err)
+}
+
+var _ Event = (*EventDeviceClosed)(nil)
+
+// EventDeviceClosed is an verbosef event recognized by the format string "Device closed".
+type EventDeviceClosed struct{}
+
+func (e *EventDeviceClosed) IsErrorf() bool      { return false }
+func (*EventDeviceClosed) Format() string        { return FormatVerbosefDeviceClosed }
+func (e *EventDeviceClosed) Args() []any         { return []any{} }
+func (*EventDeviceClosed) Nice() string          { return NiceVerbosefDeviceClosed }
+func (e *EventDeviceClosed) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
+
+var _ Event = (*EventUAPIRemovingPeer)(nil)
+
+// EventUAPIRemovingPeer is an verbosef event recognized by the format string "%v - UAPI: Removing".
+type EventUAPIRemovingPeer struct {
 	Peer *device.Peer
 }
 
-func (e *EventUAPIAddingAllowedIP) IsErrorf() bool      { return false }
-func (*EventUAPIAddingAllowedIP) Format() string        { return FormatVerbosefUAPIAddingAllowedIP }
-func (e *EventUAPIAddingAllowedIP) Args() []any         { return []any{e.Peer} }
-func (*EventUAPIAddingAllowedIP) Nice() string          { return "UAPI: Adding allowedip" }
-func (e *EventUAPIAddingAllowedIP) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+func (e *EventUAPIRemovingPeer) IsErrorf() bool      { return false }
+func (*EventUAPIRemovingPeer) Format() string        { return FormatVerbosefUAPIRemovingPeer }
+func (e *EventUAPIRemovingPeer) Args() []any         { return []any{e.Peer} }
+func (*EventUAPIRemovingPeer) Nice() string          { return NiceVerbosefUAPIRemovingPeer }
+func (e *EventUAPIRemovingPeer) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
 
-var _ Event = (*EventStoppedEncryptionWorker)(nil)
+var _ Event = (*EventCookieResponseInvalid)(nil)
 
-// EventStoppedEncryptionWorker is an verbosef event recognized by the format string "Routine: encryption worker %d - stopped".
-type EventStoppedEncryptionWorker struct {
-	ID int
-}
+// EventCookieResponseInvalid is an verbosef event recognized by the format string "Could not decrypt invalid cookie response".
+type EventCookieResponseInvalid struct{}
 
-func (e *EventStoppedEncryptionWorker) IsErrorf() bool      { return false }
-func (*EventStoppedEncryptionWorker) Format() string        { return FormatVerbosefStoppedEncryptionWorker }
-func (e *EventStoppedEncryptionWorker) Args() []any         { return []any{e.ID} }
-func (*EventStoppedEncryptionWorker) Nice() string          { return "Routine: encryption worker stopped" }
-func (e *EventStoppedEncryptionWorker) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
+func (e *EventCookieResponseInvalid) IsErrorf() bool      { return false }
+func (*EventCookieResponseInvalid) Format() string        { return FormatVerbosefCookieResponseInvalid }
+func (e *EventCookieResponseInvalid) Args() []any         { return []any{} }
+func (*EventCookieResponseInvalid) Nice() string          { return NiceVerbosefCookieResponseInvalid }
+func (e *EventCookieResponseInvalid) Slog(l *slog.Logger) { l.Warn(e.Nice()) }
 
 var _ Event = (*EventStartedEncryptionWorker)(nil)
 
@@ -650,246 +450,8 @@ type EventStartedEncryptionWorker struct {
 func (e *EventStartedEncryptionWorker) IsErrorf() bool      { return false }
 func (*EventStartedEncryptionWorker) Format() string        { return FormatVerbosefStartedEncryptionWorker }
 func (e *EventStartedEncryptionWorker) Args() []any         { return []any{e.ID} }
-func (*EventStartedEncryptionWorker) Nice() string          { return "Routine: encryption worker started" }
+func (*EventStartedEncryptionWorker) Nice() string          { return NiceVerbosefStartedEncryptionWorker }
 func (e *EventStartedEncryptionWorker) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
-
-var _ Event = (*EventSequentialReceiverStopped)(nil)
-
-// EventSequentialReceiverStopped is an verbosef event recognized by the format string "%v - Routine: sequential receiver - stopped".
-type EventSequentialReceiverStopped struct {
-	Peer *device.Peer
-}
-
-func (e *EventSequentialReceiverStopped) IsErrorf() bool { return false }
-func (*EventSequentialReceiverStopped) Format() string {
-	return FormatVerbosefSequentialReceiverStopped
-}
-func (e *EventSequentialReceiverStopped) Args() []any         { return []any{e.Peer} }
-func (*EventSequentialReceiverStopped) Nice() string          { return "Routine: sequential receiver - stopped" }
-func (e *EventSequentialReceiverStopped) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventReceivedInvalidResponse)(nil)
-
-// EventReceivedInvalidResponse is an verbosef event recognized by the format string "Received invalid response message from %s".
-type EventReceivedInvalidResponse struct {
-	Destination string
-}
-
-func (e *EventReceivedInvalidResponse) IsErrorf() bool { return false }
-func (*EventReceivedInvalidResponse) Format() string   { return FormatVerbosefReceivedInvalidResponse }
-func (e *EventReceivedInvalidResponse) Args() []any    { return []any{e.Destination} }
-func (*EventReceivedInvalidResponse) Nice() string     { return "Received invalid response message" }
-func (e *EventReceivedInvalidResponse) Slog(l *slog.Logger) {
-	l.Warn(e.Nice(), "Destination", e.Destination)
-}
-
-var _ Event = (*EventTUNWriteFailed)(nil)
-
-// EventTUNWriteFailed is an errorf event recognized by the format string "Failed to write packets to TUN device: %v".
-type EventTUNWriteFailed struct {
-	Err error
-}
-
-func (e *EventTUNWriteFailed) IsErrorf() bool      { return true }
-func (*EventTUNWriteFailed) Format() string        { return FormatErrorfTUNWriteFailed }
-func (e *EventTUNWriteFailed) Args() []any         { return []any{e.Err} }
-func (*EventTUNWriteFailed) Nice() string          { return "Failed to write packets to TUN device" }
-func (e *EventTUNWriteFailed) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
-
-var _ Event = (*EventPeerStopping)(nil)
-
-// EventPeerStopping is an verbosef event recognized by the format string "%v - Stopping".
-type EventPeerStopping struct {
-	Peer *device.Peer
-}
-
-func (e *EventPeerStopping) IsErrorf() bool      { return false }
-func (*EventPeerStopping) Format() string        { return FormatVerbosefPeerStopping }
-func (e *EventPeerStopping) Args() []any         { return []any{e.Peer} }
-func (*EventPeerStopping) Nice() string          { return "Stopping" }
-func (e *EventPeerStopping) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventInvalidMAC1)(nil)
-
-// EventInvalidMAC1 is an verbosef event recognized by the format string "Received packet with invalid mac1".
-type EventInvalidMAC1 struct{}
-
-func (e *EventInvalidMAC1) IsErrorf() bool      { return false }
-func (*EventInvalidMAC1) Format() string        { return FormatVerbosefInvalidMAC1 }
-func (e *EventInvalidMAC1) Args() []any         { return []any{} }
-func (*EventInvalidMAC1) Nice() string          { return "Received packet with invalid mac1" }
-func (e *EventInvalidMAC1) Slog(l *slog.Logger) { l.Warn(e.Nice()) }
-
-var _ Event = (*EventUDPGSODisabled)(nil)
-
-// EventUDPGSODisabled is an verbosef event recognized by the format string "disabled UDP GSO on %s, NIC(s) may not support checksum offload".
-type EventUDPGSODisabled struct {
-	OnLAddr string
-}
-
-func (e *EventUDPGSODisabled) IsErrorf() bool { return false }
-func (*EventUDPGSODisabled) Format() string   { return FormatVerbosefUDPGSODisabled }
-func (e *EventUDPGSODisabled) Args() []any    { return []any{e.OnLAddr} }
-func (*EventUDPGSODisabled) Nice() string {
-	return "disabled UDP GSO, NIC(s) may not support checksum offload"
-}
-func (e *EventUDPGSODisabled) Slog(l *slog.Logger) { l.Warn(e.Nice(), "OnLAddr", e.OnLAddr) }
-
-var _ Event = (*EventDeviceClosing)(nil)
-
-// EventDeviceClosing is an verbosef event recognized by the format string "Device closing".
-type EventDeviceClosing struct{}
-
-func (e *EventDeviceClosing) IsErrorf() bool      { return false }
-func (*EventDeviceClosing) Format() string        { return FormatVerbosefDeviceClosing }
-func (e *EventDeviceClosing) Args() []any         { return []any{} }
-func (*EventDeviceClosing) Nice() string          { return "Device closing" }
-func (e *EventDeviceClosing) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventUAPIRemovingAllPeers)(nil)
-
-// EventUAPIRemovingAllPeers is an verbosef event recognized by the format string "UAPI: Removing all peers".
-type EventUAPIRemovingAllPeers struct{}
-
-func (e *EventUAPIRemovingAllPeers) IsErrorf() bool      { return false }
-func (*EventUAPIRemovingAllPeers) Format() string        { return FormatVerbosefUAPIRemovingAllPeers }
-func (e *EventUAPIRemovingAllPeers) Args() []any         { return []any{} }
-func (*EventUAPIRemovingAllPeers) Nice() string          { return "UAPI: Removing all peers" }
-func (e *EventUAPIRemovingAllPeers) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventUAPIUpdatingPresharedKey)(nil)
-
-// EventUAPIUpdatingPresharedKey is an verbosef event recognized by the format string "%v - UAPI: Updating preshared key".
-type EventUAPIUpdatingPresharedKey struct {
-	Peer *device.Peer
-}
-
-func (e *EventUAPIUpdatingPresharedKey) IsErrorf() bool      { return false }
-func (*EventUAPIUpdatingPresharedKey) Format() string        { return FormatVerbosefUAPIUpdatingPresharedKey }
-func (e *EventUAPIUpdatingPresharedKey) Args() []any         { return []any{e.Peer} }
-func (*EventUAPIUpdatingPresharedKey) Nice() string          { return "UAPI: Updating preshared key" }
-func (e *EventUAPIUpdatingPresharedKey) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventEventWorkerStarted)(nil)
-
-// EventEventWorkerStarted is an verbosef event recognized by the format string "Routine: event worker - started".
-type EventEventWorkerStarted struct{}
-
-func (e *EventEventWorkerStarted) IsErrorf() bool      { return false }
-func (*EventEventWorkerStarted) Format() string        { return FormatVerbosefEventWorkerStarted }
-func (e *EventEventWorkerStarted) Args() []any         { return []any{} }
-func (*EventEventWorkerStarted) Nice() string          { return "Routine: event worker - started" }
-func (e *EventEventWorkerStarted) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventInterfaceUpRequested)(nil)
-
-// EventInterfaceUpRequested is an verbosef event recognized by the format string "Interface up requested".
-type EventInterfaceUpRequested struct{}
-
-func (e *EventInterfaceUpRequested) IsErrorf() bool      { return false }
-func (*EventInterfaceUpRequested) Format() string        { return FormatVerbosefInterfaceUpRequested }
-func (e *EventInterfaceUpRequested) Args() []any         { return []any{} }
-func (*EventInterfaceUpRequested) Nice() string          { return "Interface up requested" }
-func (e *EventInterfaceUpRequested) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventMessageUnknownType)(nil)
-
-// EventMessageUnknownType is an verbosef event recognized by the format string "Received message with unknown type".
-type EventMessageUnknownType struct{}
-
-func (e *EventMessageUnknownType) IsErrorf() bool      { return false }
-func (*EventMessageUnknownType) Format() string        { return FormatVerbosefMessageUnknownType }
-func (e *EventMessageUnknownType) Args() []any         { return []any{} }
-func (*EventMessageUnknownType) Nice() string          { return "Received message with unknown type" }
-func (e *EventMessageUnknownType) Slog(l *slog.Logger) { l.Warn(e.Nice()) }
-
-var _ Event = (*EventUAPICreated)(nil)
-
-// EventUAPICreated is an verbosef event recognized by the format string "%v - UAPI: Created".
-type EventUAPICreated struct {
-	Peer *device.Peer
-}
-
-func (e *EventUAPICreated) IsErrorf() bool      { return false }
-func (*EventUAPICreated) Format() string        { return FormatVerbosefUAPICreated }
-func (e *EventUAPICreated) Args() []any         { return []any{e.Peer} }
-func (*EventUAPICreated) Nice() string          { return "UAPI: Created" }
-func (e *EventUAPICreated) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventReceivedInvalidInitiation)(nil)
-
-// EventReceivedInvalidInitiation is an verbosef event recognized by the format string "Received invalid initiation message from %s".
-type EventReceivedInvalidInitiation struct {
-	Destination string
-}
-
-func (e *EventReceivedInvalidInitiation) IsErrorf() bool { return false }
-func (*EventReceivedInvalidInitiation) Format() string {
-	return FormatVerbosefReceivedInvalidInitiation
-}
-func (e *EventReceivedInvalidInitiation) Args() []any { return []any{e.Destination} }
-func (*EventReceivedInvalidInitiation) Nice() string  { return "Received invalid initiation message" }
-func (e *EventReceivedInvalidInitiation) Slog(l *slog.Logger) {
-	l.Warn(e.Nice(), "Destination", e.Destination)
-}
-
-var _ Event = (*EventAssumingDefaultMTU)(nil)
-
-// EventAssumingDefaultMTU is an errorf event recognized by the format string "Trouble determining MTU, assuming default: %v".
-type EventAssumingDefaultMTU struct {
-	Err error
-}
-
-func (e *EventAssumingDefaultMTU) IsErrorf() bool      { return true }
-func (*EventAssumingDefaultMTU) Format() string        { return FormatErrorfAssumingDefaultMTU }
-func (e *EventAssumingDefaultMTU) Args() []any         { return []any{e.Err} }
-func (*EventAssumingDefaultMTU) Nice() string          { return "Trouble determining MTU, assuming default" }
-func (e *EventAssumingDefaultMTU) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
-
-var _ Event = (*EventInterfaceCloseIgnoreRequestedState)(nil)
-
-// EventInterfaceCloseIgnoreRequestedState is an verbosef event recognized by the format string "Interface closed, ignored requested state %s".
-type EventInterfaceCloseIgnoreRequestedState struct {
-	Want fmt.Stringer
-}
-
-func (e *EventInterfaceCloseIgnoreRequestedState) IsErrorf() bool { return false }
-func (*EventInterfaceCloseIgnoreRequestedState) Format() string {
-	return FormatVerbosefInterfaceCloseIgnoreRequestedState
-}
-func (e *EventInterfaceCloseIgnoreRequestedState) Args() []any { return []any{e.Want} }
-func (*EventInterfaceCloseIgnoreRequestedState) Nice() string {
-	return "Interface closed, ignored requested state"
-}
-func (e *EventInterfaceCloseIgnoreRequestedState) Slog(l *slog.Logger) {
-	l.Warn(e.Nice(), "Want", e.Want)
-}
-
-var _ Event = (*EventDecryptionWorkerStopped)(nil)
-
-// EventDecryptionWorkerStopped is an verbosef event recognized by the format string "Routine: decryption worker %d - stopped".
-type EventDecryptionWorkerStopped struct {
-	ID int
-}
-
-func (e *EventDecryptionWorkerStopped) IsErrorf() bool      { return false }
-func (*EventDecryptionWorkerStopped) Format() string        { return FormatVerbosefDecryptionWorkerStopped }
-func (e *EventDecryptionWorkerStopped) Args() []any         { return []any{e.ID} }
-func (*EventDecryptionWorkerStopped) Nice() string          { return "Routine: decryption worker stopped" }
-func (e *EventDecryptionWorkerStopped) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
-
-var _ Event = (*EventSequentialSenderStarted)(nil)
-
-// EventSequentialSenderStarted is an verbosef event recognized by the format string "%v - Routine: sequential sender - started".
-type EventSequentialSenderStarted struct {
-	Peer *device.Peer
-}
-
-func (e *EventSequentialSenderStarted) IsErrorf() bool      { return false }
-func (*EventSequentialSenderStarted) Format() string        { return FormatVerbosefSequentialSenderStarted }
-func (e *EventSequentialSenderStarted) Args() []any         { return []any{e.Peer} }
-func (*EventSequentialSenderStarted) Nice() string          { return "Routine: sequential sender - started" }
-func (e *EventSequentialSenderStarted) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
 
 var _ Event = (*EventRetryingHandshake)(nil)
 
@@ -903,154 +465,9 @@ type EventRetryingHandshake struct {
 func (e *EventRetryingHandshake) IsErrorf() bool { return false }
 func (*EventRetryingHandshake) Format() string   { return FormatVerbosefRetryingHandshake }
 func (e *EventRetryingHandshake) Args() []any    { return []any{e.Peer, e.Timeout, e.Try} }
-func (*EventRetryingHandshake) Nice() string     { return "Handshake did not complete, retrying" }
+func (*EventRetryingHandshake) Nice() string     { return NiceVerbosefRetryingHandshake }
 func (e *EventRetryingHandshake) Slog(l *slog.Logger) {
 	l.Warn(e.Nice(), "Peer", e.Peer, "Timeout", e.Timeout, "Try", e.Try)
-}
-
-var _ Event = (*EventHandshakeDidNotComplete)(nil)
-
-// EventHandshakeDidNotComplete is an verbosef event recognized by the format string "%s - Handshake did not complete after %d attempts, giving up".
-type EventHandshakeDidNotComplete struct {
-	Peer     *device.Peer
-	Attempts int
-}
-
-func (e *EventHandshakeDidNotComplete) IsErrorf() bool { return false }
-func (*EventHandshakeDidNotComplete) Format() string   { return FormatVerbosefHandshakeDidNotComplete }
-func (e *EventHandshakeDidNotComplete) Args() []any    { return []any{e.Peer, e.Attempts} }
-func (*EventHandshakeDidNotComplete) Nice() string     { return "Handshake did not complete, giving up" }
-func (e *EventHandshakeDidNotComplete) Slog(l *slog.Logger) {
-	l.Info(e.Nice(), "Peer", e.Peer, "Attempts", e.Attempts)
-}
-
-var _ Event = (*EventMTUTooLarge)(nil)
-
-// EventMTUTooLarge is an verbosef event recognized by the format string "MTU updated: %v (too large, capped at %v)".
-type EventMTUTooLarge struct {
-	MTU int
-	Cap int
-}
-
-func (e *EventMTUTooLarge) IsErrorf() bool      { return false }
-func (*EventMTUTooLarge) Format() string        { return FormatVerbosefMTUTooLarge }
-func (e *EventMTUTooLarge) Args() []any         { return []any{e.MTU, e.Cap} }
-func (*EventMTUTooLarge) Nice() string          { return "MTU too large, capped" }
-func (e *EventMTUTooLarge) Slog(l *slog.Logger) { l.Warn(e.Nice(), "MTU", e.MTU, "Cap", e.Cap) }
-
-var _ Event = (*EventUAPIRemovingPeer)(nil)
-
-// EventUAPIRemovingPeer is an verbosef event recognized by the format string "%v - UAPI: Removing".
-type EventUAPIRemovingPeer struct {
-	Peer *device.Peer
-}
-
-func (e *EventUAPIRemovingPeer) IsErrorf() bool      { return false }
-func (*EventUAPIRemovingPeer) Format() string        { return FormatVerbosefUAPIRemovingPeer }
-func (e *EventUAPIRemovingPeer) Args() []any         { return []any{e.Peer} }
-func (*EventUAPIRemovingPeer) Nice() string          { return "UAPI: Removing" }
-func (e *EventUAPIRemovingPeer) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventStoppedHandshakeWorker)(nil)
-
-// EventStoppedHandshakeWorker is an verbosef event recognized by the format string "Routine: handshake worker %d - stopped".
-type EventStoppedHandshakeWorker struct {
-	ID int
-}
-
-func (e *EventStoppedHandshakeWorker) IsErrorf() bool      { return false }
-func (*EventStoppedHandshakeWorker) Format() string        { return FormatVerbosefStoppedHandshakeWorker }
-func (e *EventStoppedHandshakeWorker) Args() []any         { return []any{e.ID} }
-func (*EventStoppedHandshakeWorker) Nice() string          { return "Routine: handshake worker stopped" }
-func (e *EventStoppedHandshakeWorker) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
-
-var _ Event = (*EventSequentialReaderStopped)(nil)
-
-// EventSequentialReaderStopped is an verbosef event recognized by the format string "%v - Routine: sequential sender - stopped".
-type EventSequentialReaderStopped struct {
-	Peer *device.Peer
-}
-
-func (e *EventSequentialReaderStopped) IsErrorf() bool      { return false }
-func (*EventSequentialReaderStopped) Format() string        { return FormatVerbosefSequentialReaderStopped }
-func (e *EventSequentialReaderStopped) Args() []any         { return []any{e.Peer} }
-func (*EventSequentialReaderStopped) Nice() string          { return "Routine: sequential sender - stopped" }
-func (e *EventSequentialReaderStopped) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventResponseMessageDecodeFailed)(nil)
-
-// EventResponseMessageDecodeFailed is an errorf event recognized by the format string "Failed to decode response message".
-type EventResponseMessageDecodeFailed struct{}
-
-func (e *EventResponseMessageDecodeFailed) IsErrorf() bool { return true }
-func (*EventResponseMessageDecodeFailed) Format() string {
-	return FormatErrorfResponseMessageDecodeFailed
-}
-func (e *EventResponseMessageDecodeFailed) Args() []any         { return []any{} }
-func (*EventResponseMessageDecodeFailed) Nice() string          { return "Failed to decode response message" }
-func (e *EventResponseMessageDecodeFailed) Slog(l *slog.Logger) { l.Error(e.Nice()) }
-
-var _ Event = (*EventDeviceClosed)(nil)
-
-// EventDeviceClosed is an verbosef event recognized by the format string "Device closed".
-type EventDeviceClosed struct{}
-
-func (e *EventDeviceClosed) IsErrorf() bool      { return false }
-func (*EventDeviceClosed) Format() string        { return FormatVerbosefDeviceClosed }
-func (e *EventDeviceClosed) Args() []any         { return []any{} }
-func (*EventDeviceClosed) Nice() string          { return "Device closed" }
-func (e *EventDeviceClosed) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventStartedDecryptionWorker)(nil)
-
-// EventStartedDecryptionWorker is an verbosef event recognized by the format string "Routine: decryption worker %d - started".
-type EventStartedDecryptionWorker struct {
-	ID int
-}
-
-func (e *EventStartedDecryptionWorker) IsErrorf() bool      { return false }
-func (*EventStartedDecryptionWorker) Format() string        { return FormatVerbosefStartedDecryptionWorker }
-func (e *EventStartedDecryptionWorker) Args() []any         { return []any{e.ID} }
-func (*EventStartedDecryptionWorker) Nice() string          { return "Routine: decryption worker started" }
-func (e *EventStartedDecryptionWorker) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
-
-var _ Event = (*EventUAPIUpdatingListenPort)(nil)
-
-// EventUAPIUpdatingListenPort is an verbosef event recognized by the format string "UAPI: Updating listen port".
-type EventUAPIUpdatingListenPort struct{}
-
-func (e *EventUAPIUpdatingListenPort) IsErrorf() bool      { return false }
-func (*EventUAPIUpdatingListenPort) Format() string        { return FormatVerbosefUAPIUpdatingListenPort }
-func (e *EventUAPIUpdatingListenPort) Args() []any         { return []any{} }
-func (*EventUAPIUpdatingListenPort) Nice() string          { return "UAPI: Updating listen port" }
-func (e *EventUAPIUpdatingListenPort) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventPacketIPVersionInvalid)(nil)
-
-// EventPacketIPVersionInvalid is an verbosef event recognized by the format string "Packet with invalid IP version from %v".
-type EventPacketIPVersionInvalid struct {
-	Peer *device.Peer
-}
-
-func (e *EventPacketIPVersionInvalid) IsErrorf() bool      { return false }
-func (*EventPacketIPVersionInvalid) Format() string        { return FormatVerbosefPacketIPVersionInvalid }
-func (e *EventPacketIPVersionInvalid) Args() []any         { return []any{e.Peer} }
-func (*EventPacketIPVersionInvalid) Nice() string          { return "Packet with invalid IP version from" }
-func (e *EventPacketIPVersionInvalid) Slog(l *slog.Logger) { l.Warn(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventStartedReceivingIncoming)(nil)
-
-// EventStartedReceivingIncoming is an verbosef event recognized by the format string "Routine: receive incoming %s - stopped".
-type EventStartedReceivingIncoming struct {
-	RecvName string
-}
-
-func (e *EventStartedReceivingIncoming) IsErrorf() bool { return false }
-func (*EventStartedReceivingIncoming) Format() string   { return FormatVerbosefStartedReceivingIncoming }
-func (e *EventStartedReceivingIncoming) Args() []any    { return []any{e.RecvName} }
-func (*EventStartedReceivingIncoming) Nice() string     { return "Routine: receive incoming stopped" }
-func (e *EventStartedReceivingIncoming) Slog(l *slog.Logger) {
-	l.Debug(e.Nice(), "RecvName", e.RecvName)
 }
 
 var _ Event = (*EventHandshakeSendFailed)(nil)
@@ -1064,40 +481,50 @@ type EventHandshakeSendFailed struct {
 func (e *EventHandshakeSendFailed) IsErrorf() bool { return true }
 func (*EventHandshakeSendFailed) Format() string   { return FormatErrorfHandshakeSendFailed }
 func (e *EventHandshakeSendFailed) Args() []any    { return []any{e.Peer, e.Err} }
-func (*EventHandshakeSendFailed) Nice() string     { return "Failed to send handshake response" }
+func (*EventHandshakeSendFailed) Nice() string     { return NiceErrorfHandshakeSendFailed }
 func (e *EventHandshakeSendFailed) Slog(l *slog.Logger) {
 	l.Error(e.Nice(), "Peer", e.Peer, "Err", e.Err)
 }
 
-var _ Event = (*EventInvalidPacketInHandshakeQueue)(nil)
+var _ Event = (*EventPacketReceiveFailed)(nil)
 
-// EventInvalidPacketInHandshakeQueue is an errorf event recognized by the format string "Invalid packet ended up in the handshake queue".
-type EventInvalidPacketInHandshakeQueue struct{}
-
-func (e *EventInvalidPacketInHandshakeQueue) IsErrorf() bool { return true }
-func (*EventInvalidPacketInHandshakeQueue) Format() string {
-	return FormatErrorfInvalidPacketInHandshakeQueue
+// EventPacketReceiveFailed is an verbosef event recognized by the format string "Failed to receive %s packet: %v".
+type EventPacketReceiveFailed struct {
+	RecvName string
+	Err      error
 }
-func (e *EventInvalidPacketInHandshakeQueue) Args() []any { return []any{} }
-func (*EventInvalidPacketInHandshakeQueue) Nice() string {
-	return "Invalid packet ended up in the handshake queue"
-}
-func (e *EventInvalidPacketInHandshakeQueue) Slog(l *slog.Logger) { l.Error(e.Nice()) }
 
-var _ Event = (*EventInitiationMessageDecodeFailed)(nil)
-
-// EventInitiationMessageDecodeFailed is an errorf event recognized by the format string "Failed to decode initiation message".
-type EventInitiationMessageDecodeFailed struct{}
-
-func (e *EventInitiationMessageDecodeFailed) IsErrorf() bool { return true }
-func (*EventInitiationMessageDecodeFailed) Format() string {
-	return FormatErrorfInitiationMessageDecodeFailed
+func (e *EventPacketReceiveFailed) IsErrorf() bool { return false }
+func (*EventPacketReceiveFailed) Format() string   { return FormatVerbosefPacketReceiveFailed }
+func (e *EventPacketReceiveFailed) Args() []any    { return []any{e.RecvName, e.Err} }
+func (*EventPacketReceiveFailed) Nice() string     { return NiceVerbosefPacketReceiveFailed }
+func (e *EventPacketReceiveFailed) Slog(l *slog.Logger) {
+	l.Error(e.Nice(), "RecvName", e.RecvName, "Err", e.Err)
 }
-func (e *EventInitiationMessageDecodeFailed) Args() []any { return []any{} }
-func (*EventInitiationMessageDecodeFailed) Nice() string {
-	return "Failed to decode initiation message"
+
+var _ Event = (*EventEventWorkerStopped)(nil)
+
+// EventEventWorkerStopped is an verbosef event recognized by the format string "Routine: event worker - stopped".
+type EventEventWorkerStopped struct{}
+
+func (e *EventEventWorkerStopped) IsErrorf() bool      { return false }
+func (*EventEventWorkerStopped) Format() string        { return FormatVerbosefEventWorkerStopped }
+func (e *EventEventWorkerStopped) Args() []any         { return []any{} }
+func (*EventEventWorkerStopped) Nice() string          { return NiceVerbosefEventWorkerStopped }
+func (e *EventEventWorkerStopped) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
+
+var _ Event = (*EventUAPICreated)(nil)
+
+// EventUAPICreated is an verbosef event recognized by the format string "%v - UAPI: Created".
+type EventUAPICreated struct {
+	Peer *device.Peer
 }
-func (e *EventInitiationMessageDecodeFailed) Slog(l *slog.Logger) { l.Error(e.Nice()) }
+
+func (e *EventUAPICreated) IsErrorf() bool      { return false }
+func (*EventUAPICreated) Format() string        { return FormatVerbosefUAPICreated }
+func (e *EventUAPICreated) Args() []any         { return []any{e.Peer} }
+func (*EventUAPICreated) Nice() string          { return NiceVerbosefUAPICreated }
+func (e *EventUAPICreated) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
 
 var _ Event = (*EventReceivedHandshakeResponse)(nil)
 
@@ -1111,50 +538,207 @@ func (*EventReceivedHandshakeResponse) Format() string {
 	return FormatVerbosefReceivedHandshakeResponse
 }
 func (e *EventReceivedHandshakeResponse) Args() []any         { return []any{e.Peer} }
-func (*EventReceivedHandshakeResponse) Nice() string          { return "Received handshake response" }
+func (*EventReceivedHandshakeResponse) Nice() string          { return NiceVerbosefReceivedHandshakeResponse }
 func (e *EventReceivedHandshakeResponse) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
 
-var _ Event = (*EventSendingHandshakeResponse)(nil)
+var _ Event = (*EventLoadMTUFailed)(nil)
 
-// EventSendingHandshakeResponse is an verbosef event recognized by the format string "%v - Sending handshake response".
-type EventSendingHandshakeResponse struct {
+// EventLoadMTUFailed is an errorf event recognized by the format string "Failed to load updated MTU of device: %v".
+type EventLoadMTUFailed struct {
+	Err error
+}
+
+func (e *EventLoadMTUFailed) IsErrorf() bool      { return true }
+func (*EventLoadMTUFailed) Format() string        { return FormatErrorfLoadMTUFailed }
+func (e *EventLoadMTUFailed) Args() []any         { return []any{e.Err} }
+func (*EventLoadMTUFailed) Nice() string          { return NiceErrorfLoadMTUFailed }
+func (e *EventLoadMTUFailed) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
+
+var _ Event = (*EventSequentialReceiverStopped)(nil)
+
+// EventSequentialReceiverStopped is an verbosef event recognized by the format string "%v - Routine: sequential receiver - stopped".
+type EventSequentialReceiverStopped struct {
 	Peer *device.Peer
 }
 
-func (e *EventSendingHandshakeResponse) IsErrorf() bool      { return false }
-func (*EventSendingHandshakeResponse) Format() string        { return FormatVerbosefSendingHandshakeResponse }
-func (e *EventSendingHandshakeResponse) Args() []any         { return []any{e.Peer} }
-func (*EventSendingHandshakeResponse) Nice() string          { return "Sending handshake response" }
-func (e *EventSendingHandshakeResponse) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+func (e *EventSequentialReceiverStopped) IsErrorf() bool { return false }
+func (*EventSequentialReceiverStopped) Format() string {
+	return FormatVerbosefSequentialReceiverStopped
+}
+func (e *EventSequentialReceiverStopped) Args() []any         { return []any{e.Peer} }
+func (*EventSequentialReceiverStopped) Nice() string          { return NiceVerbosefSequentialReceiverStopped }
+func (e *EventSequentialReceiverStopped) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
 
-var _ Event = (*EventPacketReceiveFailed)(nil)
+var _ Event = (*EventStoppedReceivingIncoming)(nil)
 
-// EventPacketReceiveFailed is an verbosef event recognized by the format string "Failed to receive %s packet: %v".
-type EventPacketReceiveFailed struct {
+// EventStoppedReceivingIncoming is an verbosef event recognized by the format string "Routine: receive incoming %s - started".
+type EventStoppedReceivingIncoming struct {
 	RecvName string
-	Err      error
 }
 
-func (e *EventPacketReceiveFailed) IsErrorf() bool { return false }
-func (*EventPacketReceiveFailed) Format() string   { return FormatVerbosefPacketReceiveFailed }
-func (e *EventPacketReceiveFailed) Args() []any    { return []any{e.RecvName, e.Err} }
-func (*EventPacketReceiveFailed) Nice() string     { return "Failed to receive packet" }
-func (e *EventPacketReceiveFailed) Slog(l *slog.Logger) {
-	l.Error(e.Nice(), "RecvName", e.RecvName, "Err", e.Err)
+func (e *EventStoppedReceivingIncoming) IsErrorf() bool { return false }
+func (*EventStoppedReceivingIncoming) Format() string   { return FormatVerbosefStoppedReceivingIncoming }
+func (e *EventStoppedReceivingIncoming) Args() []any    { return []any{e.RecvName} }
+func (*EventStoppedReceivingIncoming) Nice() string     { return NiceVerbosefStoppedReceivingIncoming }
+func (e *EventStoppedReceivingIncoming) Slog(l *slog.Logger) {
+	l.Debug(e.Nice(), "RecvName", e.RecvName)
 }
 
-var _ Event = (*EventMTUUpdated)(nil)
+var _ Event = (*EventReceivedInvalidResponse)(nil)
 
-// EventMTUUpdated is an verbosef event recognized by the format string "MTU updated: %v".
-type EventMTUUpdated struct {
+// EventReceivedInvalidResponse is an verbosef event recognized by the format string "Received invalid response message from %s".
+type EventReceivedInvalidResponse struct {
+	Destination string
+}
+
+func (e *EventReceivedInvalidResponse) IsErrorf() bool { return false }
+func (*EventReceivedInvalidResponse) Format() string   { return FormatVerbosefReceivedInvalidResponse }
+func (e *EventReceivedInvalidResponse) Args() []any    { return []any{e.Destination} }
+func (*EventReceivedInvalidResponse) Nice() string     { return NiceVerbosefReceivedInvalidResponse }
+func (e *EventReceivedInvalidResponse) Slog(l *slog.Logger) {
+	l.Warn(e.Nice(), "Destination", e.Destination)
+}
+
+var _ Event = (*EventSendCookieDenied)(nil)
+
+// EventSendCookieDenied is an verbosef event recognized by the format string "Sending cookie response for denied handshake message for %v".
+type EventSendCookieDenied struct {
+	Destination string
+}
+
+func (e *EventSendCookieDenied) IsErrorf() bool      { return false }
+func (*EventSendCookieDenied) Format() string        { return FormatVerbosefSendCookieDenied }
+func (e *EventSendCookieDenied) Args() []any         { return []any{e.Destination} }
+func (*EventSendCookieDenied) Nice() string          { return NiceVerbosefSendCookieDenied }
+func (e *EventSendCookieDenied) Slog(l *slog.Logger) { l.Warn(e.Nice(), "Destination", e.Destination) }
+
+var _ Event = (*EventPeerStopping)(nil)
+
+// EventPeerStopping is an verbosef event recognized by the format string "%v - Stopping".
+type EventPeerStopping struct {
+	Peer *device.Peer
+}
+
+func (e *EventPeerStopping) IsErrorf() bool      { return false }
+func (*EventPeerStopping) Format() string        { return FormatVerbosefPeerStopping }
+func (e *EventPeerStopping) Args() []any         { return []any{e.Peer} }
+func (*EventPeerStopping) Nice() string          { return NiceVerbosefPeerStopping }
+func (e *EventPeerStopping) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventTUNWriteFailed)(nil)
+
+// EventTUNWriteFailed is an errorf event recognized by the format string "Failed to write packets to TUN device: %v".
+type EventTUNWriteFailed struct {
+	Err error
+}
+
+func (e *EventTUNWriteFailed) IsErrorf() bool      { return true }
+func (*EventTUNWriteFailed) Format() string        { return FormatErrorfTUNWriteFailed }
+func (e *EventTUNWriteFailed) Args() []any         { return []any{e.Err} }
+func (*EventTUNWriteFailed) Nice() string          { return NiceErrorfTUNWriteFailed }
+func (e *EventTUNWriteFailed) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
+
+var _ Event = (*EventSequentialSenderStarted)(nil)
+
+// EventSequentialSenderStarted is an verbosef event recognized by the format string "%v - Routine: sequential sender - started".
+type EventSequentialSenderStarted struct {
+	Peer *device.Peer
+}
+
+func (e *EventSequentialSenderStarted) IsErrorf() bool      { return false }
+func (*EventSequentialSenderStarted) Format() string        { return FormatVerbosefSequentialSenderStarted }
+func (e *EventSequentialSenderStarted) Args() []any         { return []any{e.Peer} }
+func (*EventSequentialSenderStarted) Nice() string          { return NiceVerbosefSequentialSenderStarted }
+func (e *EventSequentialSenderStarted) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventReceivingKeepalivePacket)(nil)
+
+// EventReceivingKeepalivePacket is an verbosef event recognized by the format string "%v - Receiving keepalive packet".
+type EventReceivingKeepalivePacket struct {
+	Peer *device.Peer
+}
+
+func (e *EventReceivingKeepalivePacket) IsErrorf() bool      { return false }
+func (*EventReceivingKeepalivePacket) Format() string        { return FormatVerbosefReceivingKeepalivePacket }
+func (e *EventReceivingKeepalivePacket) Args() []any         { return []any{e.Peer} }
+func (*EventReceivingKeepalivePacket) Nice() string          { return NiceVerbosefReceivingKeepalivePacket }
+func (e *EventReceivingKeepalivePacket) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventIPv6PacketDisallowed)(nil)
+
+// EventIPv6PacketDisallowed is an verbosef event recognized by the format string "IPv6 packet with disallowed source address from %v".
+type EventIPv6PacketDisallowed struct {
+	Peer *device.Peer
+}
+
+func (e *EventIPv6PacketDisallowed) IsErrorf() bool      { return false }
+func (*EventIPv6PacketDisallowed) Format() string        { return FormatVerbosefIPv6PacketDisallowed }
+func (e *EventIPv6PacketDisallowed) Args() []any         { return []any{e.Peer} }
+func (*EventIPv6PacketDisallowed) Nice() string          { return NiceVerbosefIPv6PacketDisallowed }
+func (e *EventIPv6PacketDisallowed) Slog(l *slog.Logger) { l.Warn(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventAssumingDefaultMTU)(nil)
+
+// EventAssumingDefaultMTU is an errorf event recognized by the format string "Trouble determining MTU, assuming default: %v".
+type EventAssumingDefaultMTU struct {
+	Err error
+}
+
+func (e *EventAssumingDefaultMTU) IsErrorf() bool      { return true }
+func (*EventAssumingDefaultMTU) Format() string        { return FormatErrorfAssumingDefaultMTU }
+func (e *EventAssumingDefaultMTU) Args() []any         { return []any{e.Err} }
+func (*EventAssumingDefaultMTU) Nice() string          { return NiceErrorfAssumingDefaultMTU }
+func (e *EventAssumingDefaultMTU) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
+
+var _ Event = (*EventStoppedHandshakeWorker)(nil)
+
+// EventStoppedHandshakeWorker is an verbosef event recognized by the format string "Routine: handshake worker %d - stopped".
+type EventStoppedHandshakeWorker struct {
+	ID int
+}
+
+func (e *EventStoppedHandshakeWorker) IsErrorf() bool      { return false }
+func (*EventStoppedHandshakeWorker) Format() string        { return FormatVerbosefStoppedHandshakeWorker }
+func (e *EventStoppedHandshakeWorker) Args() []any         { return []any{e.ID} }
+func (*EventStoppedHandshakeWorker) Nice() string          { return NiceVerbosefStoppedHandshakeWorker }
+func (e *EventStoppedHandshakeWorker) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
+
+var _ Event = (*EventPacketIPVersionInvalid)(nil)
+
+// EventPacketIPVersionInvalid is an verbosef event recognized by the format string "Packet with invalid IP version from %v".
+type EventPacketIPVersionInvalid struct {
+	Peer *device.Peer
+}
+
+func (e *EventPacketIPVersionInvalid) IsErrorf() bool      { return false }
+func (*EventPacketIPVersionInvalid) Format() string        { return FormatVerbosefPacketIPVersionInvalid }
+func (e *EventPacketIPVersionInvalid) Args() []any         { return []any{e.Peer} }
+func (*EventPacketIPVersionInvalid) Nice() string          { return NiceVerbosefPacketIPVersionInvalid }
+func (e *EventPacketIPVersionInvalid) Slog(l *slog.Logger) { l.Warn(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventTUNReaderStarted)(nil)
+
+// EventTUNReaderStarted is an verbosef event recognized by the format string "Routine: TUN reader - started".
+type EventTUNReaderStarted struct{}
+
+func (e *EventTUNReaderStarted) IsErrorf() bool      { return false }
+func (*EventTUNReaderStarted) Format() string        { return FormatVerbosefTUNReaderStarted }
+func (e *EventTUNReaderStarted) Args() []any         { return []any{} }
+func (*EventTUNReaderStarted) Nice() string          { return NiceVerbosefTUNReaderStarted }
+func (e *EventTUNReaderStarted) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
+
+var _ Event = (*EventNegativeMTU)(nil)
+
+// EventNegativeMTU is an errorf event recognized by the format string "MTU not updated to negative value: %v".
+type EventNegativeMTU struct {
 	MTU int
 }
 
-func (e *EventMTUUpdated) IsErrorf() bool      { return false }
-func (*EventMTUUpdated) Format() string        { return FormatVerbosefMTUUpdated }
-func (e *EventMTUUpdated) Args() []any         { return []any{e.MTU} }
-func (*EventMTUUpdated) Nice() string          { return "MTU updated" }
-func (e *EventMTUUpdated) Slog(l *slog.Logger) { l.Info(e.Nice(), "MTU", e.MTU) }
+func (e *EventNegativeMTU) IsErrorf() bool      { return true }
+func (*EventNegativeMTU) Format() string        { return FormatErrorfNegativeMTU }
+func (e *EventNegativeMTU) Args() []any         { return []any{e.MTU} }
+func (*EventNegativeMTU) Nice() string          { return NiceErrorfNegativeMTU }
+func (e *EventNegativeMTU) Slog(l *slog.Logger) { l.Error(e.Nice(), "MTU", e.MTU) }
 
 var _ Event = (*EventSendHandshakeInitiationFailed)(nil)
 
@@ -1170,10 +754,287 @@ func (*EventSendHandshakeInitiationFailed) Format() string {
 }
 func (e *EventSendHandshakeInitiationFailed) Args() []any { return []any{e.Peer, e.Err} }
 func (*EventSendHandshakeInitiationFailed) Nice() string {
-	return "Failed to send handshake initiation"
+	return NiceErrorfSendHandshakeInitiationFailed
 }
 func (e *EventSendHandshakeInitiationFailed) Slog(l *slog.Logger) {
 	l.Error(e.Nice(), "Peer", e.Peer, "Err", e.Err)
+}
+
+var _ Event = (*EventMessageUnknownType)(nil)
+
+// EventMessageUnknownType is an verbosef event recognized by the format string "Received message with unknown type".
+type EventMessageUnknownType struct{}
+
+func (e *EventMessageUnknownType) IsErrorf() bool      { return false }
+func (*EventMessageUnknownType) Format() string        { return FormatVerbosefMessageUnknownType }
+func (e *EventMessageUnknownType) Args() []any         { return []any{} }
+func (*EventMessageUnknownType) Nice() string          { return NiceVerbosefMessageUnknownType }
+func (e *EventMessageUnknownType) Slog(l *slog.Logger) { l.Warn(e.Nice()) }
+
+var _ Event = (*EventStartedHandshakeWorker)(nil)
+
+// EventStartedHandshakeWorker is an verbosef event recognized by the format string "Routine: handshake worker %d - started".
+type EventStartedHandshakeWorker struct {
+	ID int
+}
+
+func (e *EventStartedHandshakeWorker) IsErrorf() bool      { return false }
+func (*EventStartedHandshakeWorker) Format() string        { return FormatVerbosefStartedHandshakeWorker }
+func (e *EventStartedHandshakeWorker) Args() []any         { return []any{e.ID} }
+func (*EventStartedHandshakeWorker) Nice() string          { return NiceVerbosefStartedHandshakeWorker }
+func (e *EventStartedHandshakeWorker) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
+
+var _ Event = (*EventSendingKeepalivePacket)(nil)
+
+// EventSendingKeepalivePacket is an verbosef event recognized by the format string "%v - Sending keepalive packet".
+type EventSendingKeepalivePacket struct {
+	Peer *device.Peer
+}
+
+func (e *EventSendingKeepalivePacket) IsErrorf() bool      { return false }
+func (*EventSendingKeepalivePacket) Format() string        { return FormatVerbosefSendingKeepalivePacket }
+func (e *EventSendingKeepalivePacket) Args() []any         { return []any{e.Peer} }
+func (*EventSendingKeepalivePacket) Nice() string          { return NiceVerbosefSendingKeepalivePacket }
+func (e *EventSendingKeepalivePacket) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventInvalidOperation)(nil)
+
+// EventInvalidOperation is an errorf event recognized by the format string "invalid UAPI operation: %v".
+type EventInvalidOperation struct {
+	Op string
+}
+
+func (e *EventInvalidOperation) IsErrorf() bool      { return true }
+func (*EventInvalidOperation) Format() string        { return FormatErrorfInvalidOperation }
+func (e *EventInvalidOperation) Args() []any         { return []any{e.Op} }
+func (*EventInvalidOperation) Nice() string          { return NiceErrorfInvalidOperation }
+func (e *EventInvalidOperation) Slog(l *slog.Logger) { l.Error(e.Nice(), "Op", e.Op) }
+
+var _ Event = (*EventDeviceClosing)(nil)
+
+// EventDeviceClosing is an verbosef event recognized by the format string "Device closing".
+type EventDeviceClosing struct{}
+
+func (e *EventDeviceClosing) IsErrorf() bool      { return false }
+func (*EventDeviceClosing) Format() string        { return FormatVerbosefDeviceClosing }
+func (e *EventDeviceClosing) Args() []any         { return []any{} }
+func (*EventDeviceClosing) Nice() string          { return NiceVerbosefDeviceClosing }
+func (e *EventDeviceClosing) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
+
+var _ Event = (*EventHandshakeFlood)(nil)
+
+// EventHandshakeFlood is an verbosef event recognized by the format string "%v - ConsumeMessageInitiation: handshake flood".
+type EventHandshakeFlood struct {
+	Peer *device.Peer
+}
+
+func (e *EventHandshakeFlood) IsErrorf() bool      { return false }
+func (*EventHandshakeFlood) Format() string        { return FormatVerbosefHandshakeFlood }
+func (e *EventHandshakeFlood) Args() []any         { return []any{e.Peer} }
+func (*EventHandshakeFlood) Nice() string          { return NiceVerbosefHandshakeFlood }
+func (e *EventHandshakeFlood) Slog(l *slog.Logger) { l.Warn(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventInterfaceUpRequested)(nil)
+
+// EventInterfaceUpRequested is an verbosef event recognized by the format string "Interface up requested".
+type EventInterfaceUpRequested struct{}
+
+func (e *EventInterfaceUpRequested) IsErrorf() bool      { return false }
+func (*EventInterfaceUpRequested) Format() string        { return FormatVerbosefInterfaceUpRequested }
+func (e *EventInterfaceUpRequested) Args() []any         { return []any{} }
+func (*EventInterfaceUpRequested) Nice() string          { return NiceVerbosefInterfaceUpRequested }
+func (e *EventInterfaceUpRequested) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
+
+var _ Event = (*EventUAPIAddingAllowedIP)(nil)
+
+// EventUAPIAddingAllowedIP is an verbosef event recognized by the format string "%v - UAPI: Adding allowedip".
+type EventUAPIAddingAllowedIP struct {
+	Peer *device.Peer
+}
+
+func (e *EventUAPIAddingAllowedIP) IsErrorf() bool      { return false }
+func (*EventUAPIAddingAllowedIP) Format() string        { return FormatVerbosefUAPIAddingAllowedIP }
+func (e *EventUAPIAddingAllowedIP) Args() []any         { return []any{e.Peer} }
+func (*EventUAPIAddingAllowedIP) Nice() string          { return NiceVerbosefUAPIAddingAllowedIP }
+func (e *EventUAPIAddingAllowedIP) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventDecodeCookieReplyFailed)(nil)
+
+// EventDecodeCookieReplyFailed is an verbosef event recognized by the format string "Failed to decode cookie reply".
+type EventDecodeCookieReplyFailed struct{}
+
+func (e *EventDecodeCookieReplyFailed) IsErrorf() bool      { return false }
+func (*EventDecodeCookieReplyFailed) Format() string        { return FormatVerbosefDecodeCookieReplyFailed }
+func (e *EventDecodeCookieReplyFailed) Args() []any         { return []any{} }
+func (*EventDecodeCookieReplyFailed) Nice() string          { return NiceVerbosefDecodeCookieReplyFailed }
+func (e *EventDecodeCookieReplyFailed) Slog(l *slog.Logger) { l.Warn(e.Nice()) }
+
+var _ Event = (*EventStoppedEncryptionWorker)(nil)
+
+// EventStoppedEncryptionWorker is an verbosef event recognized by the format string "Routine: encryption worker %d - stopped".
+type EventStoppedEncryptionWorker struct {
+	ID int
+}
+
+func (e *EventStoppedEncryptionWorker) IsErrorf() bool      { return false }
+func (*EventStoppedEncryptionWorker) Format() string        { return FormatVerbosefStoppedEncryptionWorker }
+func (e *EventStoppedEncryptionWorker) Args() []any         { return []any{e.ID} }
+func (*EventStoppedEncryptionWorker) Nice() string          { return NiceVerbosefStoppedEncryptionWorker }
+func (e *EventStoppedEncryptionWorker) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
+
+var _ Event = (*EventHandshakeDidNotComplete)(nil)
+
+// EventHandshakeDidNotComplete is an verbosef event recognized by the format string "%s - Handshake did not complete after %d attempts, giving up".
+type EventHandshakeDidNotComplete struct {
+	Peer     *device.Peer
+	Attempts int
+}
+
+func (e *EventHandshakeDidNotComplete) IsErrorf() bool { return false }
+func (*EventHandshakeDidNotComplete) Format() string   { return FormatVerbosefHandshakeDidNotComplete }
+func (e *EventHandshakeDidNotComplete) Args() []any    { return []any{e.Peer, e.Attempts} }
+func (*EventHandshakeDidNotComplete) Nice() string     { return NiceVerbosefHandshakeDidNotComplete }
+func (e *EventHandshakeDidNotComplete) Slog(l *slog.Logger) {
+	l.Info(e.Nice(), "Peer", e.Peer, "Attempts", e.Attempts)
+}
+
+var _ Event = (*EventUpdateBind)(nil)
+
+// EventUpdateBind is an errorf event recognized by the format string "Unable to update bind: %v".
+type EventUpdateBind struct {
+	Err error
+}
+
+func (e *EventUpdateBind) IsErrorf() bool      { return true }
+func (*EventUpdateBind) Format() string        { return FormatErrorfUpdateBind }
+func (e *EventUpdateBind) Args() []any         { return []any{e.Err} }
+func (*EventUpdateBind) Nice() string          { return NiceErrorfUpdateBind }
+func (e *EventUpdateBind) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
+
+var _ Event = (*EventReceivedInvalidInitiation)(nil)
+
+// EventReceivedInvalidInitiation is an verbosef event recognized by the format string "Received invalid initiation message from %s".
+type EventReceivedInvalidInitiation struct {
+	Destination string
+}
+
+func (e *EventReceivedInvalidInitiation) IsErrorf() bool { return false }
+func (*EventReceivedInvalidInitiation) Format() string {
+	return FormatVerbosefReceivedInvalidInitiation
+}
+func (e *EventReceivedInvalidInitiation) Args() []any { return []any{e.Destination} }
+func (*EventReceivedInvalidInitiation) Nice() string  { return NiceVerbosefReceivedInvalidInitiation }
+func (e *EventReceivedInvalidInitiation) Slog(l *slog.Logger) {
+	l.Warn(e.Nice(), "Destination", e.Destination)
+}
+
+var _ Event = (*EventInvalidPacketInHandshakeQueue)(nil)
+
+// EventInvalidPacketInHandshakeQueue is an errorf event recognized by the format string "Invalid packet ended up in the handshake queue".
+type EventInvalidPacketInHandshakeQueue struct{}
+
+func (e *EventInvalidPacketInHandshakeQueue) IsErrorf() bool { return true }
+func (*EventInvalidPacketInHandshakeQueue) Format() string {
+	return FormatErrorfInvalidPacketInHandshakeQueue
+}
+func (e *EventInvalidPacketInHandshakeQueue) Args() []any { return []any{} }
+func (*EventInvalidPacketInHandshakeQueue) Nice() string {
+	return NiceErrorfInvalidPacketInHandshakeQueue
+}
+func (e *EventInvalidPacketInHandshakeQueue) Slog(l *slog.Logger) { l.Error(e.Nice()) }
+
+var _ Event = (*EventReceivedHandshakeInitiation)(nil)
+
+// EventReceivedHandshakeInitiation is an verbosef event recognized by the format string "%v - Received handshake initiation".
+type EventReceivedHandshakeInitiation struct {
+	Peer *device.Peer
+}
+
+func (e *EventReceivedHandshakeInitiation) IsErrorf() bool { return false }
+func (*EventReceivedHandshakeInitiation) Format() string {
+	return FormatVerbosefReceivedHandshakeInitiation
+}
+func (e *EventReceivedHandshakeInitiation) Args() []any { return []any{e.Peer} }
+func (*EventReceivedHandshakeInitiation) Nice() string {
+	return NiceVerbosefReceivedHandshakeInitiation
+}
+func (e *EventReceivedHandshakeInitiation) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventTunPacketReadFailed)(nil)
+
+// EventTunPacketReadFailed is an errorf event recognized by the format string "Failed to read packet from TUN device: %v".
+type EventTunPacketReadFailed struct {
+	Err error
+}
+
+func (e *EventTunPacketReadFailed) IsErrorf() bool      { return true }
+func (*EventTunPacketReadFailed) Format() string        { return FormatErrorfTunPacketReadFailed }
+func (e *EventTunPacketReadFailed) Args() []any         { return []any{e.Err} }
+func (*EventTunPacketReadFailed) Nice() string          { return NiceErrorfTunPacketReadFailed }
+func (e *EventTunPacketReadFailed) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
+
+var _ Event = (*EventUAPIRemovingAllAllowedIPs)(nil)
+
+// EventUAPIRemovingAllAllowedIPs is an verbosef event recognized by the format string "%v - UAPI: Removing all allowedips".
+type EventUAPIRemovingAllAllowedIPs struct {
+	Peer *device.Peer
+}
+
+func (e *EventUAPIRemovingAllAllowedIPs) IsErrorf() bool { return false }
+func (*EventUAPIRemovingAllAllowedIPs) Format() string {
+	return FormatVerbosefUAPIRemovingAllAllowedIPs
+}
+func (e *EventUAPIRemovingAllAllowedIPs) Args() []any         { return []any{e.Peer} }
+func (*EventUAPIRemovingAllAllowedIPs) Nice() string          { return NiceVerbosefUAPIRemovingAllAllowedIPs }
+func (e *EventUAPIRemovingAllAllowedIPs) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventReceivingCookieResponse)(nil)
+
+// EventReceivingCookieResponse is an verbosef event recognized by the format string "Receiving cookie response from %s".
+type EventReceivingCookieResponse struct {
+	Destination string
+}
+
+func (e *EventReceivingCookieResponse) IsErrorf() bool { return false }
+func (*EventReceivingCookieResponse) Format() string   { return FormatVerbosefReceivingCookieResponse }
+func (e *EventReceivingCookieResponse) Args() []any    { return []any{e.Destination} }
+func (*EventReceivingCookieResponse) Nice() string     { return NiceVerbosefReceivingCookieResponse }
+func (e *EventReceivingCookieResponse) Slog(l *slog.Logger) {
+	l.Debug(e.Nice(), "Destination", e.Destination)
+}
+
+var _ Event = (*EventInitiationMessageDecodeFailed)(nil)
+
+// EventInitiationMessageDecodeFailed is an errorf event recognized by the format string "Failed to decode initiation message".
+type EventInitiationMessageDecodeFailed struct{}
+
+func (e *EventInitiationMessageDecodeFailed) IsErrorf() bool { return true }
+func (*EventInitiationMessageDecodeFailed) Format() string {
+	return FormatErrorfInitiationMessageDecodeFailed
+}
+func (e *EventInitiationMessageDecodeFailed) Args() []any { return []any{} }
+func (*EventInitiationMessageDecodeFailed) Nice() string {
+	return NiceErrorfInitiationMessageDecodeFailed
+}
+func (e *EventInitiationMessageDecodeFailed) Slog(l *slog.Logger) { l.Error(e.Nice()) }
+
+var _ Event = (*EventUAPIUpdatingPersistentKeepalive)(nil)
+
+// EventUAPIUpdatingPersistentKeepalive is an verbosef event recognized by the format string "%v - UAPI: Updating persistent keepalive interval".
+type EventUAPIUpdatingPersistentKeepalive struct {
+	Peer *device.Peer
+}
+
+func (e *EventUAPIUpdatingPersistentKeepalive) IsErrorf() bool { return false }
+func (*EventUAPIUpdatingPersistentKeepalive) Format() string {
+	return FormatVerbosefUAPIUpdatingPersistentKeepalive
+}
+func (e *EventUAPIUpdatingPersistentKeepalive) Args() []any { return []any{e.Peer} }
+func (*EventUAPIUpdatingPersistentKeepalive) Nice() string {
+	return NiceVerbosefUAPIUpdatingPersistentKeepalive
+}
+func (e *EventUAPIUpdatingPersistentKeepalive) Slog(l *slog.Logger) {
+	l.Debug(e.Nice(), "Peer", e.Peer)
 }
 
 var _ Event = (*EventHandshakeReplay)(nil)
@@ -1187,23 +1048,66 @@ type EventHandshakeReplay struct {
 func (e *EventHandshakeReplay) IsErrorf() bool { return false }
 func (*EventHandshakeReplay) Format() string   { return FormatVerbosefHandshakeReplay }
 func (e *EventHandshakeReplay) Args() []any    { return []any{e.Peer, e.Timestamp} }
-func (*EventHandshakeReplay) Nice() string     { return "ConsumeMessageInitiation: handshake replay" }
+func (*EventHandshakeReplay) Nice() string     { return NiceVerbosefHandshakeReplay }
 func (e *EventHandshakeReplay) Slog(l *slog.Logger) {
 	l.Warn(e.Nice(), "Peer", e.Peer, "Timestamp", e.Timestamp)
 }
 
-var _ Event = (*EventStartedHandshakeWorker)(nil)
+var _ Event = (*EventInterfaceCloseIgnoreRequestedState)(nil)
 
-// EventStartedHandshakeWorker is an verbosef event recognized by the format string "Routine: handshake worker %d - started".
-type EventStartedHandshakeWorker struct {
+// EventInterfaceCloseIgnoreRequestedState is an verbosef event recognized by the format string "Interface closed, ignored requested state %s".
+type EventInterfaceCloseIgnoreRequestedState struct {
+	Want fmt.Stringer
+}
+
+func (e *EventInterfaceCloseIgnoreRequestedState) IsErrorf() bool { return false }
+func (*EventInterfaceCloseIgnoreRequestedState) Format() string {
+	return FormatVerbosefInterfaceCloseIgnoreRequestedState
+}
+func (e *EventInterfaceCloseIgnoreRequestedState) Args() []any { return []any{e.Want} }
+func (*EventInterfaceCloseIgnoreRequestedState) Nice() string {
+	return NiceVerbosefInterfaceCloseIgnoreRequestedState
+}
+func (e *EventInterfaceCloseIgnoreRequestedState) Slog(l *slog.Logger) {
+	l.Warn(e.Nice(), "Want", e.Want)
+}
+
+var _ Event = (*EventDecryptionWorkerStopped)(nil)
+
+// EventDecryptionWorkerStopped is an verbosef event recognized by the format string "Routine: decryption worker %d - stopped".
+type EventDecryptionWorkerStopped struct {
 	ID int
 }
 
-func (e *EventStartedHandshakeWorker) IsErrorf() bool      { return false }
-func (*EventStartedHandshakeWorker) Format() string        { return FormatVerbosefStartedHandshakeWorker }
-func (e *EventStartedHandshakeWorker) Args() []any         { return []any{e.ID} }
-func (*EventStartedHandshakeWorker) Nice() string          { return "Routine: handshake worker started" }
-func (e *EventStartedHandshakeWorker) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
+func (e *EventDecryptionWorkerStopped) IsErrorf() bool      { return false }
+func (*EventDecryptionWorkerStopped) Format() string        { return FormatVerbosefDecryptionWorkerStopped }
+func (e *EventDecryptionWorkerStopped) Args() []any         { return []any{e.ID} }
+func (*EventDecryptionWorkerStopped) Nice() string          { return NiceVerbosefDecryptionWorkerStopped }
+func (e *EventDecryptionWorkerStopped) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
+
+var _ Event = (*EventUAPIUpdatingFWMark)(nil)
+
+// EventUAPIUpdatingFWMark is an verbosef event recognized by the format string "UAPI: Updating fwmark".
+type EventUAPIUpdatingFWMark struct{}
+
+func (e *EventUAPIUpdatingFWMark) IsErrorf() bool      { return false }
+func (*EventUAPIUpdatingFWMark) Format() string        { return FormatVerbosefUAPIUpdatingFWMark }
+func (e *EventUAPIUpdatingFWMark) Args() []any         { return []any{} }
+func (*EventUAPIUpdatingFWMark) Nice() string          { return NiceVerbosefUAPIUpdatingFWMark }
+func (e *EventUAPIUpdatingFWMark) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
+
+var _ Event = (*EventUAPIUpdatingPresharedKey)(nil)
+
+// EventUAPIUpdatingPresharedKey is an verbosef event recognized by the format string "%v - UAPI: Updating preshared key".
+type EventUAPIUpdatingPresharedKey struct {
+	Peer *device.Peer
+}
+
+func (e *EventUAPIUpdatingPresharedKey) IsErrorf() bool      { return false }
+func (*EventUAPIUpdatingPresharedKey) Format() string        { return FormatVerbosefUAPIUpdatingPresharedKey }
+func (e *EventUAPIUpdatingPresharedKey) Args() []any         { return []any{e.Peer} }
+func (*EventUAPIUpdatingPresharedKey) Nice() string          { return NiceVerbosefUAPIUpdatingPresharedKey }
+func (e *EventUAPIUpdatingPresharedKey) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
 
 var _ Event = (*EventTUNReaderStopped)(nil)
 
@@ -1213,23 +1117,121 @@ type EventTUNReaderStopped struct{}
 func (e *EventTUNReaderStopped) IsErrorf() bool      { return false }
 func (*EventTUNReaderStopped) Format() string        { return FormatVerbosefTUNReaderStopped }
 func (e *EventTUNReaderStopped) Args() []any         { return []any{} }
-func (*EventTUNReaderStopped) Nice() string          { return "Routine: TUN reader - stopped" }
+func (*EventTUNReaderStopped) Nice() string          { return NiceVerbosefTUNReaderStopped }
 func (e *EventTUNReaderStopped) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
 
-var _ Event = (*EventReceivingCookieResponse)(nil)
+var _ Event = (*EventIPv4PacketDisallowed)(nil)
 
-// EventReceivingCookieResponse is an verbosef event recognized by the format string "Receiving cookie response from %s".
-type EventReceivingCookieResponse struct {
-	Destination string
+// EventIPv4PacketDisallowed is an verbosef event recognized by the format string "IPv4 packet with disallowed source address from %v".
+type EventIPv4PacketDisallowed struct {
+	Peer *device.Peer
 }
 
-func (e *EventReceivingCookieResponse) IsErrorf() bool { return false }
-func (*EventReceivingCookieResponse) Format() string   { return FormatVerbosefReceivingCookieResponse }
-func (e *EventReceivingCookieResponse) Args() []any    { return []any{e.Destination} }
-func (*EventReceivingCookieResponse) Nice() string     { return "Receiving cookie response" }
-func (e *EventReceivingCookieResponse) Slog(l *slog.Logger) {
-	l.Debug(e.Nice(), "Destination", e.Destination)
+func (e *EventIPv4PacketDisallowed) IsErrorf() bool      { return false }
+func (*EventIPv4PacketDisallowed) Format() string        { return FormatVerbosefIPv4PacketDisallowed }
+func (e *EventIPv4PacketDisallowed) Args() []any         { return []any{e.Peer} }
+func (*EventIPv4PacketDisallowed) Nice() string          { return NiceVerbosefIPv4PacketDisallowed }
+func (e *EventIPv4PacketDisallowed) Slog(l *slog.Logger) { l.Warn(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventCreateResponseMessageFailed)(nil)
+
+// EventCreateResponseMessageFailed is an errorf event recognized by the format string "%v - Failed to create response message: %v".
+type EventCreateResponseMessageFailed struct {
+	Peer *device.Peer
+	Err  error
 }
+
+func (e *EventCreateResponseMessageFailed) IsErrorf() bool { return true }
+func (*EventCreateResponseMessageFailed) Format() string {
+	return FormatErrorfCreateResponseMessageFailed
+}
+func (e *EventCreateResponseMessageFailed) Args() []any { return []any{e.Peer, e.Err} }
+func (*EventCreateResponseMessageFailed) Nice() string  { return NiceErrorfCreateResponseMessageFailed }
+func (e *EventCreateResponseMessageFailed) Slog(l *slog.Logger) {
+	l.Error(e.Nice(), "Peer", e.Peer, "Err", e.Err)
+}
+
+var _ Event = (*EventCreateInitiationMessageFailed)(nil)
+
+// EventCreateInitiationMessageFailed is an errorf event recognized by the format string "%v - Failed to create initiation message: %v".
+type EventCreateInitiationMessageFailed struct {
+	Peer *device.Peer
+	Err  error
+}
+
+func (e *EventCreateInitiationMessageFailed) IsErrorf() bool { return true }
+func (*EventCreateInitiationMessageFailed) Format() string {
+	return FormatErrorfCreateInitiationMessageFailed
+}
+func (e *EventCreateInitiationMessageFailed) Args() []any { return []any{e.Peer, e.Err} }
+func (*EventCreateInitiationMessageFailed) Nice() string {
+	return NiceErrorfCreateInitiationMessageFailed
+}
+func (e *EventCreateInitiationMessageFailed) Slog(l *slog.Logger) {
+	l.Error(e.Nice(), "Peer", e.Peer, "Err", e.Err)
+}
+
+var _ Event = (*EventBindUpdated)(nil)
+
+// EventBindUpdated is an verbosef event recognized by the format string "UDP bind has been updated".
+type EventBindUpdated struct{}
+
+func (e *EventBindUpdated) IsErrorf() bool      { return false }
+func (*EventBindUpdated) Format() string        { return FormatVerbosefBindUpdated }
+func (e *EventBindUpdated) Args() []any         { return []any{} }
+func (*EventBindUpdated) Nice() string          { return NiceVerbosefBindUpdated }
+func (e *EventBindUpdated) Slog(l *slog.Logger) { l.Info(e.Nice()) }
+
+var _ Event = (*EventEventWorkerStarted)(nil)
+
+// EventEventWorkerStarted is an verbosef event recognized by the format string "Routine: event worker - started".
+type EventEventWorkerStarted struct{}
+
+func (e *EventEventWorkerStarted) IsErrorf() bool      { return false }
+func (*EventEventWorkerStarted) Format() string        { return FormatVerbosefEventWorkerStarted }
+func (e *EventEventWorkerStarted) Args() []any         { return []any{} }
+func (*EventEventWorkerStarted) Nice() string          { return NiceVerbosefEventWorkerStarted }
+func (e *EventEventWorkerStarted) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
+
+var _ Event = (*EventUAPIUpdatingPrivateKey)(nil)
+
+// EventUAPIUpdatingPrivateKey is an verbosef event recognized by the format string "UAPI: Updating private key".
+type EventUAPIUpdatingPrivateKey struct{}
+
+func (e *EventUAPIUpdatingPrivateKey) IsErrorf() bool      { return false }
+func (*EventUAPIUpdatingPrivateKey) Format() string        { return FormatVerbosefUAPIUpdatingPrivateKey }
+func (e *EventUAPIUpdatingPrivateKey) Args() []any         { return []any{} }
+func (*EventUAPIUpdatingPrivateKey) Nice() string          { return NiceVerbosefUAPIUpdatingPrivateKey }
+func (e *EventUAPIUpdatingPrivateKey) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
+
+var _ Event = (*EventStartedReceivingIncoming)(nil)
+
+// EventStartedReceivingIncoming is an verbosef event recognized by the format string "Routine: receive incoming %s - stopped".
+type EventStartedReceivingIncoming struct {
+	RecvName string
+}
+
+func (e *EventStartedReceivingIncoming) IsErrorf() bool { return false }
+func (*EventStartedReceivingIncoming) Format() string   { return FormatVerbosefStartedReceivingIncoming }
+func (e *EventStartedReceivingIncoming) Args() []any    { return []any{e.RecvName} }
+func (*EventStartedReceivingIncoming) Nice() string     { return NiceVerbosefStartedReceivingIncoming }
+func (e *EventStartedReceivingIncoming) Slog(l *slog.Logger) {
+	l.Debug(e.Nice(), "RecvName", e.RecvName)
+}
+
+var _ Event = (*EventMTUTooLarge)(nil)
+
+// EventMTUTooLarge is an verbosef event recognized by the format string "MTU updated: %v (too large, capped at %v)".
+type EventMTUTooLarge struct {
+	MTU int
+	Cap int
+}
+
+func (e *EventMTUTooLarge) IsErrorf() bool      { return false }
+func (*EventMTUTooLarge) Format() string        { return FormatVerbosefMTUTooLarge }
+func (e *EventMTUTooLarge) Args() []any         { return []any{e.MTU, e.Cap} }
+func (*EventMTUTooLarge) Nice() string          { return NiceVerbosefMTUTooLarge }
+func (e *EventMTUTooLarge) Slog(l *slog.Logger) { l.Warn(e.Nice(), "MTU", e.MTU, "Cap", e.Cap) }
 
 var _ Event = (*EventValue)(nil)
 
@@ -1241,123 +1243,47 @@ type EventValue struct {
 func (e *EventValue) IsErrorf() bool      { return true }
 func (*EventValue) Format() string        { return FormatErrorfValue }
 func (e *EventValue) Args() []any         { return []any{e.Err} }
-func (*EventValue) Nice() string          { return "error" }
+func (*EventValue) Nice() string          { return NiceErrorfValue }
 func (e *EventValue) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
 
-var _ Event = (*EventTunPacketReadFailed)(nil)
+var _ Event = (*EventMTUUpdated)(nil)
 
-// EventTunPacketReadFailed is an errorf event recognized by the format string "Failed to read packet from TUN device: %v".
-type EventTunPacketReadFailed struct {
-	Err error
+// EventMTUUpdated is an verbosef event recognized by the format string "MTU updated: %v".
+type EventMTUUpdated struct {
+	MTU int
 }
 
-func (e *EventTunPacketReadFailed) IsErrorf() bool      { return true }
-func (*EventTunPacketReadFailed) Format() string        { return FormatErrorfTunPacketReadFailed }
-func (e *EventTunPacketReadFailed) Args() []any         { return []any{e.Err} }
-func (*EventTunPacketReadFailed) Nice() string          { return "Failed to read packet from TUN device" }
-func (e *EventTunPacketReadFailed) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
+func (e *EventMTUUpdated) IsErrorf() bool      { return false }
+func (*EventMTUUpdated) Format() string        { return FormatVerbosefMTUUpdated }
+func (e *EventMTUUpdated) Args() []any         { return []any{e.MTU} }
+func (*EventMTUUpdated) Nice() string          { return NiceVerbosefMTUUpdated }
+func (e *EventMTUUpdated) Slog(l *slog.Logger) { l.Info(e.Nice(), "MTU", e.MTU) }
 
-var _ Event = (*EventDecodeCookieReplyFailed)(nil)
+var _ Event = (*EventPeerStarting)(nil)
 
-// EventDecodeCookieReplyFailed is an verbosef event recognized by the format string "Failed to decode cookie reply".
-type EventDecodeCookieReplyFailed struct{}
-
-func (e *EventDecodeCookieReplyFailed) IsErrorf() bool      { return false }
-func (*EventDecodeCookieReplyFailed) Format() string        { return FormatVerbosefDecodeCookieReplyFailed }
-func (e *EventDecodeCookieReplyFailed) Args() []any         { return []any{} }
-func (*EventDecodeCookieReplyFailed) Nice() string          { return "Failed to decode cookie reply" }
-func (e *EventDecodeCookieReplyFailed) Slog(l *slog.Logger) { l.Warn(e.Nice()) }
-
-var _ Event = (*EventInvalidOperation)(nil)
-
-// EventInvalidOperation is an errorf event recognized by the format string "invalid UAPI operation: %v".
-type EventInvalidOperation struct {
-	Op string
-}
-
-func (e *EventInvalidOperation) IsErrorf() bool      { return true }
-func (*EventInvalidOperation) Format() string        { return FormatErrorfInvalidOperation }
-func (e *EventInvalidOperation) Args() []any         { return []any{e.Op} }
-func (*EventInvalidOperation) Nice() string          { return "invalid UAPI operation" }
-func (e *EventInvalidOperation) Slog(l *slog.Logger) { l.Error(e.Nice(), "Op", e.Op) }
-
-var _ Event = (*EventUpdateBind)(nil)
-
-// EventUpdateBind is an errorf event recognized by the format string "Unable to update bind: %v".
-type EventUpdateBind struct {
-	Err error
-}
-
-func (e *EventUpdateBind) IsErrorf() bool      { return true }
-func (*EventUpdateBind) Format() string        { return FormatErrorfUpdateBind }
-func (e *EventUpdateBind) Args() []any         { return []any{e.Err} }
-func (*EventUpdateBind) Nice() string          { return "Unable to update bind" }
-func (e *EventUpdateBind) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
-
-var _ Event = (*EventUAPIUpdatingPrivateKey)(nil)
-
-// EventUAPIUpdatingPrivateKey is an verbosef event recognized by the format string "UAPI: Updating private key".
-type EventUAPIUpdatingPrivateKey struct{}
-
-func (e *EventUAPIUpdatingPrivateKey) IsErrorf() bool      { return false }
-func (*EventUAPIUpdatingPrivateKey) Format() string        { return FormatVerbosefUAPIUpdatingPrivateKey }
-func (e *EventUAPIUpdatingPrivateKey) Args() []any         { return []any{} }
-func (*EventUAPIUpdatingPrivateKey) Nice() string          { return "UAPI: Updating private key" }
-func (e *EventUAPIUpdatingPrivateKey) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
-
-var _ Event = (*EventIPv6PacketDisallowed)(nil)
-
-// EventIPv6PacketDisallowed is an verbosef event recognized by the format string "IPv6 packet with disallowed source address from %v".
-type EventIPv6PacketDisallowed struct {
+// EventPeerStarting is an verbosef event recognized by the format string "%v - Starting".
+type EventPeerStarting struct {
 	Peer *device.Peer
 }
 
-func (e *EventIPv6PacketDisallowed) IsErrorf() bool { return false }
-func (*EventIPv6PacketDisallowed) Format() string   { return FormatVerbosefIPv6PacketDisallowed }
-func (e *EventIPv6PacketDisallowed) Args() []any    { return []any{e.Peer} }
-func (*EventIPv6PacketDisallowed) Nice() string {
-	return "IPv6 packet with disallowed source address from"
+func (e *EventPeerStarting) IsErrorf() bool      { return false }
+func (*EventPeerStarting) Format() string        { return FormatVerbosefPeerStarting }
+func (e *EventPeerStarting) Args() []any         { return []any{e.Peer} }
+func (*EventPeerStarting) Nice() string          { return NiceVerbosefPeerStarting }
+func (e *EventPeerStarting) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventResponseMessageDecodeFailed)(nil)
+
+// EventResponseMessageDecodeFailed is an errorf event recognized by the format string "Failed to decode response message".
+type EventResponseMessageDecodeFailed struct{}
+
+func (e *EventResponseMessageDecodeFailed) IsErrorf() bool { return true }
+func (*EventResponseMessageDecodeFailed) Format() string {
+	return FormatErrorfResponseMessageDecodeFailed
 }
-func (e *EventIPv6PacketDisallowed) Slog(l *slog.Logger) { l.Warn(e.Nice(), "Peer", e.Peer) }
-
-var _ Event = (*EventStoppedReceivingIncoming)(nil)
-
-// EventStoppedReceivingIncoming is an verbosef event recognized by the format string "Routine: receive incoming %s - started".
-type EventStoppedReceivingIncoming struct {
-	RecvName string
-}
-
-func (e *EventStoppedReceivingIncoming) IsErrorf() bool { return false }
-func (*EventStoppedReceivingIncoming) Format() string   { return FormatVerbosefStoppedReceivingIncoming }
-func (e *EventStoppedReceivingIncoming) Args() []any    { return []any{e.RecvName} }
-func (*EventStoppedReceivingIncoming) Nice() string     { return "Routine: receive incoming started" }
-func (e *EventStoppedReceivingIncoming) Slog(l *slog.Logger) {
-	l.Debug(e.Nice(), "RecvName", e.RecvName)
-}
-
-var _ Event = (*EventBindUpdated)(nil)
-
-// EventBindUpdated is an verbosef event recognized by the format string "UDP bind has been updated".
-type EventBindUpdated struct{}
-
-func (e *EventBindUpdated) IsErrorf() bool      { return false }
-func (*EventBindUpdated) Format() string        { return FormatVerbosefBindUpdated }
-func (e *EventBindUpdated) Args() []any         { return []any{} }
-func (*EventBindUpdated) Nice() string          { return "UDP bind has been updated" }
-func (e *EventBindUpdated) Slog(l *slog.Logger) { l.Info(e.Nice()) }
-
-var _ Event = (*EventHandshakeFlood)(nil)
-
-// EventHandshakeFlood is an verbosef event recognized by the format string "%v - ConsumeMessageInitiation: handshake flood".
-type EventHandshakeFlood struct {
-	Peer *device.Peer
-}
-
-func (e *EventHandshakeFlood) IsErrorf() bool      { return false }
-func (*EventHandshakeFlood) Format() string        { return FormatVerbosefHandshakeFlood }
-func (e *EventHandshakeFlood) Args() []any         { return []any{e.Peer} }
-func (*EventHandshakeFlood) Nice() string          { return "ConsumeMessageInitiation: handshake flood" }
-func (e *EventHandshakeFlood) Slog(l *slog.Logger) { l.Warn(e.Nice(), "Peer", e.Peer) }
+func (e *EventResponseMessageDecodeFailed) Args() []any         { return []any{} }
+func (*EventResponseMessageDecodeFailed) Nice() string          { return NiceErrorfResponseMessageDecodeFailed }
+func (e *EventResponseMessageDecodeFailed) Slog(l *slog.Logger) { l.Error(e.Nice()) }
 
 var _ Event = (*EventInterfaceDownRequested)(nil)
 
@@ -1367,8 +1293,161 @@ type EventInterfaceDownRequested struct{}
 func (e *EventInterfaceDownRequested) IsErrorf() bool      { return false }
 func (*EventInterfaceDownRequested) Format() string        { return FormatVerbosefInterfaceDownRequested }
 func (e *EventInterfaceDownRequested) Args() []any         { return []any{} }
-func (*EventInterfaceDownRequested) Nice() string          { return "Interface down requested" }
+func (*EventInterfaceDownRequested) Nice() string          { return NiceVerbosefInterfaceDownRequested }
 func (e *EventInterfaceDownRequested) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
+
+var _ Event = (*EventUAPIRemovingAllPeers)(nil)
+
+// EventUAPIRemovingAllPeers is an verbosef event recognized by the format string "UAPI: Removing all peers".
+type EventUAPIRemovingAllPeers struct{}
+
+func (e *EventUAPIRemovingAllPeers) IsErrorf() bool      { return false }
+func (*EventUAPIRemovingAllPeers) Format() string        { return FormatVerbosefUAPIRemovingAllPeers }
+func (e *EventUAPIRemovingAllPeers) Args() []any         { return []any{} }
+func (*EventUAPIRemovingAllPeers) Nice() string          { return NiceVerbosefUAPIRemovingAllPeers }
+func (e *EventUAPIRemovingAllPeers) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
+
+var _ Event = (*EventDroppedPacketsFromMultiSegmentRead)(nil)
+
+// EventDroppedPacketsFromMultiSegmentRead is an verbosef event recognized by the format string "Dropped some packets from multi-segment read: %v".
+type EventDroppedPacketsFromMultiSegmentRead struct {
+	Err error
+}
+
+func (e *EventDroppedPacketsFromMultiSegmentRead) IsErrorf() bool { return false }
+func (*EventDroppedPacketsFromMultiSegmentRead) Format() string {
+	return FormatVerbosefDroppedPacketsFromMultiSegmentRead
+}
+func (e *EventDroppedPacketsFromMultiSegmentRead) Args() []any { return []any{e.Err} }
+func (*EventDroppedPacketsFromMultiSegmentRead) Nice() string {
+	return NiceVerbosefDroppedPacketsFromMultiSegmentRead
+}
+func (e *EventDroppedPacketsFromMultiSegmentRead) Slog(l *slog.Logger) {
+	l.Error(e.Nice(), "Err", e.Err)
+}
+
+var _ Event = (*EventInvalidMAC1)(nil)
+
+// EventInvalidMAC1 is an verbosef event recognized by the format string "Received packet with invalid mac1".
+type EventInvalidMAC1 struct{}
+
+func (e *EventInvalidMAC1) IsErrorf() bool      { return false }
+func (*EventInvalidMAC1) Format() string        { return FormatVerbosefInvalidMAC1 }
+func (e *EventInvalidMAC1) Args() []any         { return []any{} }
+func (*EventInvalidMAC1) Nice() string          { return NiceVerbosefInvalidMAC1 }
+func (e *EventInvalidMAC1) Slog(l *slog.Logger) { l.Warn(e.Nice()) }
+
+var _ Event = (*EventSequentialReaderStopped)(nil)
+
+// EventSequentialReaderStopped is an verbosef event recognized by the format string "%v - Routine: sequential sender - stopped".
+type EventSequentialReaderStopped struct {
+	Peer *device.Peer
+}
+
+func (e *EventSequentialReaderStopped) IsErrorf() bool      { return false }
+func (*EventSequentialReaderStopped) Format() string        { return FormatVerbosefSequentialReaderStopped }
+func (e *EventSequentialReaderStopped) Args() []any         { return []any{e.Peer} }
+func (*EventSequentialReaderStopped) Nice() string          { return NiceVerbosefSequentialReaderStopped }
+func (e *EventSequentialReaderStopped) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventBindCloseFailed)(nil)
+
+// EventBindCloseFailed is an errorf event recognized by the format string "Bind close failed: %v".
+type EventBindCloseFailed struct {
+	Err error
+}
+
+func (e *EventBindCloseFailed) IsErrorf() bool      { return true }
+func (*EventBindCloseFailed) Format() string        { return FormatErrorfBindCloseFailed }
+func (e *EventBindCloseFailed) Args() []any         { return []any{e.Err} }
+func (*EventBindCloseFailed) Nice() string          { return NiceErrorfBindCloseFailed }
+func (e *EventBindCloseFailed) Slog(l *slog.Logger) { l.Error(e.Nice(), "Err", e.Err) }
+
+var _ Event = (*EventUAPIUpdatingEndpoint)(nil)
+
+// EventUAPIUpdatingEndpoint is an verbosef event recognized by the format string "%v - UAPI: Updating endpoint".
+type EventUAPIUpdatingEndpoint struct {
+	Peer *device.Peer
+}
+
+func (e *EventUAPIUpdatingEndpoint) IsErrorf() bool      { return false }
+func (*EventUAPIUpdatingEndpoint) Format() string        { return FormatVerbosefUAPIUpdatingEndpoint }
+func (e *EventUAPIUpdatingEndpoint) Args() []any         { return []any{e.Peer} }
+func (*EventUAPIUpdatingEndpoint) Nice() string          { return NiceVerbosefUAPIUpdatingEndpoint }
+func (e *EventUAPIUpdatingEndpoint) Slog(l *slog.Logger) { l.Debug(e.Nice(), "Peer", e.Peer) }
+
+var _ Event = (*EventStartedDecryptionWorker)(nil)
+
+// EventStartedDecryptionWorker is an verbosef event recognized by the format string "Routine: decryption worker %d - started".
+type EventStartedDecryptionWorker struct {
+	ID int
+}
+
+func (e *EventStartedDecryptionWorker) IsErrorf() bool      { return false }
+func (*EventStartedDecryptionWorker) Format() string        { return FormatVerbosefStartedDecryptionWorker }
+func (e *EventStartedDecryptionWorker) Args() []any         { return []any{e.ID} }
+func (*EventStartedDecryptionWorker) Nice() string          { return NiceVerbosefStartedDecryptionWorker }
+func (e *EventStartedDecryptionWorker) Slog(l *slog.Logger) { l.Debug(e.Nice(), "ID", e.ID) }
+
+var _ Event = (*EventUDPGSODisabled)(nil)
+
+// EventUDPGSODisabled is an verbosef event recognized by the format string "disabled UDP GSO on %s, NIC(s) may not support checksum offload".
+type EventUDPGSODisabled struct {
+	OnLAddr string
+}
+
+func (e *EventUDPGSODisabled) IsErrorf() bool      { return false }
+func (*EventUDPGSODisabled) Format() string        { return FormatVerbosefUDPGSODisabled }
+func (e *EventUDPGSODisabled) Args() []any         { return []any{e.OnLAddr} }
+func (*EventUDPGSODisabled) Nice() string          { return NiceVerbosefUDPGSODisabled }
+func (e *EventUDPGSODisabled) Slog(l *slog.Logger) { l.Warn(e.Nice(), "OnLAddr", e.OnLAddr) }
+
+var _ Event = (*EventRemovingAllKeys)(nil)
+
+// EventRemovingAllKeys is an verbosef event recognized by the format string "%s - Removing all keys, since we haven't received a new one in %d seconds".
+type EventRemovingAllKeys struct {
+	Peer    *device.Peer
+	Timeout int
+}
+
+func (e *EventRemovingAllKeys) IsErrorf() bool { return false }
+func (*EventRemovingAllKeys) Format() string   { return FormatVerbosefRemovingAllKeys }
+func (e *EventRemovingAllKeys) Args() []any    { return []any{e.Peer, e.Timeout} }
+func (*EventRemovingAllKeys) Nice() string     { return NiceVerbosefRemovingAllKeys }
+func (e *EventRemovingAllKeys) Slog(l *slog.Logger) {
+	l.Debug(e.Nice(), "Peer", e.Peer, "Timeout", e.Timeout)
+}
+
+var _ Event = (*EventRetryingHandshakeNoResponse)(nil)
+
+// EventRetryingHandshakeNoResponse is an verbosef event recognized by the format string "%s - Retrying handshake because we stopped hearing back after %d seconds".
+type EventRetryingHandshakeNoResponse struct {
+	Peer    *device.Peer
+	Timeout int
+}
+
+func (e *EventRetryingHandshakeNoResponse) IsErrorf() bool { return false }
+func (*EventRetryingHandshakeNoResponse) Format() string {
+	return FormatVerbosefRetryingHandshakeNoResponse
+}
+func (e *EventRetryingHandshakeNoResponse) Args() []any { return []any{e.Peer, e.Timeout} }
+func (*EventRetryingHandshakeNoResponse) Nice() string {
+	return NiceVerbosefRetryingHandshakeNoResponse
+}
+func (e *EventRetryingHandshakeNoResponse) Slog(l *slog.Logger) {
+	l.Debug(e.Nice(), "Peer", e.Peer, "Timeout", e.Timeout)
+}
+
+var _ Event = (*EventUAPIUpdatingListenPort)(nil)
+
+// EventUAPIUpdatingListenPort is an verbosef event recognized by the format string "UAPI: Updating listen port".
+type EventUAPIUpdatingListenPort struct{}
+
+func (e *EventUAPIUpdatingListenPort) IsErrorf() bool      { return false }
+func (*EventUAPIUpdatingListenPort) Format() string        { return FormatVerbosefUAPIUpdatingListenPort }
+func (e *EventUAPIUpdatingListenPort) Args() []any         { return []any{} }
+func (*EventUAPIUpdatingListenPort) Nice() string          { return NiceVerbosefUAPIUpdatingListenPort }
+func (e *EventUAPIUpdatingListenPort) Slog(l *slog.Logger) { l.Debug(e.Nice()) }
 
 // EventAny is an unrecognized event emitted from the logger.
 type EventAny struct {
@@ -1405,34 +1484,6 @@ func Events(fn func(Event)) *device.Logger {
 	return &device.Logger{
 		Verbosef: func(format string, args ...any) {
 			switch format {
-			case FormatVerbosefReceivingKeepalivePacket:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventReceivingKeepalivePacket{Peer: v0})
-			case FormatVerbosefTUNReaderStarted:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventTUNReaderStarted{})
-			case FormatVerbosefPeerStarting:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventPeerStarting{Peer: v0})
 			case FormatVerbosefInterfaceStateChanged:
 				if len(args) != 3 {
 					fn(&EventAny{format: format, args: args})
@@ -1454,161 +1505,12 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventInterfaceStateChanged{Old: v0, Want: v1, Now: v2})
-			case FormatVerbosefUAPIUpdatingFWMark:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventUAPIUpdatingFWMark{})
-			case FormatVerbosefSendingKeepalivePacket:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventSendingKeepalivePacket{Peer: v0})
-			case FormatVerbosefCookieResponseInvalid:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventCookieResponseInvalid{})
-			case FormatVerbosefDroppedPacketsFromMultiSegmentRead:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(error)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventDroppedPacketsFromMultiSegmentRead{Err: v0})
 			case FormatVerbosefPacketIPVersionUnknown:
 				if len(args) != 0 {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
 				fn(&EventPacketIPVersionUnknown{})
-			case FormatVerbosefIPv4PacketDisallowed:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventIPv4PacketDisallowed{Peer: v0})
-			case FormatVerbosefRemovingAllKeys:
-				if len(args) != 2 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v1, ok := args[1].(int)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventRemovingAllKeys{Peer: v0, Timeout: v1})
-			case FormatVerbosefUAPIUpdatingEndpoint:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventUAPIUpdatingEndpoint{Peer: v0})
-			case FormatVerbosefUAPIUpdatingPersistentKeepalive:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventUAPIUpdatingPersistentKeepalive{Peer: v0})
-			case FormatVerbosefUAPIRemovingAllAllowedIPs:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventUAPIRemovingAllAllowedIPs{Peer: v0})
-			case FormatVerbosefSequentialReceiverStarted:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventSequentialReceiverStarted{Peer: v0})
-			case FormatVerbosefRetryingHandshakeNoResponse:
-				if len(args) != 2 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v1, ok := args[1].(int)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventRetryingHandshakeNoResponse{Peer: v0, Timeout: v1})
-			case FormatVerbosefSendCookieDenied:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(string)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventSendCookieDenied{Destination: v0})
-			case FormatVerbosefEventWorkerStopped:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventEventWorkerStopped{})
-			case FormatVerbosefReceivedHandshakeInitiation:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventReceivedHandshakeInitiation{Peer: v0})
 			case FormatVerbosefSendingHandshakeInitiation:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
@@ -1620,7 +1522,7 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventSendingHandshakeInitiation{Peer: v0})
-			case FormatVerbosefUAPIAddingAllowedIP:
+			case FormatVerbosefSendingHandshakeResponse:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
 					return
@@ -1630,18 +1532,41 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventUAPIAddingAllowedIP{Peer: v0})
-			case FormatVerbosefStoppedEncryptionWorker:
+				fn(&EventSendingHandshakeResponse{Peer: v0})
+			case FormatVerbosefSequentialReceiverStarted:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				v0, ok := args[0].(int)
+				v0, ok := args[0].(*device.Peer)
 				if !ok {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventStoppedEncryptionWorker{ID: v0})
+				fn(&EventSequentialReceiverStarted{Peer: v0})
+			case FormatVerbosefDeviceClosed:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventDeviceClosed{})
+			case FormatVerbosefUAPIRemovingPeer:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventUAPIRemovingPeer{Peer: v0})
+			case FormatVerbosefCookieResponseInvalid:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventCookieResponseInvalid{})
 			case FormatVerbosefStartedEncryptionWorker:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
@@ -1653,8 +1578,8 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventStartedEncryptionWorker{ID: v0})
-			case FormatVerbosefSequentialReceiverStopped:
-				if len(args) != 1 {
+			case FormatVerbosefRetryingHandshake:
+				if len(args) != 3 {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
@@ -1663,9 +1588,19 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventSequentialReceiverStopped{Peer: v0})
-			case FormatVerbosefReceivedInvalidResponse:
-				if len(args) != 1 {
+				v1, ok := args[1].(int)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v2, ok := args[2].(uint32)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventRetryingHandshake{Peer: v0, Timeout: v1, Try: v2})
+			case FormatVerbosefPacketReceiveFailed:
+				if len(args) != 2 {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
@@ -1674,66 +1609,18 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventReceivedInvalidResponse{Destination: v0})
-			case FormatVerbosefPeerStopping:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
+				v1, ok := args[1].(error)
 				if !ok {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventPeerStopping{Peer: v0})
-			case FormatVerbosefInvalidMAC1:
+				fn(&EventPacketReceiveFailed{RecvName: v0, Err: v1})
+			case FormatVerbosefEventWorkerStopped:
 				if len(args) != 0 {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventInvalidMAC1{})
-			case FormatVerbosefUDPGSODisabled:
-			case FormatVerbosefDeviceClosing:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventDeviceClosing{})
-			case FormatVerbosefUAPIRemovingAllPeers:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventUAPIRemovingAllPeers{})
-			case FormatVerbosefUAPIUpdatingPresharedKey:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventUAPIUpdatingPresharedKey{Peer: v0})
-			case FormatVerbosefEventWorkerStarted:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventEventWorkerStarted{})
-			case FormatVerbosefInterfaceUpRequested:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventInterfaceUpRequested{})
-			case FormatVerbosefMessageUnknownType:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventMessageUnknownType{})
+				fn(&EventEventWorkerStopped{})
 			case FormatVerbosefUAPICreated:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
@@ -1745,6 +1632,228 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventUAPICreated{Peer: v0})
+			case FormatVerbosefReceivedHandshakeResponse:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventReceivedHandshakeResponse{Peer: v0})
+			case FormatVerbosefSequentialReceiverStopped:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventSequentialReceiverStopped{Peer: v0})
+			case FormatVerbosefStoppedReceivingIncoming:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(string)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventStoppedReceivingIncoming{RecvName: v0})
+			case FormatVerbosefReceivedInvalidResponse:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(string)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventReceivedInvalidResponse{Destination: v0})
+			case FormatVerbosefSendCookieDenied:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(string)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventSendCookieDenied{Destination: v0})
+			case FormatVerbosefPeerStopping:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventPeerStopping{Peer: v0})
+			case FormatVerbosefSequentialSenderStarted:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventSequentialSenderStarted{Peer: v0})
+			case FormatVerbosefReceivingKeepalivePacket:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventReceivingKeepalivePacket{Peer: v0})
+			case FormatVerbosefIPv6PacketDisallowed:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventIPv6PacketDisallowed{Peer: v0})
+			case FormatVerbosefStoppedHandshakeWorker:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(int)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventStoppedHandshakeWorker{ID: v0})
+			case FormatVerbosefPacketIPVersionInvalid:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventPacketIPVersionInvalid{Peer: v0})
+			case FormatVerbosefTUNReaderStarted:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventTUNReaderStarted{})
+			case FormatVerbosefMessageUnknownType:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventMessageUnknownType{})
+			case FormatVerbosefStartedHandshakeWorker:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(int)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventStartedHandshakeWorker{ID: v0})
+			case FormatVerbosefSendingKeepalivePacket:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventSendingKeepalivePacket{Peer: v0})
+			case FormatVerbosefDeviceClosing:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventDeviceClosing{})
+			case FormatVerbosefHandshakeFlood:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventHandshakeFlood{Peer: v0})
+			case FormatVerbosefInterfaceUpRequested:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventInterfaceUpRequested{})
+			case FormatVerbosefUAPIAddingAllowedIP:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventUAPIAddingAllowedIP{Peer: v0})
+			case FormatVerbosefDecodeCookieReplyFailed:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventDecodeCookieReplyFailed{})
+			case FormatVerbosefStoppedEncryptionWorker:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(int)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventStoppedEncryptionWorker{ID: v0})
+			case FormatVerbosefHandshakeDidNotComplete:
+				if len(args) != 2 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v1, ok := args[1].(int)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventHandshakeDidNotComplete{Peer: v0, Attempts: v1})
 			case FormatVerbosefReceivedInvalidInitiation:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
@@ -1756,6 +1865,66 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventReceivedInvalidInitiation{Destination: v0})
+			case FormatVerbosefReceivedHandshakeInitiation:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventReceivedHandshakeInitiation{Peer: v0})
+			case FormatVerbosefUAPIRemovingAllAllowedIPs:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventUAPIRemovingAllAllowedIPs{Peer: v0})
+			case FormatVerbosefReceivingCookieResponse:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(string)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventReceivingCookieResponse{Destination: v0})
+			case FormatVerbosefUAPIUpdatingPersistentKeepalive:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventUAPIUpdatingPersistentKeepalive{Peer: v0})
+			case FormatVerbosefHandshakeReplay:
+				if len(args) != 2 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v1, ok := args[1].(tai64n.Timestamp)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventHandshakeReplay{Peer: v0, Timestamp: v1})
 			case FormatVerbosefInterfaceCloseIgnoreRequestedState:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
@@ -1778,7 +1947,13 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventDecryptionWorkerStopped{ID: v0})
-			case FormatVerbosefSequentialSenderStarted:
+			case FormatVerbosefUAPIUpdatingFWMark:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventUAPIUpdatingFWMark{})
+			case FormatVerbosefUAPIUpdatingPresharedKey:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
 					return
@@ -1788,9 +1963,15 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventSequentialSenderStarted{Peer: v0})
-			case FormatVerbosefRetryingHandshake:
-				if len(args) != 3 {
+				fn(&EventUAPIUpdatingPresharedKey{Peer: v0})
+			case FormatVerbosefTUNReaderStopped:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventTUNReaderStopped{})
+			case FormatVerbosefIPv4PacketDisallowed:
+				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
@@ -1799,33 +1980,36 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				v1, ok := args[1].(int)
+				fn(&EventIPv4PacketDisallowed{Peer: v0})
+			case FormatVerbosefBindUpdated:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventBindUpdated{})
+			case FormatVerbosefEventWorkerStarted:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventEventWorkerStarted{})
+			case FormatVerbosefUAPIUpdatingPrivateKey:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventUAPIUpdatingPrivateKey{})
+			case FormatVerbosefStartedReceivingIncoming:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(string)
 				if !ok {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				v2, ok := args[2].(uint32)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventRetryingHandshake{Peer: v0, Timeout: v1, Try: v2})
-			case FormatVerbosefHandshakeDidNotComplete:
-				if len(args) != 2 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v1, ok := args[1].(int)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventHandshakeDidNotComplete{Peer: v0, Attempts: v1})
+				fn(&EventStartedReceivingIncoming{RecvName: v0})
 			case FormatVerbosefMTUTooLarge:
 				if len(args) != 2 {
 					fn(&EventAny{format: format, args: args})
@@ -1842,122 +2026,6 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventMTUTooLarge{MTU: v0, Cap: v1})
-			case FormatVerbosefUAPIRemovingPeer:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventUAPIRemovingPeer{Peer: v0})
-			case FormatVerbosefStoppedHandshakeWorker:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(int)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventStoppedHandshakeWorker{ID: v0})
-			case FormatVerbosefSequentialReaderStopped:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventSequentialReaderStopped{Peer: v0})
-			case FormatVerbosefDeviceClosed:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventDeviceClosed{})
-			case FormatVerbosefStartedDecryptionWorker:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(int)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventStartedDecryptionWorker{ID: v0})
-			case FormatVerbosefUAPIUpdatingListenPort:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventUAPIUpdatingListenPort{})
-			case FormatVerbosefPacketIPVersionInvalid:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventPacketIPVersionInvalid{Peer: v0})
-			case FormatVerbosefStartedReceivingIncoming:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(string)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventStartedReceivingIncoming{RecvName: v0})
-			case FormatVerbosefReceivedHandshakeResponse:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventReceivedHandshakeResponse{Peer: v0})
-			case FormatVerbosefSendingHandshakeResponse:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventSendingHandshakeResponse{Peer: v0})
-			case FormatVerbosefPacketReceiveFailed:
-				if len(args) != 2 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(string)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v1, ok := args[1].(error)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventPacketReceiveFailed{RecvName: v0, Err: v1})
 			case FormatVerbosefMTUUpdated:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
@@ -1969,8 +2037,8 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventMTUUpdated{MTU: v0})
-			case FormatVerbosefHandshakeReplay:
-				if len(args) != 2 {
+			case FormatVerbosefPeerStarting:
+				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
@@ -1979,13 +2047,59 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				v1, ok := args[1].(tai64n.Timestamp)
+				fn(&EventPeerStarting{Peer: v0})
+			case FormatVerbosefInterfaceDownRequested:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventInterfaceDownRequested{})
+			case FormatVerbosefUAPIRemovingAllPeers:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventUAPIRemovingAllPeers{})
+			case FormatVerbosefDroppedPacketsFromMultiSegmentRead:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(error)
 				if !ok {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventHandshakeReplay{Peer: v0, Timestamp: v1})
-			case FormatVerbosefStartedHandshakeWorker:
+				fn(&EventDroppedPacketsFromMultiSegmentRead{Err: v0})
+			case FormatVerbosefInvalidMAC1:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventInvalidMAC1{})
+			case FormatVerbosefSequentialReaderStopped:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventSequentialReaderStopped{Peer: v0})
+			case FormatVerbosefUAPIUpdatingEndpoint:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventUAPIUpdatingEndpoint{Peer: v0})
+			case FormatVerbosefStartedDecryptionWorker:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args})
 					return
@@ -1995,38 +2109,10 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventStartedHandshakeWorker{ID: v0})
-			case FormatVerbosefTUNReaderStopped:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventTUNReaderStopped{})
-			case FormatVerbosefReceivingCookieResponse:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(string)
-				if !ok {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventReceivingCookieResponse{Destination: v0})
-			case FormatVerbosefDecodeCookieReplyFailed:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventDecodeCookieReplyFailed{})
-			case FormatVerbosefUAPIUpdatingPrivateKey:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventUAPIUpdatingPrivateKey{})
-			case FormatVerbosefIPv6PacketDisallowed:
-				if len(args) != 1 {
+				fn(&EventStartedDecryptionWorker{ID: v0})
+			case FormatVerbosefUDPGSODisabled:
+			case FormatVerbosefRemovingAllKeys:
+				if len(args) != 2 {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
@@ -2035,26 +2121,14 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventIPv6PacketDisallowed{Peer: v0})
-			case FormatVerbosefStoppedReceivingIncoming:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				v0, ok := args[0].(string)
+				v1, ok := args[1].(int)
 				if !ok {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventStoppedReceivingIncoming{RecvName: v0})
-			case FormatVerbosefBindUpdated:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args})
-					return
-				}
-				fn(&EventBindUpdated{})
-			case FormatVerbosefHandshakeFlood:
-				if len(args) != 1 {
+				fn(&EventRemovingAllKeys{Peer: v0, Timeout: v1})
+			case FormatVerbosefRetryingHandshakeNoResponse:
+				if len(args) != 2 {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
@@ -2063,17 +2137,22 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventHandshakeFlood{Peer: v0})
-			case FormatVerbosefInterfaceDownRequested:
+				v1, ok := args[1].(int)
+				if !ok {
+					fn(&EventAny{format: format, args: args})
+					return
+				}
+				fn(&EventRetryingHandshakeNoResponse{Peer: v0, Timeout: v1})
+			case FormatVerbosefUAPIUpdatingListenPort:
 				if len(args) != 0 {
 					fn(&EventAny{format: format, args: args})
 					return
 				}
-				fn(&EventInterfaceDownRequested{})
+				fn(&EventUAPIUpdatingListenPort{})
 			default:
-				var ev27 EventUDPGSODisabled
-				if parser.ParseUDPGSODisabled(&ev27, format, args...) {
-					fn(&ev27)
+				var ev61 EventUDPGSODisabled
+				if parser.ParseUDPGSODisabled(&ev61, format, args...) {
+					fn(&ev61)
 					return
 				}
 				fn(&EventAny{format: format, args: args})
@@ -2082,71 +2161,6 @@ func Events(fn func(Event)) *device.Logger {
 		},
 		Errorf: func(format string, args ...any) {
 			switch format {
-			case FormatErrorfCreateCookieReplyFailed:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				v0, ok := args[0].(error)
-				if !ok {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				fn(&EventCreateCookieReplyFailed{Err: v0})
-			case FormatErrorfCreateInitiationMessageFailed:
-				if len(args) != 2 {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				v1, ok := args[1].(error)
-				if !ok {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				fn(&EventCreateInitiationMessageFailed{Peer: v0, Err: v1})
-			case FormatErrorfDeriveKeypairFailed:
-				if len(args) != 2 {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
-				if !ok {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				v1, ok := args[1].(error)
-				if !ok {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				fn(&EventDeriveKeypairFailed{Peer: v0, Err: v1})
-			case FormatErrorfLoadMTUFailed:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				v0, ok := args[0].(error)
-				if !ok {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				fn(&EventLoadMTUFailed{Err: v0})
-			case FormatErrorfNegativeMTU:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				v0, ok := args[0].(int)
-				if !ok {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				fn(&EventNegativeMTU{MTU: v0})
 			case FormatErrorfPacketDataSendFailed:
 				if len(args) != 2 {
 					fn(&EventAny{format: format, args: args, error: true})
@@ -2163,7 +2177,7 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventPacketDataSendFailed{Peer: v0, Err: v1})
-			case FormatErrorfBindCloseFailed:
+			case FormatErrorfCreateCookieReplyFailed:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args, error: true})
 					return
@@ -2173,8 +2187,8 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args, error: true})
 					return
 				}
-				fn(&EventBindCloseFailed{Err: v0})
-			case FormatErrorfCreateResponseMessageFailed:
+				fn(&EventCreateCookieReplyFailed{Err: v0})
+			case FormatErrorfDeriveKeypairFailed:
 				if len(args) != 2 {
 					fn(&EventAny{format: format, args: args, error: true})
 					return
@@ -2189,7 +2203,34 @@ func Events(fn func(Event)) *device.Logger {
 					fn(&EventAny{format: format, args: args, error: true})
 					return
 				}
-				fn(&EventCreateResponseMessageFailed{Peer: v0, Err: v1})
+				fn(&EventDeriveKeypairFailed{Peer: v0, Err: v1})
+			case FormatErrorfHandshakeSendFailed:
+				if len(args) != 2 {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				v1, ok := args[1].(error)
+				if !ok {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				fn(&EventHandshakeSendFailed{Peer: v0, Err: v1})
+			case FormatErrorfLoadMTUFailed:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				v0, ok := args[0].(error)
+				if !ok {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				fn(&EventLoadMTUFailed{Err: v0})
 			case FormatErrorfTUNWriteFailed:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args, error: true})
@@ -2212,40 +2253,17 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventAssumingDefaultMTU{Err: v0})
-			case FormatErrorfResponseMessageDecodeFailed:
-				if len(args) != 0 {
+			case FormatErrorfNegativeMTU:
+				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args, error: true})
 					return
 				}
-				fn(&EventResponseMessageDecodeFailed{})
-			case FormatErrorfHandshakeSendFailed:
-				if len(args) != 2 {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				v0, ok := args[0].(*device.Peer)
+				v0, ok := args[0].(int)
 				if !ok {
 					fn(&EventAny{format: format, args: args, error: true})
 					return
 				}
-				v1, ok := args[1].(error)
-				if !ok {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				fn(&EventHandshakeSendFailed{Peer: v0, Err: v1})
-			case FormatErrorfInvalidPacketInHandshakeQueue:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				fn(&EventInvalidPacketInHandshakeQueue{})
-			case FormatErrorfInitiationMessageDecodeFailed:
-				if len(args) != 0 {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				fn(&EventInitiationMessageDecodeFailed{})
+				fn(&EventNegativeMTU{MTU: v0})
 			case FormatErrorfSendHandshakeInitiationFailed:
 				if len(args) != 2 {
 					fn(&EventAny{format: format, args: args, error: true})
@@ -2262,28 +2280,6 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventSendHandshakeInitiationFailed{Peer: v0, Err: v1})
-			case FormatErrorfValue:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				v0, ok := args[0].(error)
-				if !ok {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				fn(&EventValue{Err: v0})
-			case FormatErrorfTunPacketReadFailed:
-				if len(args) != 1 {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				v0, ok := args[0].(error)
-				if !ok {
-					fn(&EventAny{format: format, args: args, error: true})
-					return
-				}
-				fn(&EventTunPacketReadFailed{Err: v0})
 			case FormatErrorfInvalidOperation:
 				if len(args) != 1 {
 					fn(&EventAny{format: format, args: args, error: true})
@@ -2306,6 +2302,89 @@ func Events(fn func(Event)) *device.Logger {
 					return
 				}
 				fn(&EventUpdateBind{Err: v0})
+			case FormatErrorfInvalidPacketInHandshakeQueue:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				fn(&EventInvalidPacketInHandshakeQueue{})
+			case FormatErrorfTunPacketReadFailed:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				v0, ok := args[0].(error)
+				if !ok {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				fn(&EventTunPacketReadFailed{Err: v0})
+			case FormatErrorfInitiationMessageDecodeFailed:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				fn(&EventInitiationMessageDecodeFailed{})
+			case FormatErrorfCreateResponseMessageFailed:
+				if len(args) != 2 {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				v1, ok := args[1].(error)
+				if !ok {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				fn(&EventCreateResponseMessageFailed{Peer: v0, Err: v1})
+			case FormatErrorfCreateInitiationMessageFailed:
+				if len(args) != 2 {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				v0, ok := args[0].(*device.Peer)
+				if !ok {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				v1, ok := args[1].(error)
+				if !ok {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				fn(&EventCreateInitiationMessageFailed{Peer: v0, Err: v1})
+			case FormatErrorfValue:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				v0, ok := args[0].(error)
+				if !ok {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				fn(&EventValue{Err: v0})
+			case FormatErrorfResponseMessageDecodeFailed:
+				if len(args) != 0 {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				fn(&EventResponseMessageDecodeFailed{})
+			case FormatErrorfBindCloseFailed:
+				if len(args) != 1 {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				v0, ok := args[0].(error)
+				if !ok {
+					fn(&EventAny{format: format, args: args, error: true})
+					return
+				}
+				fn(&EventBindCloseFailed{Err: v0})
 			default:
 				fn(&EventAny{format: format, args: args, error: true})
 				return

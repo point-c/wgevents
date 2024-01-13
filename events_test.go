@@ -1,7 +1,10 @@
 package wgevents
 
 import (
+	"bytes"
+	"fmt"
 	"github.com/stretchr/testify/require"
+	"log/slog"
 	"testing"
 )
 
@@ -36,4 +39,19 @@ func Test_eventParser_ParseUDPGSODisabled(t *testing.T) {
 			}
 		})
 	}
+
+	t.Run("logger", func(t *testing.T) {
+		ev := Events(func(ev Event) {
+			require.Equal(t, NiceVerbosefUDPGSODisabled, ev.Nice())
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefUDPGSODisabled, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+			require.Equal(t, 1, len(ev.Args()))
+			require.IsType(t, "", ev.Args()[0])
+			require.Equal(t, "1.1.1.1", ev.Args()[0])
+		})
+		ev.Verbosef(fmt.Sprintf(FormatVerbosefUDPGSODisabled, "1.1.1.1"))
+	})
 }

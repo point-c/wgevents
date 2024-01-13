@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	helpers "github.com/point-c/generator-helpers"
+	"github.com/point-c/wgevents/internal/pkg/templates"
 	"gopkg.in/yaml.v3"
 	"slices"
 )
@@ -97,4 +98,43 @@ func (e *YAMLEnum[E]) UnmarshalYAML(n *yaml.Node) error {
 		return fmt.Errorf("value of %q is invalid", *e)
 	}
 	return nil
+}
+
+func Cfg2Dot(cfg *Config, pkg string) *templates.Dot {
+	d := templates.Dot{
+		Package: pkg,
+		Imports: cfg.Imports,
+	}
+
+	for name, ev := range cfg.Events {
+		ev := templates.Event{
+			Name:   name,
+			Type:   string(ev.Type),
+			Level:  string(ev.Level),
+			Nice:   helpers.IfStringEmptyUseDefault(ev.Nice, ev.Format),
+			Format: ev.Format,
+			Args: func(args []templates.Arg) []templates.Arg {
+				for i, arg := range ev.Args {
+					args[i].Name = arg.Name
+					args[i].Type = arg.Type
+				}
+				return args
+			}(make([]templates.Arg, len(ev.Args))),
+			Custom: ev.Custom,
+		}
+
+		d.Events = append(d.Events, &ev)
+
+		if ev.Custom {
+			d.Custom = append(d.Custom, &ev)
+		}
+
+		switch LogType(ev.Type) {
+		case LogTypeErrorf:
+			d.Errorf = append(d.Errorf, &ev)
+		case LogTypeVerbosef:
+			d.Verbosef = append(d.Verbosef, &ev)
+		}
+	}
+	return &d
 }

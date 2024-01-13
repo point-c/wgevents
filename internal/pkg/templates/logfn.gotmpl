@@ -3,7 +3,7 @@
 return{{ end -}}
 
 switch format {
-{{ range .Events }}{{- /*gotype:github.com/point-c/wgevents/internal/events-generate.Event*/ -}}
+{{ range .Events }}{{- /*gotype:github.com/point-c/wgevents/internal/pkg/templates.Event*/ -}}
 case Format{{ if eq .Type "errorf" }}Errorf{{ else }}Verbosef{{ end }}{{ .Name }}:{{ if not .Custom }}
 {{- $argsLen := len .Args -}}
 if len(args) != {{ $argsLen }} {

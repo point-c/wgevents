@@ -1,8 +1,13 @@
 package app
 
 import (
+	helpers "github.com/point-c/generator-helpers"
+	"github.com/point-c/wgevents/internal/pkg/templates"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -140,4 +145,59 @@ func TestYAMLEnum_UnmarshalYAML(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestCfg2Dot(t *testing.T) {
+	firstEv := templates.Event{
+		Name:   "first",
+		Type:   "errorf",
+		Level:  "error",
+		Nice:   "foo",
+		Format: "%s",
+		Args:   []templates.Arg{{Name: "foo", Type: "bar"}},
+		Custom: true,
+	}
+	secondEv := templates.Event{
+		Name:   "second",
+		Type:   "verbosef",
+		Level:  "info",
+		Nice:   "foo",
+		Format: "%s",
+		Args:   []templates.Arg{{Name: "foo", Type: "bar"}},
+	}
+	cfgFn := filepath.Join(t.TempDir(), "cfg.yml")
+	require.NoError(t, os.WriteFile(cfgFn, []byte(strings.ReplaceAll(`imports:
+	- bar
+	- baz
+events:
+	first:
+		custom: true
+		nice: foo
+		format: "%s"
+		type: errorf
+		level: error
+		args:
+			- foo: bar
+	second:
+		nice: foo
+		level: info
+		type: verbosef
+		format: "%s"
+		args:
+			- foo: bar
+`, "\t", "    ")), os.ModePerm))
+	cfg, err := helpers.UnmarshalYAML[Config](cfgFn)
+	require.NoError(t, err)
+	d := Cfg2Dot(&cfg, "foo")
+	require.Equal(t, "foo", d.Package)
+	require.Equal(t, []string{"bar", "baz"}, d.Imports)
+	require.Len(t, d.Events, 2)
+	require.Equal(t, firstEv, *d.Events[0])
+	require.Equal(t, secondEv, *d.Events[1])
+	require.Len(t, d.Verbosef, 1)
+	require.Equal(t, secondEv, *d.Verbosef[0])
+	require.Len(t, d.Errorf, 1)
+	require.Equal(t, firstEv, *d.Errorf[0])
+	require.Len(t, d.Custom, 1)
+	require.Equal(t, firstEv, *d.Custom[0])
 }
