@@ -1,6 +1,6 @@
 # wgevents
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/point-c/wgevents@v0.0.2.svg)](https://godocs.io/github.com/point-c/wgevents@v0.0.4)
+[![Go Reference](https://img.shields.io/badge/godoc-reference-%23007d9c.svg)](https://point-c.github.io/wgevents)
 
 ## Overview
 
