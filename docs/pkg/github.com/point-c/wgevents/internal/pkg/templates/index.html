@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>templates - GoPages</title>
+
+<link type="text/css" rel="stylesheet" href="/wgevents/lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="/wgevents/lib/godoc/jquery.js" defer></script>
+
+
+
+
+<script>var goVersion = "go1.21.6";</script>
+<script src="/wgevents/lib/godoc/godocs.js" defer></script>
+
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="/wgevents/pkg/github.com/point-c/wgevents/">GoPages | Auto-generated docs</a></div>
+<div class="top-heading" id="heading-narrow"><a href="/wgevents/pkg/github.com/point-c/wgevents/">GoPages</a></div>
+<a href="#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package templates
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github.com/point-c/wgevents/internal/pkg/templates"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>Package templates manages the generation of code based on embedded templates.
+It leverages Go&apos;s text/template package for template processing and embeds the templates using Go&apos;s embed package.
+The package is designed to facilitate the generation of code for events for structured logging.
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+				<dd><a href="#pkg-constants">Constants</a></dd>
+			
+			
+				<dd><a href="#pkg-variables">Variables</a></dd>
+			
+			
+				
+				<dd><a href="#Generate">func Generate(dot *Dot, name, out string)</a></dd>
+			
+				
+				<dd><a href="#GetTemplate">func GetTemplate(test bool) string</a></dd>
+			
+				
+				<dd><a href="#add">func add(n1, n2 int) int</a></dd>
+			
+				
+				<dd><a href="#appendSlice">func appendSlice(s1, s2 []string) []string</a></dd>
+			
+				
+				<dd><a href="#consSlice">func consSlice(args []Arg) []string</a></dd>
+			
+				
+				<dd><a href="#increment">func increment(n int) int</a></dd>
+			
+				
+				<dd><a href="#isError">func isError(ev []*Event, isErr bool) any</a></dd>
+			
+				
+				<dd><a href="#joinStr">func joinStr(v []string) string</a></dd>
+			
+				
+				<dd><a href="#mul">func mul(n1, n2 int) int</a></dd>
+			
+				
+				<dd><a href="#nilSlice">func nilSlice(size int) []string</a></dd>
+			
+			
+				
+				<dd><a href="#Arg">type Arg</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Dot">type Dot</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Event">type Event</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go">templates.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+			<h2 id="pkg-constants">Constants</h2>
+			
+				
+				<pre>const (
+    <span class="comment">// mainTemplate is the entrypoint for the main code.</span>
+    <span id="mainTemplate">mainTemplate</span> = &#34;events.gotmpl&#34;
+    <span class="comment">// testTemplate is the entrypoint for the test code.</span>
+    <span id="testTemplate">testTemplate</span> = &#34;events_test.gotmpl&#34;
+)</pre>
+			
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				
+				<pre>var (
+    <span class="comment">//go:embed *.gotmpl</span>
+    <span id="templates">templates</span>     <a href="https://pkg.go.dev/embed/">embed</a>.<a href="https://pkg.go.dev/embed/#FS">FS</a>
+    <span id="templateFuncs">templateFuncs</span> = <a href="https://pkg.go.dev/text/template/">template</a>.<a href="https://pkg.go.dev/text/template/#FuncMap">FuncMap</a>{
+        &#34;isError&#34;:     isError,
+        &#34;nilSlice&#34;:    nilSlice,
+        &#34;joinStr&#34;:     joinStr,
+        &#34;inc&#34;:         increment,
+        &#34;add&#34;:         add,
+        &#34;mul&#34;:         mul,
+        &#34;appendSlice&#34;: appendSlice,
+        &#34;consSlice&#34;:   consSlice,
+    }
+    <span id="templatesParsed">templatesParsed</span> = <a href="https://pkg.go.dev/text/template/">template</a>.<a href="https://pkg.go.dev/text/template/#Must">Must</a>(<a href="https://pkg.go.dev/text/template/">template</a>.<a href="https://pkg.go.dev/text/template/#New">New</a>(&#34;&#34;).<a href="#Funcs">Funcs</a>(templateFuncs).<a href="#ParseFS">ParseFS</a>(templates, &#34;*&#34;))
+)</pre>
+			
+		
+		
+			
+			
+			<h2 id="Generate">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L46">Generate</a>
+				<a class="permalink" href="#Generate">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Generate(dot *<a href="#Dot">Dot</a>, name, out <a href="https://pkg.go.dev/builtin/#string">string</a>)</pre>
+			<p>Generate processes the provided template with the given data and outputs to the specified location.
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetTemplate">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L38">GetTemplate</a>
+				<a class="permalink" href="#GetTemplate">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetTemplate(test <a href="https://pkg.go.dev/builtin/#bool">bool</a>) <a href="https://pkg.go.dev/builtin/#string">string</a></pre>
+			<p>GetTemplate gets the name of the template to use. An argument of false will return the name of the main template.
+
+			
+			
+
+		
+			
+			
+			<h2 id="add">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L112">add</a>
+				<a class="permalink" href="#add">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func add(n1, n2 <a href="https://pkg.go.dev/builtin/#int">int</a>) <a href="https://pkg.go.dev/builtin/#int">int</a></pre>
+			<p>add adds two numbers.
+
+			
+			
+
+		
+			
+			
+			<h2 id="appendSlice">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L88">appendSlice</a>
+				<a class="permalink" href="#appendSlice">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func appendSlice(s1, s2 []<a href="https://pkg.go.dev/builtin/#string">string</a>) []<a href="https://pkg.go.dev/builtin/#string">string</a></pre>
+			<p>appendSlice appends two slices of strings.
+
+			
+			
+
+		
+			
+			
+			<h2 id="consSlice">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L62">consSlice</a>
+				<a class="permalink" href="#consSlice">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func consSlice(args []<a href="#Arg">Arg</a>) []<a href="https://pkg.go.dev/builtin/#string">string</a></pre>
+			<p>consSlice constructs a slice of initializers based on the types of the provided arguments.
+
+			
+			
+
+		
+			
+			
+			<h2 id="increment">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L107">increment</a>
+				<a class="permalink" href="#increment">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func increment(n <a href="https://pkg.go.dev/builtin/#int">int</a>) <a href="https://pkg.go.dev/builtin/#int">int</a></pre>
+			<p>increment increases a number by one.
+
+			
+			
+
+		
+			
+			
+			<h2 id="isError">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L51">isError</a>
+				<a class="permalink" href="#isError">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func isError(ev []*<a href="#Event">Event</a>, isErr <a href="https://pkg.go.dev/builtin/#bool">bool</a>) <a href="https://pkg.go.dev/builtin/#any">any</a></pre>
+			<p>isError formats the template context to include an error flag and a list of events.
+
+			
+			
+
+		
+			
+			
+			<h2 id="joinStr">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L102">joinStr</a>
+				<a class="permalink" href="#joinStr">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func joinStr(v []<a href="https://pkg.go.dev/builtin/#string">string</a>) <a href="https://pkg.go.dev/builtin/#string">string</a></pre>
+			<p>joinStr joins a slice of strings using a comma separator.
+
+			
+			
+
+		
+			
+			
+			<h2 id="mul">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L117">mul</a>
+				<a class="permalink" href="#mul">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func mul(n1, n2 <a href="https://pkg.go.dev/builtin/#int">int</a>) <a href="https://pkg.go.dev/builtin/#int">int</a></pre>
+			<p>mul multiplies two numbers.
+
+			
+			
+
+		
+			
+			
+			<h2 id="nilSlice">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L93">nilSlice</a>
+				<a class="permalink" href="#nilSlice">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func nilSlice(size <a href="https://pkg.go.dev/builtin/#int">int</a>) []<a href="https://pkg.go.dev/builtin/#string">string</a></pre>
+			<p>nilSlice creates a slice of strings, all set to &quot;nil&quot;.
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="Arg">type <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L139">Arg</a>
+				<a class="permalink" href="#Arg">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Arg struct {
+<span id="Arg.Name"></span>    Name <a href="https://pkg.go.dev/builtin/#string">string</a> <span class="comment">// Name to use for the argument</span>
+<span id="Arg.Type"></span>    Type <a href="https://pkg.go.dev/builtin/#string">string</a> <span class="comment">// Type of the argument</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Dot">type <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L122">Dot</a>
+				<a class="permalink" href="#Dot">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Dot struct {
+<span id="Dot.Package"></span>    Package  <a href="https://pkg.go.dev/builtin/#string">string</a>   <span class="comment">// Package name</span>
+<span id="Dot.Imports"></span>    Imports  []<a href="https://pkg.go.dev/builtin/#string">string</a> <span class="comment">// Extra imports</span>
+<span id="Dot.Events"></span>    Events   []*<a href="#Event">Event</a> <span class="comment">// All events</span>
+<span id="Dot.Verbosef"></span>    Verbosef []*<a href="#Event">Event</a> <span class="comment">// Verbose events</span>
+<span id="Dot.Errorf"></span>    Errorf   []*<a href="#Event">Event</a> <span class="comment">// Error events</span>
+<span id="Dot.Custom"></span>    Custom   []*<a href="#Event">Event</a> <span class="comment">// Events with custom parsers</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Event">type <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/templates/templates.go#L130">Event</a>
+				<a class="permalink" href="#Event">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Event struct {
+<span id="Event.Name"></span>    Name   <a href="https://pkg.go.dev/builtin/#string">string</a> <span class="comment">// Camel case name with no spaces</span>
+<span id="Event.Type"></span>    Type   <a href="https://pkg.go.dev/builtin/#string">string</a> <span class="comment">// &#34;errorf&#34; or &#34;verbosef&#34;</span>
+<span id="Event.Level"></span>    Level  <a href="https://pkg.go.dev/builtin/#string">string</a> <span class="comment">// Slog levels of &#34;debug&#34;, &#34;info&#34;, &#34;error&#34;, or &#34;warn&#34;</span>
+<span id="Event.Nice"></span>    Nice   <a href="https://pkg.go.dev/builtin/#string">string</a> <span class="comment">// A non format string version of the message to print</span>
+<span id="Event.Format"></span>    Format <a href="https://pkg.go.dev/builtin/#string">string</a> <span class="comment">// The format string from the wireguard-go library to match</span>
+<span id="Event.Args"></span>    Args   []<a href="#Arg">Arg</a>  <span class="comment">// Ordered list of args used in the format string</span>
+<span id="Event.Custom"></span>    Custom <a href="https://pkg.go.dev/builtin/#bool">bool</a>   <span class="comment">// Whether the event requires a custom parser</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.21.6.<br>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

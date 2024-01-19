@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>app - GoPages</title>
+
+<link type="text/css" rel="stylesheet" href="/wgevents/lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="/wgevents/lib/godoc/jquery.js" defer></script>
+
+
+
+
+<script>var goVersion = "go1.21.6";</script>
+<script src="/wgevents/lib/godoc/godocs.js" defer></script>
+
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="/wgevents/pkg/github.com/point-c/wgevents/">GoPages | Auto-generated docs</a></div>
+<div class="top-heading" id="heading-narrow"><a href="/wgevents/pkg/github.com/point-c/wgevents/">GoPages</a></div>
+<a href="#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package app
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github.com/point-c/wgevents/internal/pkg/app"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+				<dd><a href="#pkg-variables">Variables</a></dd>
+			
+			
+				
+				<dd><a href="#Cfg2Dot">func Cfg2Dot(cfg *Config, pkg string) *templates.Dot</a></dd>
+			
+				
+				<dd><a href="#init">func init()</a></dd>
+			
+			
+				
+				<dd><a href="#Arg">type Arg</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Arg.MarshalYAML">func (a *Arg) MarshalYAML() (any, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Arg.UnmarshalYAML">func (a *Arg) UnmarshalYAML(n *yaml.Node) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Arg.unmarshalArg">func (a *Arg) unmarshalArg(m map[string]string) error</a></dd>
+				
+			
+				
+				<dd><a href="#Config">type Config</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Enum">type Enum</a></dd>
+				
+				
+			
+				
+				<dd><a href="#LogLevel">type LogLevel</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#LogLevel.Values">func (LogLevel) Values() []string</a></dd>
+				
+			
+				
+				<dd><a href="#LogType">type LogType</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#LogType.Values">func (LogType) Values() []string</a></dd>
+				
+			
+				
+				<dd><a href="#YAMLEnum">type YAMLEnum</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#YAMLEnum.UnmarshalYAML">func (e *YAMLEnum[E]) UnmarshalYAML(n *yaml.Node) error</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go">config.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				
+				<pre>var <span id="_">_</span> interface {
+    yaml.<a href="#Marshaler">Marshaler</a>
+    yaml.<a href="#Unmarshaler">Unmarshaler</a>
+} = (*<a href="#Arg">Arg</a>)(<a href="https://pkg.go.dev/builtin/#nil">nil</a>)</pre>
+			
+		
+		
+			
+			
+			<h2 id="Cfg2Dot">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L124">Cfg2Dot</a>
+				<a class="permalink" href="#Cfg2Dot">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Cfg2Dot(cfg *<a href="#Config">Config</a>, pkg <a href="https://pkg.go.dev/builtin/#string">string</a>) *<a href="/wgevents/pkg/github.com/point-c/wgevents/internal/pkg/templates/">templates</a>.<a href="/wgevents/pkg/github.com/point-c/wgevents/internal/pkg/templates/#Dot">Dot</a></pre>
+			<p>Cfg2Dot converts the configuration into a templates.Dot for code generation.
+
+			
+			
+
+		
+			
+			
+			<h2 id="init">func <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L14">init</a>
+				<a class="permalink" href="#init">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func init()</pre>
+			<p>init function sets default values for the environment variables used in the helper package.
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="Arg">type <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L42">Arg</a>
+				<a class="permalink" href="#Arg">&#xb6;</a>
+				
+				
+			</h2>
+			<p>Arg represents an argument in the log format string.
+An Arg is represented in YAML as a map with a single element.
+
+			<pre>type Arg struct {
+<span id="Arg.Name"></span>    Name <a href="https://pkg.go.dev/builtin/#string">string</a>
+<span id="Arg.Type"></span>    Type <a href="https://pkg.go.dev/builtin/#string">string</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="Arg.MarshalYAML">func (*Arg) <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L70">MarshalYAML</a>
+					<a class="permalink" href="#Arg.MarshalYAML">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (a *<a href="#Arg">Arg</a>) MarshalYAML() (<a href="https://pkg.go.dev/builtin/#any">any</a>, <a href="https://pkg.go.dev/builtin/#error">error</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="Arg.UnmarshalYAML">func (*Arg) <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L48">UnmarshalYAML</a>
+					<a class="permalink" href="#Arg.UnmarshalYAML">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (a *<a href="#Arg">Arg</a>) UnmarshalYAML(n *yaml.<a href="#Node">Node</a>) <a href="https://pkg.go.dev/builtin/#error">error</a></pre>
+				<p>UnmarshalYAML custom unmarshals YAML node into Arg struct.
+
+				
+				
+				
+			
+				
+				<h3 id="Arg.unmarshalArg">func (*Arg) <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L57">unmarshalArg</a>
+					<a class="permalink" href="#Arg.unmarshalArg">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (a *<a href="#Arg">Arg</a>) unmarshalArg(m map[<a href="https://pkg.go.dev/builtin/#string">string</a>]<a href="https://pkg.go.dev/builtin/#string">string</a>) <a href="https://pkg.go.dev/builtin/#error">error</a></pre>
+				<p>unmarshalArg processes a map and assigns it to the Arg struct.
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Config">type <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L20">Config</a>
+				<a class="permalink" href="#Config">&#xb6;</a>
+				
+				
+			</h2>
+			<p>Config struct defines the main configuration for generating the code.
+
+			<pre>type Config struct {
+    <span class="comment">// Additional imports for the generated code.</span>
+    <span class="comment">// For the main code `slog.Logger` is already included.</span>
+    <span class="comment">// For test code `github.com/stretchr/testify/require`, `testing`, `bytes`, `errors`, and `slog.Logger` are already included.</span>
+<span id="Config.Imports"></span>    Imports []<a href="https://pkg.go.dev/builtin/#string">string</a> `json:&#34;import&#34; yaml:&#34;imports&#34;`
+<span id="Config.Events"></span>    Events  map[<a href="https://pkg.go.dev/builtin/#string">string</a>]struct {
+        Type   <a href="#YAMLEnum">YAMLEnum</a>[<a href="#LogType">LogType</a>]  `json:&#34;type&#34; yaml:&#34;type&#34;`               <span class="comment">// Event type (errorf, verbosef).</span>
+        Level  <a href="#YAMLEnum">YAMLEnum</a>[<a href="#LogLevel">LogLevel</a>] `json:&#34;level&#34; yaml:&#34;level&#34;`             <span class="comment">// Log level (error, warn, info, debug).</span>
+        Nice   <a href="https://pkg.go.dev/builtin/#string">string</a>             `json:&#34;nice&#34; yaml:&#34;nice&#34;`               <span class="comment">// User-friendly message.</span>
+        Format <a href="https://pkg.go.dev/builtin/#string">string</a>             `json:&#34;format&#34; yaml:&#34;format&#34;`           <span class="comment">// Format string for identifying events.</span>
+        Args   []*<a href="#Arg">Arg</a>             `json:&#34;args&#34; yaml:&#34;args&#34;`               <span class="comment">// Arguments for the format string.</span>
+        Custom <a href="https://pkg.go.dev/builtin/#bool">bool</a>               `json:&#34;custom&#34; yaml:&#34;custom,omitempty&#34;` <span class="comment">// Flag for custom parsing.</span>
+    } `json:&#34;events&#34; yaml:&#34;events&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Enum">type <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L111">Enum</a>
+				<a class="permalink" href="#Enum">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Enum interface{ Values() []<a href="https://pkg.go.dev/builtin/#string">string</a> }</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="LogLevel">type <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L89">LogLevel</a>
+				<a class="permalink" href="#LogLevel">&#xb6;</a>
+				
+				
+			</h2>
+			<p>LogLevel are the valid log levels available from [slog.Logger].
+
+			<pre>type LogLevel <a href="https://pkg.go.dev/builtin/#string">string</a></pre>
+
+			
+				
+				<pre>const (
+    <span id="LogLevelError">LogLevelError</span> <a href="#LogLevel">LogLevel</a> = &#34;error&#34;
+    <span id="LogLevelWarn">LogLevelWarn</span>  <a href="#LogLevel">LogLevel</a> = &#34;warn&#34;
+    <span id="LogLevelInfo">LogLevelInfo</span>  <a href="#LogLevel">LogLevel</a> = &#34;info&#34;
+    <span id="LogLevelDebug">LogLevelDebug</span> <a href="#LogLevel">LogLevel</a> = &#34;debug&#34;
+)</pre>
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="LogLevel.Values">func (LogLevel) <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L92">Values</a>
+					<a class="permalink" href="#LogLevel.Values">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (<a href="#LogLevel">LogLevel</a>) Values() []<a href="https://pkg.go.dev/builtin/#string">string</a></pre>
+				<p>Values method returns all valid values for LogLevel.
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="LogType">type <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L73">LogType</a>
+				<a class="permalink" href="#LogType">&#xb6;</a>
+				
+				
+			</h2>
+			<p>LogType are the valid log levels available from [device.Logger].
+
+			<pre>type LogType <a href="https://pkg.go.dev/builtin/#string">string</a></pre>
+
+			
+				
+				<pre>const (
+    <span id="LogTypeErrorf">LogTypeErrorf</span>   <a href="#LogType">LogType</a> = &#34;errorf&#34;
+    <span id="LogTypeVerbosef">LogTypeVerbosef</span> <a href="#LogType">LogType</a> = &#34;verbosef&#34;
+)</pre>
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="LogType.Values">func (LogType) <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L81">Values</a>
+					<a class="permalink" href="#LogType.Values">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (<a href="#LogType">LogType</a>) Values() []<a href="https://pkg.go.dev/builtin/#string">string</a></pre>
+				<p>Values method returns all valid values for LogType.
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="YAMLEnum">type <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L110">YAMLEnum</a>
+				<a class="permalink" href="#YAMLEnum">&#xb6;</a>
+				
+				
+			</h2>
+			<p>YAMLEnum handles unmarshalling and validation of enums from yaml.
+
+			<pre>type YAMLEnum[E <a href="#Enum">Enum</a>] <a href="https://pkg.go.dev/builtin/#string">string</a></pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="YAMLEnum.UnmarshalYAML">func (*YAMLEnum[E]) <a href="https://github.com/point-c/wgevents/blob/main/internal/pkg/app/config.go#L114">UnmarshalYAML</a>
+					<a class="permalink" href="#YAMLEnum.UnmarshalYAML">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (e *<a href="#YAMLEnum">YAMLEnum</a>[E]) UnmarshalYAML(n *yaml.<a href="#Node">Node</a>) <a href="https://pkg.go.dev/builtin/#error">error</a></pre>
+				
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.21.6.<br>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

@@ -42,12 +42,15 @@ func Test_eventParser_ParseUDPGSODisabled(t *testing.T) {
 
 	t.Run("logger", func(t *testing.T) {
 		ev := Events(func(ev Event) {
+			// Test static fields
 			require.Equal(t, NiceVerbosefUDPGSODisabled, ev.Nice())
 			require.False(t, ev.IsErrorf())
 			require.Equal(t, FormatVerbosefUDPGSODisabled, ev.Format())
 			var buf bytes.Buffer
+			// Test slogger
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
+			// Test args
 			require.Equal(t, 1, len(ev.Args()))
 			require.IsType(t, "", ev.Args()[0])
 			require.Equal(t, "1.1.1.1", ev.Args()[0])

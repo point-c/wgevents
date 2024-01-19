@@ -12,6 +12,14 @@
 - **Structured Logging Support:** logs format arguments separate slog records. Integrates with `slog.Logger`.
 - **Wireguard-go Version Pinning:** The package is designed as a separate module to pin to a specific version of `wireguard-go`. This ensures compatibility and stability even when `wireguard-go` messages change.
 
+## Installation
+
+To use wgevents in your Go project, install it using `go get`:
+
+```bash
+go get github.com/point-c/wgevents
+```
+
 ## Usage
 
 ### Events Function
@@ -101,3 +109,27 @@ Each section under the `events` key corresponds to a specific event that can be 
 ### Imports
 
 The final section of the configuration file lists the external packages used as part of the event processing mechanism. These are mentioned under the `imports` key.
+
+## Testing
+
+The package includes tests that demonstrate its functionality. Use Go's testing tools to run the tests:
+
+```bash
+go test ./...
+```
+
+## Godocs
+
+To regenerate godocs:
+
+```bash
+go generate -tags docs ./...
+```
+
+## Code Generation
+
+To regenerate generated packages:
+
+```bash
+go generate ./...
+```

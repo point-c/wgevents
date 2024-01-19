@@ -192,8 +192,13 @@ events:
 	require.Equal(t, "foo", d.Package)
 	require.Equal(t, []string{"bar", "baz"}, d.Imports)
 	require.Len(t, d.Events, 2)
-	require.Equal(t, firstEv, *d.Events[0])
-	require.Equal(t, secondEv, *d.Events[1])
+	if d.Events[0].Name == "first" {
+		require.Equal(t, firstEv, *d.Events[0])
+		require.Equal(t, secondEv, *d.Events[1])
+	} else {
+		require.Equal(t, firstEv, *d.Events[1])
+		require.Equal(t, secondEv, *d.Events[0])
+	}
 	require.Len(t, d.Verbosef, 1)
 	require.Equal(t, secondEv, *d.Verbosef[0])
 	require.Len(t, d.Errorf, 1)

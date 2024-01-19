@@ -22,14 +22,17 @@ var args = struct {
 func init() {
 	flag.StringVar(&args.config, "config", args.config, "events config file")
 	flag.StringVar(&args.outfile, "out", args.outfile, "output filename")
-	flag.StringVar(&args.testOutfile, "tout", args.testOutfile, "output filename")
+	flag.StringVar(&args.testOutfile, "tout", args.testOutfile, "test output filename")
 	flag.StringVar(&args.pkg, "pkg", args.pkg, "gopackage of output")
 }
 
 func main() {
 	flag.Parse()
+	// Read config
 	cfg := helpers.Must(helpers.UnmarshalYAML[app.Config](args.config))
+	// Convert to template context
 	dot := app.Cfg2Dot(&cfg, args.pkg)
+	// Generate files
 	templates.Generate(dot, templates.GetTemplate(false), args.outfile)
 	templates.Generate(dot, templates.GetTemplate(true), args.testOutfile)
 }

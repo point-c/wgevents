@@ -11,11 +11,16 @@ import "strings"
 
 //go:generate go run github.com/point-c/wgevents/internal/cmd
 
-// This also functions as an interface guard for [eventParser]
+// The init function also acts as an interface guard for [eventParser].
 func init() { parser = new(eventParser) }
 
 type eventParser struct{}
 
+// ParseUDPGSODisabled is a method on eventParser that parses the EventUDPGSODisabled event.
+// It takes an EventUDPGSODisabled instance, a format string, and variadic arguments.
+// This method checks if the format string and input string conform to the expected structure of the event.
+// If the format and input strings match, it extracts and sets the relevant information on the event instance and returns true.
+// Otherwise, it returns false, indicating that the parsing was unsuccessful.
 func (*eventParser) ParseUDPGSODisabled(ev *EventUDPGSODisabled, s string, _ ...any) (ok bool) {
 	if prefix, suffix, ok := strings.Cut(ev.Format(), "%s"); ok && strings.HasPrefix(s, prefix) && strings.HasSuffix(s, suffix) {
 		ev.OnLAddr = strings.TrimPrefix(strings.TrimSuffix(s, suffix), prefix)
