@@ -15,7 +15,7 @@ var args = struct {
 }{
 	config:      "events.yml",
 	outfile:     helpers.OutputFilename(helpers.EnvGoFile()),
-	testOutfile: helpers.TestOutputFilename(helpers.EnvGoFile()),
+	testOutfile: helpers.TestOutputFilename(helpers.OutputFilename(helpers.EnvGoFile())),
 	pkg:         helpers.EnvGoPackage(),
 }
 

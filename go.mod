@@ -4,7 +4,7 @@ go 1.21.3
 
 require (
 	github.com/johnstarich/go/gopages v0.1.25
-	github.com/point-c/generator-helpers v0.0.2
+	github.com/point-c/generator-helpers v0.1.0
 	github.com/stretchr/testify v1.8.4
 	golang.zx2c4.com/wireguard v0.0.0-20231022001213-2e0774f246fb
 	gopkg.in/yaml.v3 v3.0.1

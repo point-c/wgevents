@@ -49,17 +49,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventStoppedReceivingIncoming", func(t *testing.T) {
+		t.Run("EventDroppedPacketsFromMultiSegmentRead", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventStoppedReceivingIncoming
+			var ev EventDroppedPacketsFromMultiSegmentRead
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefStoppedReceivingIncoming, ev.Format())
+			require.Equal(t, FormatVerbosefDroppedPacketsFromMultiSegmentRead, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefStoppedReceivingIncoming, ev.Nice())
+			require.Equal(t, NiceVerbosefDroppedPacketsFromMultiSegmentRead, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -70,17 +70,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStoppedReceivingIncoming, ev.Format())
+				require.Equal(t, FormatVerbosefDroppedPacketsFromMultiSegmentRead, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedReceivingIncoming), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDroppedPacketsFromMultiSegmentRead), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefStoppedReceivingIncoming, nil, nil)
+			ev.Verbosef(FormatVerbosefDroppedPacketsFromMultiSegmentRead, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -89,17 +89,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStoppedReceivingIncoming, ev.Format())
+				require.Equal(t, FormatVerbosefDroppedPacketsFromMultiSegmentRead, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedReceivingIncoming), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDroppedPacketsFromMultiSegmentRead), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefStoppedReceivingIncoming, nil)
+			ev.Verbosef(FormatVerbosefDroppedPacketsFromMultiSegmentRead, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -107,11 +107,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventStoppedReceivingIncoming{}, ev)
-				require.Equal(t, NiceVerbosefStoppedReceivingIncoming, ev.Nice())
+				require.IsType(t, &EventDroppedPacketsFromMultiSegmentRead{}, ev)
+				require.Equal(t, NiceVerbosefDroppedPacketsFromMultiSegmentRead, ev.Nice())
 
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStoppedReceivingIncoming, ev.Format())
+				require.Equal(t, FormatVerbosefDroppedPacketsFromMultiSegmentRead, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -119,2469 +119,8 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Verbosef(FormatVerbosefStoppedReceivingIncoming, "")
+			ev.Verbosef(FormatVerbosefDroppedPacketsFromMultiSegmentRead, errors.New(""))
 
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventDeviceClosing", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventDeviceClosing
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefDeviceClosing, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefDeviceClosing, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDeviceClosing, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDeviceClosing), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefDeviceClosing, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventDeviceClosing{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDeviceClosing, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceVerbosefDeviceClosing, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Device closing")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventDecryptionWorkerStopped", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventDecryptionWorkerStopped
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefDecryptionWorkerStopped, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefDecryptionWorkerStopped, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDecryptionWorkerStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDecryptionWorkerStopped), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefDecryptionWorkerStopped, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDecryptionWorkerStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDecryptionWorkerStopped), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefDecryptionWorkerStopped, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventDecryptionWorkerStopped{}, ev)
-				require.Equal(t, NiceVerbosefDecryptionWorkerStopped, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDecryptionWorkerStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefDecryptionWorkerStopped, int(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventReceivedHandshakeInitiation", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventReceivedHandshakeInitiation
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefReceivedHandshakeInitiation, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefReceivedHandshakeInitiation, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivedHandshakeInitiation, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivedHandshakeInitiation), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefReceivedHandshakeInitiation, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivedHandshakeInitiation, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivedHandshakeInitiation), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefReceivedHandshakeInitiation, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventReceivedHandshakeInitiation{}, ev)
-				require.Equal(t, NiceVerbosefReceivedHandshakeInitiation, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivedHandshakeInitiation, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefReceivedHandshakeInitiation, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventSendingHandshakeResponse", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventSendingHandshakeResponse
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefSendingHandshakeResponse, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefSendingHandshakeResponse, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendingHandshakeResponse, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingHandshakeResponse), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSendingHandshakeResponse, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendingHandshakeResponse, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingHandshakeResponse), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSendingHandshakeResponse, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventSendingHandshakeResponse{}, ev)
-				require.Equal(t, NiceVerbosefSendingHandshakeResponse, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendingHandshakeResponse, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefSendingHandshakeResponse, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventRetryingHandshake", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventRetryingHandshake
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefRetryingHandshake, ev.Nice())
-			require.Equal(t, 3, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshake), nil, nil, nil, nil), ev.Nice())
-				require.Equal(t, 4, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefRetryingHandshake, nil, nil, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (3 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshake), nil, nil, nil), ev.Nice())
-				require.Equal(t, 3, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefRetryingHandshake, nil, nil, nil)
-		})
-
-		t.Run("valid (1 args), invalid (2 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshake), &device.Peer{}, nil, nil), ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 3, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefRetryingHandshake, &device.Peer{}, nil, nil)
-
-		})
-
-		t.Run("valid (2 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshake), &device.Peer{}, int(0), nil), ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 3, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefRetryingHandshake, &device.Peer{}, int(0), nil)
-
-		})
-
-		t.Run("valid (3 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventRetryingHandshake{}, ev)
-				require.Equal(t, NiceVerbosefRetryingHandshake, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 3, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefRetryingHandshake, &device.Peer{}, int(0), uint32(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventPeerStarting", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventPeerStarting
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefPeerStarting, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefPeerStarting, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPeerStarting, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPeerStarting), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefPeerStarting, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPeerStarting, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPeerStarting), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefPeerStarting, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventPeerStarting{}, ev)
-				require.Equal(t, NiceVerbosefPeerStarting, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPeerStarting, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefPeerStarting, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventUAPIUpdatingListenPort", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventUAPIUpdatingListenPort
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefUAPIUpdatingListenPort, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefUAPIUpdatingListenPort, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingListenPort, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingListenPort), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIUpdatingListenPort, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventUAPIUpdatingListenPort{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingListenPort, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceVerbosefUAPIUpdatingListenPort, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("UAPI: Updating listen port")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventDecodeCookieReplyFailed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventDecodeCookieReplyFailed
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefDecodeCookieReplyFailed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefDecodeCookieReplyFailed, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDecodeCookieReplyFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDecodeCookieReplyFailed), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefDecodeCookieReplyFailed, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventDecodeCookieReplyFailed{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDecodeCookieReplyFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceVerbosefDecodeCookieReplyFailed, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Failed to decode cookie reply")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventSendCookieDenied", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventSendCookieDenied
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefSendCookieDenied, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefSendCookieDenied, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendCookieDenied, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendCookieDenied), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSendCookieDenied, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendCookieDenied, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendCookieDenied), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSendCookieDenied, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventSendCookieDenied{}, ev)
-				require.Equal(t, NiceVerbosefSendCookieDenied, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendCookieDenied, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefSendCookieDenied, "")
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventReceivingKeepalivePacket", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventReceivingKeepalivePacket
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefReceivingKeepalivePacket, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefReceivingKeepalivePacket, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivingKeepalivePacket, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivingKeepalivePacket), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefReceivingKeepalivePacket, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivingKeepalivePacket, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivingKeepalivePacket), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefReceivingKeepalivePacket, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventReceivingKeepalivePacket{}, ev)
-				require.Equal(t, NiceVerbosefReceivingKeepalivePacket, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivingKeepalivePacket, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefReceivingKeepalivePacket, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventStartedReceivingIncoming", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventStartedReceivingIncoming
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefStartedReceivingIncoming, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefStartedReceivingIncoming, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStartedReceivingIncoming, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStartedReceivingIncoming), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefStartedReceivingIncoming, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStartedReceivingIncoming, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStartedReceivingIncoming), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefStartedReceivingIncoming, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventStartedReceivingIncoming{}, ev)
-				require.Equal(t, NiceVerbosefStartedReceivingIncoming, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStartedReceivingIncoming, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefStartedReceivingIncoming, "")
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventSendHandshakeInitiationFailed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventSendHandshakeInitiationFailed
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfSendHandshakeInitiationFailed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfSendHandshakeInitiationFailed, ev.Nice())
-			require.Equal(t, 2, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfSendHandshakeInitiationFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfSendHandshakeInitiationFailed), nil, nil, nil), ev.Nice())
-				require.Equal(t, 3, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfSendHandshakeInitiationFailed, nil, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfSendHandshakeInitiationFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfSendHandshakeInitiationFailed), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfSendHandshakeInitiationFailed, nil, nil)
-		})
-
-		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfSendHandshakeInitiationFailed), &device.Peer{}, nil), ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfSendHandshakeInitiationFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfSendHandshakeInitiationFailed, &device.Peer{}, nil)
-
-		})
-
-		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventSendHandshakeInitiationFailed{}, ev)
-				require.Equal(t, NiceErrorfSendHandshakeInitiationFailed, ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfSendHandshakeInitiationFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfSendHandshakeInitiationFailed, &device.Peer{}, errors.New(""))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventAssumingDefaultMTU", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventAssumingDefaultMTU
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfAssumingDefaultMTU, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfAssumingDefaultMTU, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfAssumingDefaultMTU, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfAssumingDefaultMTU), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfAssumingDefaultMTU, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfAssumingDefaultMTU, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfAssumingDefaultMTU), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfAssumingDefaultMTU, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAssumingDefaultMTU{}, ev)
-				require.Equal(t, NiceErrorfAssumingDefaultMTU, ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfAssumingDefaultMTU, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfAssumingDefaultMTU, errors.New(""))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventInvalidPacketInHandshakeQueue", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventInvalidPacketInHandshakeQueue
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfInvalidPacketInHandshakeQueue, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfInvalidPacketInHandshakeQueue, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfInvalidPacketInHandshakeQueue, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfInvalidPacketInHandshakeQueue), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfInvalidPacketInHandshakeQueue, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventInvalidPacketInHandshakeQueue{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfInvalidPacketInHandshakeQueue, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceErrorfInvalidPacketInHandshakeQueue, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf("Invalid packet ended up in the handshake queue")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventDeviceClosed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventDeviceClosed
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefDeviceClosed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefDeviceClosed, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDeviceClosed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDeviceClosed), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefDeviceClosed, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventDeviceClosed{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDeviceClosed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceVerbosefDeviceClosed, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Device closed")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventStoppedEncryptionWorker", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventStoppedEncryptionWorker
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefStoppedEncryptionWorker, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefStoppedEncryptionWorker, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStoppedEncryptionWorker, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedEncryptionWorker), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefStoppedEncryptionWorker, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStoppedEncryptionWorker, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedEncryptionWorker), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefStoppedEncryptionWorker, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventStoppedEncryptionWorker{}, ev)
-				require.Equal(t, NiceVerbosefStoppedEncryptionWorker, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStoppedEncryptionWorker, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefStoppedEncryptionWorker, int(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventHandshakeSendFailed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventHandshakeSendFailed
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfHandshakeSendFailed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfHandshakeSendFailed, ev.Nice())
-			require.Equal(t, 2, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfHandshakeSendFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfHandshakeSendFailed), nil, nil, nil), ev.Nice())
-				require.Equal(t, 3, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfHandshakeSendFailed, nil, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfHandshakeSendFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfHandshakeSendFailed), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfHandshakeSendFailed, nil, nil)
-		})
-
-		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfHandshakeSendFailed), &device.Peer{}, nil), ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfHandshakeSendFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfHandshakeSendFailed, &device.Peer{}, nil)
-
-		})
-
-		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventHandshakeSendFailed{}, ev)
-				require.Equal(t, NiceErrorfHandshakeSendFailed, ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfHandshakeSendFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfHandshakeSendFailed, &device.Peer{}, errors.New(""))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventDeriveKeypairFailed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventDeriveKeypairFailed
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfDeriveKeypairFailed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfDeriveKeypairFailed, ev.Nice())
-			require.Equal(t, 2, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfDeriveKeypairFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfDeriveKeypairFailed), nil, nil, nil), ev.Nice())
-				require.Equal(t, 3, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfDeriveKeypairFailed, nil, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfDeriveKeypairFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfDeriveKeypairFailed), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfDeriveKeypairFailed, nil, nil)
-		})
-
-		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfDeriveKeypairFailed), &device.Peer{}, nil), ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfDeriveKeypairFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfDeriveKeypairFailed, &device.Peer{}, nil)
-
-		})
-
-		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventDeriveKeypairFailed{}, ev)
-				require.Equal(t, NiceErrorfDeriveKeypairFailed, ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfDeriveKeypairFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfDeriveKeypairFailed, &device.Peer{}, errors.New(""))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventBindUpdated", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventBindUpdated
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefBindUpdated, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefBindUpdated, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefBindUpdated, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefBindUpdated), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefBindUpdated, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventBindUpdated{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefBindUpdated, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceVerbosefBindUpdated, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("UDP bind has been updated")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventSequentialReceiverStopped", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventSequentialReceiverStopped
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefSequentialReceiverStopped, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefSequentialReceiverStopped, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialReceiverStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReceiverStopped), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSequentialReceiverStopped, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialReceiverStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReceiverStopped), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSequentialReceiverStopped, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventSequentialReceiverStopped{}, ev)
-				require.Equal(t, NiceVerbosefSequentialReceiverStopped, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialReceiverStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefSequentialReceiverStopped, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventSequentialReceiverStarted", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventSequentialReceiverStarted
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefSequentialReceiverStarted, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefSequentialReceiverStarted, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialReceiverStarted, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReceiverStarted), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSequentialReceiverStarted, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialReceiverStarted, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReceiverStarted), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSequentialReceiverStarted, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventSequentialReceiverStarted{}, ev)
-				require.Equal(t, NiceVerbosefSequentialReceiverStarted, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialReceiverStarted, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefSequentialReceiverStarted, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventUDPGSODisabled", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventUDPGSODisabled
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefUDPGSODisabled, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefUDPGSODisabled, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUDPGSODisabled, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUDPGSODisabled), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUDPGSODisabled, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUDPGSODisabled, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUDPGSODisabled), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUDPGSODisabled, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventUDPGSODisabled{}, ev)
-				require.Equal(t, NiceVerbosefUDPGSODisabled, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUDPGSODisabled, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefUDPGSODisabled, "")
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventRetryingHandshakeNoResponse", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventRetryingHandshakeNoResponse
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefRetryingHandshakeNoResponse, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefRetryingHandshakeNoResponse, ev.Nice())
-			require.Equal(t, 2, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRetryingHandshakeNoResponse, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshakeNoResponse), nil, nil, nil), ev.Nice())
-				require.Equal(t, 3, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefRetryingHandshakeNoResponse, nil, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRetryingHandshakeNoResponse, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshakeNoResponse), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefRetryingHandshakeNoResponse, nil, nil)
-		})
-
-		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshakeNoResponse), &device.Peer{}, nil), ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRetryingHandshakeNoResponse, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefRetryingHandshakeNoResponse, &device.Peer{}, nil)
-
-		})
-
-		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventRetryingHandshakeNoResponse{}, ev)
-				require.Equal(t, NiceVerbosefRetryingHandshakeNoResponse, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRetryingHandshakeNoResponse, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefRetryingHandshakeNoResponse, &device.Peer{}, int(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventMTUTooLarge", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventMTUTooLarge
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefMTUTooLarge, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefMTUTooLarge, ev.Nice())
-			require.Equal(t, 2, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefMTUTooLarge, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMTUTooLarge), nil, nil, nil), ev.Nice())
-				require.Equal(t, 3, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefMTUTooLarge, nil, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefMTUTooLarge, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMTUTooLarge), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefMTUTooLarge, nil, nil)
-		})
-
-		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMTUTooLarge), int(0), nil), ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefMTUTooLarge, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefMTUTooLarge, int(0), nil)
-
-		})
-
-		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventMTUTooLarge{}, ev)
-				require.Equal(t, NiceVerbosefMTUTooLarge, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefMTUTooLarge, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefMTUTooLarge, int(0), int(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventHandshakeDidNotComplete", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventHandshakeDidNotComplete
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefHandshakeDidNotComplete, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefHandshakeDidNotComplete, ev.Nice())
-			require.Equal(t, 2, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefHandshakeDidNotComplete, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefHandshakeDidNotComplete), nil, nil, nil), ev.Nice())
-				require.Equal(t, 3, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefHandshakeDidNotComplete, nil, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefHandshakeDidNotComplete, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefHandshakeDidNotComplete), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefHandshakeDidNotComplete, nil, nil)
-		})
-
-		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefHandshakeDidNotComplete), &device.Peer{}, nil), ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefHandshakeDidNotComplete, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefHandshakeDidNotComplete, &device.Peer{}, nil)
-
-		})
-
-		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventHandshakeDidNotComplete{}, ev)
-				require.Equal(t, NiceVerbosefHandshakeDidNotComplete, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefHandshakeDidNotComplete, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefHandshakeDidNotComplete, &device.Peer{}, int(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventMTUUpdated", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventMTUUpdated
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefMTUUpdated, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefMTUUpdated, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefMTUUpdated, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMTUUpdated), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefMTUUpdated, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefMTUUpdated, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMTUUpdated), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefMTUUpdated, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventMTUUpdated{}, ev)
-				require.Equal(t, NiceVerbosefMTUUpdated, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefMTUUpdated, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefMTUUpdated, int(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventCreateResponseMessageFailed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventCreateResponseMessageFailed
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfCreateResponseMessageFailed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfCreateResponseMessageFailed, ev.Nice())
-			require.Equal(t, 2, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfCreateResponseMessageFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfCreateResponseMessageFailed), nil, nil, nil), ev.Nice())
-				require.Equal(t, 3, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfCreateResponseMessageFailed, nil, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfCreateResponseMessageFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfCreateResponseMessageFailed), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfCreateResponseMessageFailed, nil, nil)
-		})
-
-		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfCreateResponseMessageFailed), &device.Peer{}, nil), ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfCreateResponseMessageFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfCreateResponseMessageFailed, &device.Peer{}, nil)
-
-		})
-
-		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventCreateResponseMessageFailed{}, ev)
-				require.Equal(t, NiceErrorfCreateResponseMessageFailed, ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfCreateResponseMessageFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfCreateResponseMessageFailed, &device.Peer{}, errors.New(""))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventInterfaceCloseIgnoreRequestedState", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventInterfaceCloseIgnoreRequestedState
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefInterfaceCloseIgnoreRequestedState, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefInterfaceCloseIgnoreRequestedState, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceCloseIgnoreRequestedState, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceCloseIgnoreRequestedState), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefInterfaceCloseIgnoreRequestedState, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceCloseIgnoreRequestedState, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceCloseIgnoreRequestedState), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefInterfaceCloseIgnoreRequestedState, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventInterfaceCloseIgnoreRequestedState{}, ev)
-				require.Equal(t, NiceVerbosefInterfaceCloseIgnoreRequestedState, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceCloseIgnoreRequestedState, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefInterfaceCloseIgnoreRequestedState, testStringer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventInterfaceStateChanged", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventInterfaceStateChanged
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefInterfaceStateChanged, ev.Nice())
-			require.Equal(t, 3, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceStateChanged), nil, nil, nil, nil), ev.Nice())
-				require.Equal(t, 4, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefInterfaceStateChanged, nil, nil, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (3 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceStateChanged), nil, nil, nil), ev.Nice())
-				require.Equal(t, 3, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefInterfaceStateChanged, nil, nil, nil)
-		})
-
-		t.Run("valid (1 args), invalid (2 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceStateChanged), testStringer{}, nil, nil), ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 3, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefInterfaceStateChanged, testStringer{}, nil, nil)
-
-		})
-
-		t.Run("valid (2 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceStateChanged), testStringer{}, testStringer{}, nil), ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 3, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefInterfaceStateChanged, testStringer{}, testStringer{}, nil)
-
-		})
-
-		t.Run("valid (3 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventInterfaceStateChanged{}, ev)
-				require.Equal(t, NiceVerbosefInterfaceStateChanged, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 3, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefInterfaceStateChanged, testStringer{}, testStringer{}, testStringer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventCookieResponseInvalid", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventCookieResponseInvalid
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefCookieResponseInvalid, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefCookieResponseInvalid, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefCookieResponseInvalid, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefCookieResponseInvalid), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefCookieResponseInvalid, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventCookieResponseInvalid{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefCookieResponseInvalid, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceVerbosefCookieResponseInvalid, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Could not decrypt invalid cookie response")
 		})
 
 	})
@@ -2668,176 +207,18 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventInvalidOperation", func(t *testing.T) {
+		t.Run("EventDeviceClosing", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventInvalidOperation
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfInvalidOperation, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfInvalidOperation, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfInvalidOperation, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfInvalidOperation), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfInvalidOperation, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfInvalidOperation, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfInvalidOperation), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfInvalidOperation, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventInvalidOperation{}, ev)
-				require.Equal(t, NiceErrorfInvalidOperation, ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfInvalidOperation, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfInvalidOperation, "")
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventNegativeMTU", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventNegativeMTU
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfNegativeMTU, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfNegativeMTU, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfNegativeMTU, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfNegativeMTU), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfNegativeMTU, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfNegativeMTU, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfNegativeMTU), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfNegativeMTU, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventNegativeMTU{}, ev)
-				require.Equal(t, NiceErrorfNegativeMTU, ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfNegativeMTU, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfNegativeMTU, int(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventPeerStopping", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventPeerStopping
+			var ev EventDeviceClosing
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefPeerStopping, ev.Format())
+			require.Equal(t, FormatVerbosefDeviceClosing, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefPeerStopping, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
+			require.Equal(t, NiceVerbosefDeviceClosing, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
 
 		})
 
@@ -2847,57 +228,37 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPeerStopping, ev.Format())
+				require.Equal(t, FormatVerbosefDeviceClosing, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPeerStopping), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefPeerStopping, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPeerStopping, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPeerStopping), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDeviceClosing), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefPeerStopping, nil)
+			ev.Verbosef(FormatVerbosefDeviceClosing, nil)
 		})
 
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+		t.Run("valid (no args)", func(t *testing.T) {
 			t.Parallel()
 
 			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventPeerStopping{}, ev)
-				require.Equal(t, NiceVerbosefPeerStopping, ev.Nice())
-
+				require.IsType(t, &EventDeviceClosing{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPeerStopping, ev.Format())
+				require.Equal(t, FormatVerbosefDeviceClosing, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, 1, len(ev.Args()))
+				require.Equal(t, NiceVerbosefDeviceClosing, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
 			})
-
-			ev.Verbosef(FormatVerbosefPeerStopping, &device.Peer{})
-
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef("Device closing")
 		})
 
 	})
@@ -2905,17 +266,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventUAPIUpdatingEndpoint", func(t *testing.T) {
+		t.Run("EventPeerStarting", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventUAPIUpdatingEndpoint
+			var ev EventPeerStarting
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefUAPIUpdatingEndpoint, ev.Format())
+			require.Equal(t, FormatVerbosefPeerStarting, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefUAPIUpdatingEndpoint, ev.Nice())
+			require.Equal(t, NiceVerbosefPeerStarting, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -2926,17 +287,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingEndpoint, ev.Format())
+				require.Equal(t, FormatVerbosefPeerStarting, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingEndpoint), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPeerStarting), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIUpdatingEndpoint, nil, nil)
+			ev.Verbosef(FormatVerbosefPeerStarting, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -2945,17 +306,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingEndpoint, ev.Format())
+				require.Equal(t, FormatVerbosefPeerStarting, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingEndpoint), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPeerStarting), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIUpdatingEndpoint, nil)
+			ev.Verbosef(FormatVerbosefPeerStarting, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -2963,11 +324,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventUAPIUpdatingEndpoint{}, ev)
-				require.Equal(t, NiceVerbosefUAPIUpdatingEndpoint, ev.Nice())
+				require.IsType(t, &EventPeerStarting{}, ev)
+				require.Equal(t, NiceVerbosefPeerStarting, ev.Nice())
 
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingEndpoint, ev.Format())
+				require.Equal(t, FormatVerbosefPeerStarting, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -2975,86 +336,7 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Verbosef(FormatVerbosefUAPIUpdatingEndpoint, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventIPv4PacketDisallowed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventIPv4PacketDisallowed
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefIPv4PacketDisallowed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefIPv4PacketDisallowed, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefIPv4PacketDisallowed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefIPv4PacketDisallowed), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefIPv4PacketDisallowed, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefIPv4PacketDisallowed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefIPv4PacketDisallowed), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefIPv4PacketDisallowed, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventIPv4PacketDisallowed{}, ev)
-				require.Equal(t, NiceVerbosefIPv4PacketDisallowed, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefIPv4PacketDisallowed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefIPv4PacketDisallowed, &device.Peer{})
+			ev.Verbosef(FormatVerbosefPeerStarting, &device.Peer{})
 
 		})
 
@@ -3122,18 +404,18 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventStoppedHandshakeWorker", func(t *testing.T) {
+		t.Run("EventPacketIPVersionUnknown", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventStoppedHandshakeWorker
+			var ev EventPacketIPVersionUnknown
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefStoppedHandshakeWorker, ev.Format())
+			require.Equal(t, FormatVerbosefPacketIPVersionUnknown, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefStoppedHandshakeWorker, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
+			require.Equal(t, NiceVerbosefPacketIPVersionUnknown, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
 
 		})
 
@@ -3143,136 +425,37 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStoppedHandshakeWorker, ev.Format())
+				require.Equal(t, FormatVerbosefPacketIPVersionUnknown, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedHandshakeWorker), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefStoppedHandshakeWorker, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStoppedHandshakeWorker, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedHandshakeWorker), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPacketIPVersionUnknown), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefStoppedHandshakeWorker, nil)
+			ev.Verbosef(FormatVerbosefPacketIPVersionUnknown, nil)
 		})
 
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+		t.Run("valid (no args)", func(t *testing.T) {
 			t.Parallel()
 
 			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventStoppedHandshakeWorker{}, ev)
-				require.Equal(t, NiceVerbosefStoppedHandshakeWorker, ev.Nice())
-
+				require.IsType(t, &EventPacketIPVersionUnknown{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStoppedHandshakeWorker, ev.Format())
+				require.Equal(t, FormatVerbosefPacketIPVersionUnknown, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, 1, len(ev.Args()))
-			})
+				require.Equal(t, NiceVerbosefPacketIPVersionUnknown, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
 
-			ev.Verbosef(FormatVerbosefStoppedHandshakeWorker, int(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventUAPICreated", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventUAPICreated
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefUAPICreated, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefUAPICreated, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPICreated, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPICreated), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPICreated, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPICreated, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPICreated), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPICreated, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventUAPICreated{}, ev)
-				require.Equal(t, NiceVerbosefUAPICreated, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPICreated, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefUAPICreated, &device.Peer{})
-
+			ev.Verbosef("Received packet with unknown IP version")
 		})
 
 	})
@@ -3380,17 +563,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventValue", func(t *testing.T) {
+		t.Run("EventAssumingDefaultMTU", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventValue
+			var ev EventAssumingDefaultMTU
 			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfValue, ev.Format())
+			require.Equal(t, FormatErrorfAssumingDefaultMTU, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceErrorfValue, ev.Nice())
+			require.Equal(t, NiceErrorfAssumingDefaultMTU, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -3401,17 +584,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfValue, ev.Format())
+				require.Equal(t, FormatErrorfAssumingDefaultMTU, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfValue), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfAssumingDefaultMTU), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfValue, nil, nil)
+			ev.Errorf(FormatErrorfAssumingDefaultMTU, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -3420,17 +603,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfValue, ev.Format())
+				require.Equal(t, FormatErrorfAssumingDefaultMTU, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfValue), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfAssumingDefaultMTU), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfValue, nil)
+			ev.Errorf(FormatErrorfAssumingDefaultMTU, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -3438,11 +621,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventValue{}, ev)
-				require.Equal(t, NiceErrorfValue, ev.Nice())
+				require.IsType(t, &EventAssumingDefaultMTU{}, ev)
+				require.Equal(t, NiceErrorfAssumingDefaultMTU, ev.Nice())
 
 				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfValue, ev.Format())
+				require.Equal(t, FormatErrorfAssumingDefaultMTU, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -3450,67 +633,8 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Errorf(FormatErrorfValue, errors.New(""))
+			ev.Errorf(FormatErrorfAssumingDefaultMTU, errors.New(""))
 
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventResponseMessageDecodeFailed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventResponseMessageDecodeFailed
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfResponseMessageDecodeFailed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfResponseMessageDecodeFailed, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfResponseMessageDecodeFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfResponseMessageDecodeFailed), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfResponseMessageDecodeFailed, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventResponseMessageDecodeFailed{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfResponseMessageDecodeFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceErrorfResponseMessageDecodeFailed, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf("Failed to decode response message")
 		})
 
 	})
@@ -3577,17 +701,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventMessageUnknownType", func(t *testing.T) {
+		t.Run("EventDecodeCookieReplyFailed", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventMessageUnknownType
+			var ev EventDecodeCookieReplyFailed
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefMessageUnknownType, ev.Format())
+			require.Equal(t, FormatVerbosefDecodeCookieReplyFailed, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefMessageUnknownType, ev.Nice())
+			require.Equal(t, NiceVerbosefDecodeCookieReplyFailed, ev.Nice())
 			require.Equal(t, 0, len(ev.Args()))
 
 		})
@@ -3598,37 +722,37 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefMessageUnknownType, ev.Format())
+				require.Equal(t, FormatVerbosefDecodeCookieReplyFailed, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMessageUnknownType), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDecodeCookieReplyFailed), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefMessageUnknownType, nil)
+			ev.Verbosef(FormatVerbosefDecodeCookieReplyFailed, nil)
 		})
 
 		t.Run("valid (no args)", func(t *testing.T) {
 			t.Parallel()
 
 			ev := Events(func(ev Event) {
-				require.IsType(t, &EventMessageUnknownType{}, ev)
+				require.IsType(t, &EventDecodeCookieReplyFailed{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefMessageUnknownType, ev.Format())
+				require.Equal(t, FormatVerbosefDecodeCookieReplyFailed, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, NiceVerbosefMessageUnknownType, ev.Nice())
+				require.Equal(t, NiceVerbosefDecodeCookieReplyFailed, ev.Nice())
 				require.Equal(t, 0, len(ev.Args()))
 
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Received message with unknown type")
+			ev.Verbosef("Failed to decode cookie reply")
 		})
 
 	})
@@ -3636,17 +760,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventPacketIPVersionUnknown", func(t *testing.T) {
+		t.Run("EventCookieResponseInvalid", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventPacketIPVersionUnknown
+			var ev EventCookieResponseInvalid
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefPacketIPVersionUnknown, ev.Format())
+			require.Equal(t, FormatVerbosefCookieResponseInvalid, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefPacketIPVersionUnknown, ev.Nice())
+			require.Equal(t, NiceVerbosefCookieResponseInvalid, ev.Nice())
 			require.Equal(t, 0, len(ev.Args()))
 
 		})
@@ -3657,37 +781,37 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPacketIPVersionUnknown, ev.Format())
+				require.Equal(t, FormatVerbosefCookieResponseInvalid, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPacketIPVersionUnknown), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefCookieResponseInvalid), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefPacketIPVersionUnknown, nil)
+			ev.Verbosef(FormatVerbosefCookieResponseInvalid, nil)
 		})
 
 		t.Run("valid (no args)", func(t *testing.T) {
 			t.Parallel()
 
 			ev := Events(func(ev Event) {
-				require.IsType(t, &EventPacketIPVersionUnknown{}, ev)
+				require.IsType(t, &EventCookieResponseInvalid{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPacketIPVersionUnknown, ev.Format())
+				require.Equal(t, FormatVerbosefCookieResponseInvalid, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, NiceVerbosefPacketIPVersionUnknown, ev.Nice())
+				require.Equal(t, NiceVerbosefCookieResponseInvalid, ev.Nice())
 				require.Equal(t, 0, len(ev.Args()))
 
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Received packet with unknown IP version")
+			ev.Verbosef("Could not decrypt invalid cookie response")
 		})
 
 	})
@@ -3695,76 +819,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventTUNReaderStopped", func(t *testing.T) {
+		t.Run("EventSendingHandshakeInitiation", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventTUNReaderStopped
+			var ev EventSendingHandshakeInitiation
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefTUNReaderStopped, ev.Format())
+			require.Equal(t, FormatVerbosefSendingHandshakeInitiation, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefTUNReaderStopped, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefTUNReaderStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefTUNReaderStopped), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefTUNReaderStopped, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventTUNReaderStopped{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefTUNReaderStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceVerbosefTUNReaderStopped, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Routine: TUN reader - stopped")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventPacketIPVersionInvalid", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventPacketIPVersionInvalid
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefPacketIPVersionInvalid, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefPacketIPVersionInvalid, ev.Nice())
+			require.Equal(t, NiceVerbosefSendingHandshakeInitiation, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -3775,17 +840,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPacketIPVersionInvalid, ev.Format())
+				require.Equal(t, FormatVerbosefSendingHandshakeInitiation, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPacketIPVersionInvalid), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingHandshakeInitiation), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefPacketIPVersionInvalid, nil, nil)
+			ev.Verbosef(FormatVerbosefSendingHandshakeInitiation, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -3794,17 +859,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPacketIPVersionInvalid, ev.Format())
+				require.Equal(t, FormatVerbosefSendingHandshakeInitiation, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPacketIPVersionInvalid), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingHandshakeInitiation), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefPacketIPVersionInvalid, nil)
+			ev.Verbosef(FormatVerbosefSendingHandshakeInitiation, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -3812,11 +877,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventPacketIPVersionInvalid{}, ev)
-				require.Equal(t, NiceVerbosefPacketIPVersionInvalid, ev.Nice())
+				require.IsType(t, &EventSendingHandshakeInitiation{}, ev)
+				require.Equal(t, NiceVerbosefSendingHandshakeInitiation, ev.Nice())
 
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefPacketIPVersionInvalid, ev.Format())
+				require.Equal(t, FormatVerbosefSendingHandshakeInitiation, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -3824,7 +889,7 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Verbosef(FormatVerbosefPacketIPVersionInvalid, &device.Peer{})
+			ev.Verbosef(FormatVerbosefSendingHandshakeInitiation, &device.Peer{})
 
 		})
 
@@ -3833,117 +898,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventRemovingAllKeys", func(t *testing.T) {
+		t.Run("EventLoadMTUFailed", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventRemovingAllKeys
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefRemovingAllKeys, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefRemovingAllKeys, ev.Nice())
-			require.Equal(t, 2, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRemovingAllKeys, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRemovingAllKeys), nil, nil, nil), ev.Nice())
-				require.Equal(t, 3, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefRemovingAllKeys, nil, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRemovingAllKeys, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRemovingAllKeys), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefRemovingAllKeys, nil, nil)
-		})
-
-		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventAny{}, ev)
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRemovingAllKeys), &device.Peer{}, nil), ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRemovingAllKeys, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefRemovingAllKeys, &device.Peer{}, nil)
-
-		})
-
-		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventRemovingAllKeys{}, ev)
-				require.Equal(t, NiceVerbosefRemovingAllKeys, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefRemovingAllKeys, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 2, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefRemovingAllKeys, &device.Peer{}, int(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventTunPacketReadFailed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventTunPacketReadFailed
+			var ev EventLoadMTUFailed
 			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfTunPacketReadFailed, ev.Format())
+			require.Equal(t, FormatErrorfLoadMTUFailed, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceErrorfTunPacketReadFailed, ev.Nice())
+			require.Equal(t, NiceErrorfLoadMTUFailed, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -3954,17 +919,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfTunPacketReadFailed, ev.Format())
+				require.Equal(t, FormatErrorfLoadMTUFailed, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfTunPacketReadFailed), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfLoadMTUFailed), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfTunPacketReadFailed, nil, nil)
+			ev.Errorf(FormatErrorfLoadMTUFailed, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -3973,17 +938,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfTunPacketReadFailed, ev.Format())
+				require.Equal(t, FormatErrorfLoadMTUFailed, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfTunPacketReadFailed), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfLoadMTUFailed), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfTunPacketReadFailed, nil)
+			ev.Errorf(FormatErrorfLoadMTUFailed, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -3991,11 +956,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventTunPacketReadFailed{}, ev)
-				require.Equal(t, NiceErrorfTunPacketReadFailed, ev.Nice())
+				require.IsType(t, &EventLoadMTUFailed{}, ev)
+				require.Equal(t, NiceErrorfLoadMTUFailed, ev.Nice())
 
 				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfTunPacketReadFailed, ev.Format())
+				require.Equal(t, FormatErrorfLoadMTUFailed, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -4003,7 +968,7 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Errorf(FormatErrorfTunPacketReadFailed, errors.New(""))
+			ev.Errorf(FormatErrorfLoadMTUFailed, errors.New(""))
 
 		})
 
@@ -4112,17 +1077,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventUAPIRemovingAllPeers", func(t *testing.T) {
+		t.Run("EventEventWorkerStopped", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventUAPIRemovingAllPeers
+			var ev EventEventWorkerStopped
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefUAPIRemovingAllPeers, ev.Format())
+			require.Equal(t, FormatVerbosefEventWorkerStopped, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefUAPIRemovingAllPeers, ev.Nice())
+			require.Equal(t, NiceVerbosefEventWorkerStopped, ev.Nice())
 			require.Equal(t, 0, len(ev.Args()))
 
 		})
@@ -4133,37 +1098,37 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIRemovingAllPeers, ev.Format())
+				require.Equal(t, FormatVerbosefEventWorkerStopped, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIRemovingAllPeers), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefEventWorkerStopped), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIRemovingAllPeers, nil)
+			ev.Verbosef(FormatVerbosefEventWorkerStopped, nil)
 		})
 
 		t.Run("valid (no args)", func(t *testing.T) {
 			t.Parallel()
 
 			ev := Events(func(ev Event) {
-				require.IsType(t, &EventUAPIRemovingAllPeers{}, ev)
+				require.IsType(t, &EventEventWorkerStopped{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIRemovingAllPeers, ev.Format())
+				require.Equal(t, FormatVerbosefEventWorkerStopped, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, NiceVerbosefUAPIRemovingAllPeers, ev.Nice())
+				require.Equal(t, NiceVerbosefEventWorkerStopped, ev.Nice())
 				require.Equal(t, 0, len(ev.Args()))
 
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("UAPI: Removing all peers")
+			ev.Verbosef("Routine: event worker - stopped")
 		})
 
 	})
@@ -4171,17 +1136,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventUAPIRemovingPeer", func(t *testing.T) {
+		t.Run("EventStoppedReceivingIncoming", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventUAPIRemovingPeer
+			var ev EventStoppedReceivingIncoming
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefUAPIRemovingPeer, ev.Format())
+			require.Equal(t, FormatVerbosefStoppedReceivingIncoming, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefUAPIRemovingPeer, ev.Nice())
+			require.Equal(t, NiceVerbosefStoppedReceivingIncoming, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -4192,17 +1157,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIRemovingPeer, ev.Format())
+				require.Equal(t, FormatVerbosefStoppedReceivingIncoming, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIRemovingPeer), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedReceivingIncoming), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIRemovingPeer, nil, nil)
+			ev.Verbosef(FormatVerbosefStoppedReceivingIncoming, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -4211,17 +1176,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIRemovingPeer, ev.Format())
+				require.Equal(t, FormatVerbosefStoppedReceivingIncoming, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIRemovingPeer), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedReceivingIncoming), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIRemovingPeer, nil)
+			ev.Verbosef(FormatVerbosefStoppedReceivingIncoming, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -4229,11 +1194,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventUAPIRemovingPeer{}, ev)
-				require.Equal(t, NiceVerbosefUAPIRemovingPeer, ev.Nice())
+				require.IsType(t, &EventStoppedReceivingIncoming{}, ev)
+				require.Equal(t, NiceVerbosefStoppedReceivingIncoming, ev.Nice())
 
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIRemovingPeer, ev.Format())
+				require.Equal(t, FormatVerbosefStoppedReceivingIncoming, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -4241,382 +1206,7 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Verbosef(FormatVerbosefUAPIRemovingPeer, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventUAPIUpdatingPresharedKey", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventUAPIUpdatingPresharedKey
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefUAPIUpdatingPresharedKey, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefUAPIUpdatingPresharedKey, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingPresharedKey, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingPresharedKey), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIUpdatingPresharedKey, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingPresharedKey, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingPresharedKey), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIUpdatingPresharedKey, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventUAPIUpdatingPresharedKey{}, ev)
-				require.Equal(t, NiceVerbosefUAPIUpdatingPresharedKey, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingPresharedKey, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefUAPIUpdatingPresharedKey, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventReceivingCookieResponse", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventReceivingCookieResponse
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefReceivingCookieResponse, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefReceivingCookieResponse, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivingCookieResponse, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivingCookieResponse), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefReceivingCookieResponse, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivingCookieResponse, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivingCookieResponse), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefReceivingCookieResponse, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventReceivingCookieResponse{}, ev)
-				require.Equal(t, NiceVerbosefReceivingCookieResponse, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivingCookieResponse, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefReceivingCookieResponse, "")
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventInterfaceDownRequested", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventInterfaceDownRequested
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefInterfaceDownRequested, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefInterfaceDownRequested, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceDownRequested, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceDownRequested), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefInterfaceDownRequested, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventInterfaceDownRequested{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceDownRequested, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceVerbosefInterfaceDownRequested, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Interface down requested")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventSendingKeepalivePacket", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventSendingKeepalivePacket
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefSendingKeepalivePacket, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefSendingKeepalivePacket, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendingKeepalivePacket, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingKeepalivePacket), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSendingKeepalivePacket, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendingKeepalivePacket, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingKeepalivePacket), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSendingKeepalivePacket, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventSendingKeepalivePacket{}, ev)
-				require.Equal(t, NiceVerbosefSendingKeepalivePacket, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendingKeepalivePacket, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefSendingKeepalivePacket, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventSequentialReaderStopped", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventSequentialReaderStopped
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefSequentialReaderStopped, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefSequentialReaderStopped, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialReaderStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReaderStopped), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSequentialReaderStopped, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialReaderStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReaderStopped), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSequentialReaderStopped, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventSequentialReaderStopped{}, ev)
-				require.Equal(t, NiceVerbosefSequentialReaderStopped, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialReaderStopped, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefSequentialReaderStopped, &device.Peer{})
+			ev.Verbosef(FormatVerbosefStoppedReceivingIncoming, "")
 
 		})
 
@@ -4704,17 +1294,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventReceivedInvalidResponse", func(t *testing.T) {
+		t.Run("EventSendCookieDenied", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventReceivedInvalidResponse
+			var ev EventSendCookieDenied
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefReceivedInvalidResponse, ev.Format())
+			require.Equal(t, FormatVerbosefSendCookieDenied, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefReceivedInvalidResponse, ev.Nice())
+			require.Equal(t, NiceVerbosefSendCookieDenied, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -4725,17 +1315,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivedInvalidResponse, ev.Format())
+				require.Equal(t, FormatVerbosefSendCookieDenied, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivedInvalidResponse), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendCookieDenied), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefReceivedInvalidResponse, nil, nil)
+			ev.Verbosef(FormatVerbosefSendCookieDenied, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -4744,17 +1334,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivedInvalidResponse, ev.Format())
+				require.Equal(t, FormatVerbosefSendCookieDenied, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivedInvalidResponse), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendCookieDenied), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefReceivedInvalidResponse, nil)
+			ev.Verbosef(FormatVerbosefSendCookieDenied, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -4762,11 +1352,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventReceivedInvalidResponse{}, ev)
-				require.Equal(t, NiceVerbosefReceivedInvalidResponse, ev.Nice())
+				require.IsType(t, &EventSendCookieDenied{}, ev)
+				require.Equal(t, NiceVerbosefSendCookieDenied, ev.Nice())
 
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefReceivedInvalidResponse, ev.Format())
+				require.Equal(t, FormatVerbosefSendCookieDenied, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -4774,7 +1364,7 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Verbosef(FormatVerbosefReceivedInvalidResponse, "")
+			ev.Verbosef(FormatVerbosefSendCookieDenied, "")
 
 		})
 
@@ -4854,6 +1444,679 @@ func TestEventTypes(t *testing.T) {
 			})
 
 			ev.Errorf(FormatErrorfBindCloseFailed, errors.New(""))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventInvalidPacketInHandshakeQueue", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventInvalidPacketInHandshakeQueue
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfInvalidPacketInHandshakeQueue, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfInvalidPacketInHandshakeQueue, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfInvalidPacketInHandshakeQueue, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfInvalidPacketInHandshakeQueue), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfInvalidPacketInHandshakeQueue, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventInvalidPacketInHandshakeQueue{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfInvalidPacketInHandshakeQueue, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceErrorfInvalidPacketInHandshakeQueue, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf("Invalid packet ended up in the handshake queue")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventRemovingAllKeys", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventRemovingAllKeys
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefRemovingAllKeys, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefRemovingAllKeys, ev.Nice())
+			require.Equal(t, 2, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRemovingAllKeys, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRemovingAllKeys), nil, nil, nil), ev.Nice())
+				require.Equal(t, 3, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefRemovingAllKeys, nil, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRemovingAllKeys, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRemovingAllKeys), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefRemovingAllKeys, nil, nil)
+		})
+
+		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRemovingAllKeys), &device.Peer{}, nil), ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRemovingAllKeys, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefRemovingAllKeys, &device.Peer{}, nil)
+
+		})
+
+		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventRemovingAllKeys{}, ev)
+				require.Equal(t, NiceVerbosefRemovingAllKeys, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRemovingAllKeys, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefRemovingAllKeys, &device.Peer{}, int(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventMTUUpdated", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventMTUUpdated
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefMTUUpdated, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefMTUUpdated, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefMTUUpdated, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMTUUpdated), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefMTUUpdated, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefMTUUpdated, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMTUUpdated), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefMTUUpdated, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventMTUUpdated{}, ev)
+				require.Equal(t, NiceVerbosefMTUUpdated, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefMTUUpdated, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefMTUUpdated, int(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventUAPIRemovingAllPeers", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventUAPIRemovingAllPeers
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefUAPIRemovingAllPeers, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefUAPIRemovingAllPeers, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPIRemovingAllPeers, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIRemovingAllPeers), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefUAPIRemovingAllPeers, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventUAPIRemovingAllPeers{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPIRemovingAllPeers, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceVerbosefUAPIRemovingAllPeers, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef("UAPI: Removing all peers")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventMessageUnknownType", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventMessageUnknownType
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefMessageUnknownType, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefMessageUnknownType, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefMessageUnknownType, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMessageUnknownType), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefMessageUnknownType, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventMessageUnknownType{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefMessageUnknownType, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceVerbosefMessageUnknownType, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef("Received message with unknown type")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventStoppedHandshakeWorker", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventStoppedHandshakeWorker
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefStoppedHandshakeWorker, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefStoppedHandshakeWorker, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStoppedHandshakeWorker, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedHandshakeWorker), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefStoppedHandshakeWorker, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStoppedHandshakeWorker, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedHandshakeWorker), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefStoppedHandshakeWorker, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventStoppedHandshakeWorker{}, ev)
+				require.Equal(t, NiceVerbosefStoppedHandshakeWorker, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStoppedHandshakeWorker, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefStoppedHandshakeWorker, int(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventTUNReaderStarted", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventTUNReaderStarted
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefTUNReaderStarted, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefTUNReaderStarted, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefTUNReaderStarted, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefTUNReaderStarted), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefTUNReaderStarted, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventTUNReaderStarted{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefTUNReaderStarted, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceVerbosefTUNReaderStarted, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef("Routine: TUN reader - started")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventRetryingHandshakeNoResponse", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventRetryingHandshakeNoResponse
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefRetryingHandshakeNoResponse, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefRetryingHandshakeNoResponse, ev.Nice())
+			require.Equal(t, 2, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRetryingHandshakeNoResponse, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshakeNoResponse), nil, nil, nil), ev.Nice())
+				require.Equal(t, 3, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefRetryingHandshakeNoResponse, nil, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRetryingHandshakeNoResponse, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshakeNoResponse), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefRetryingHandshakeNoResponse, nil, nil)
+		})
+
+		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshakeNoResponse), &device.Peer{}, nil), ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRetryingHandshakeNoResponse, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefRetryingHandshakeNoResponse, &device.Peer{}, nil)
+
+		})
+
+		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventRetryingHandshakeNoResponse{}, ev)
+				require.Equal(t, NiceVerbosefRetryingHandshakeNoResponse, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRetryingHandshakeNoResponse, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefRetryingHandshakeNoResponse, &device.Peer{}, int(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventInvalidOperation", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventInvalidOperation
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfInvalidOperation, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfInvalidOperation, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfInvalidOperation, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfInvalidOperation), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfInvalidOperation, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfInvalidOperation, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfInvalidOperation), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfInvalidOperation, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventInvalidOperation{}, ev)
+				require.Equal(t, NiceErrorfInvalidOperation, ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfInvalidOperation, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfInvalidOperation, "")
 
 		})
 
@@ -5000,460 +2263,6 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventIPv6PacketDisallowed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventIPv6PacketDisallowed
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefIPv6PacketDisallowed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefIPv6PacketDisallowed, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefIPv6PacketDisallowed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefIPv6PacketDisallowed), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefIPv6PacketDisallowed, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefIPv6PacketDisallowed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefIPv6PacketDisallowed), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefIPv6PacketDisallowed, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventIPv6PacketDisallowed{}, ev)
-				require.Equal(t, NiceVerbosefIPv6PacketDisallowed, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefIPv6PacketDisallowed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefIPv6PacketDisallowed, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventStartedHandshakeWorker", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventStartedHandshakeWorker
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefStartedHandshakeWorker, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefStartedHandshakeWorker, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStartedHandshakeWorker, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStartedHandshakeWorker), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefStartedHandshakeWorker, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStartedHandshakeWorker, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStartedHandshakeWorker), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefStartedHandshakeWorker, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventStartedHandshakeWorker{}, ev)
-				require.Equal(t, NiceVerbosefStartedHandshakeWorker, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefStartedHandshakeWorker, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefStartedHandshakeWorker, int(0))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventUpdateBind", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventUpdateBind
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfUpdateBind, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfUpdateBind, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfUpdateBind, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfUpdateBind), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfUpdateBind, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfUpdateBind, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfUpdateBind), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfUpdateBind, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventUpdateBind{}, ev)
-				require.Equal(t, NiceErrorfUpdateBind, ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfUpdateBind, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfUpdateBind, errors.New(""))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventTUNWriteFailed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventTUNWriteFailed
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfTUNWriteFailed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfTUNWriteFailed, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfTUNWriteFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfTUNWriteFailed), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfTUNWriteFailed, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfTUNWriteFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfTUNWriteFailed), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfTUNWriteFailed, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventTUNWriteFailed{}, ev)
-				require.Equal(t, NiceErrorfTUNWriteFailed, ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfTUNWriteFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfTUNWriteFailed, errors.New(""))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventUAPIUpdatingFWMark", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventUAPIUpdatingFWMark
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefUAPIUpdatingFWMark, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefUAPIUpdatingFWMark, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingFWMark, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingFWMark), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIUpdatingFWMark, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventUAPIUpdatingFWMark{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingFWMark, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceVerbosefUAPIUpdatingFWMark, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("UAPI: Updating fwmark")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventUAPIUpdatingPersistentKeepalive", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventUAPIUpdatingPersistentKeepalive
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefUAPIUpdatingPersistentKeepalive, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefUAPIUpdatingPersistentKeepalive, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingPersistentKeepalive, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingPersistentKeepalive), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIUpdatingPersistentKeepalive, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingPersistentKeepalive, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingPersistentKeepalive), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefUAPIUpdatingPersistentKeepalive, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventUAPIUpdatingPersistentKeepalive{}, ev)
-				require.Equal(t, NiceVerbosefUAPIUpdatingPersistentKeepalive, ev.Nice())
-
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefUAPIUpdatingPersistentKeepalive, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Verbosef(FormatVerbosefUAPIUpdatingPersistentKeepalive, &device.Peer{})
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
 		t.Run("EventUAPIRemovingAllAllowedIPs", func(t *testing.T) {
 			t.Parallel()
 
@@ -5533,6 +2342,481 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
+		t.Run("EventSendingKeepalivePacket", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventSendingKeepalivePacket
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefSendingKeepalivePacket, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefSendingKeepalivePacket, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSendingKeepalivePacket, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingKeepalivePacket), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefSendingKeepalivePacket, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSendingKeepalivePacket, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingKeepalivePacket), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefSendingKeepalivePacket, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventSendingKeepalivePacket{}, ev)
+				require.Equal(t, NiceVerbosefSendingKeepalivePacket, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSendingKeepalivePacket, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefSendingKeepalivePacket, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventReceivingKeepalivePacket", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventReceivingKeepalivePacket
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefReceivingKeepalivePacket, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefReceivingKeepalivePacket, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivingKeepalivePacket, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivingKeepalivePacket), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefReceivingKeepalivePacket, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivingKeepalivePacket, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivingKeepalivePacket), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefReceivingKeepalivePacket, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventReceivingKeepalivePacket{}, ev)
+				require.Equal(t, NiceVerbosefReceivingKeepalivePacket, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivingKeepalivePacket, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefReceivingKeepalivePacket, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventCreateResponseMessageFailed", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventCreateResponseMessageFailed
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfCreateResponseMessageFailed, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfCreateResponseMessageFailed, ev.Nice())
+			require.Equal(t, 2, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfCreateResponseMessageFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfCreateResponseMessageFailed), nil, nil, nil), ev.Nice())
+				require.Equal(t, 3, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfCreateResponseMessageFailed, nil, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfCreateResponseMessageFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfCreateResponseMessageFailed), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfCreateResponseMessageFailed, nil, nil)
+		})
+
+		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfCreateResponseMessageFailed), &device.Peer{}, nil), ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfCreateResponseMessageFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfCreateResponseMessageFailed, &device.Peer{}, nil)
+
+		})
+
+		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventCreateResponseMessageFailed{}, ev)
+				require.Equal(t, NiceErrorfCreateResponseMessageFailed, ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfCreateResponseMessageFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfCreateResponseMessageFailed, &device.Peer{}, errors.New(""))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventBindUpdated", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventBindUpdated
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefBindUpdated, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefBindUpdated, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefBindUpdated, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefBindUpdated), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefBindUpdated, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventBindUpdated{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefBindUpdated, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceVerbosefBindUpdated, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef("UDP bind has been updated")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventUAPIUpdatingEndpoint", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventUAPIUpdatingEndpoint
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefUAPIUpdatingEndpoint, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefUAPIUpdatingEndpoint, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPIUpdatingEndpoint, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingEndpoint), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefUAPIUpdatingEndpoint, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPIUpdatingEndpoint, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingEndpoint), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefUAPIUpdatingEndpoint, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventUAPIUpdatingEndpoint{}, ev)
+				require.Equal(t, NiceVerbosefUAPIUpdatingEndpoint, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPIUpdatingEndpoint, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefUAPIUpdatingEndpoint, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventStartedReceivingIncoming", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventStartedReceivingIncoming
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefStartedReceivingIncoming, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefStartedReceivingIncoming, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStartedReceivingIncoming, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStartedReceivingIncoming), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefStartedReceivingIncoming, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStartedReceivingIncoming, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStartedReceivingIncoming), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefStartedReceivingIncoming, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventStartedReceivingIncoming{}, ev)
+				require.Equal(t, NiceVerbosefStartedReceivingIncoming, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStartedReceivingIncoming, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefStartedReceivingIncoming, "")
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
 		t.Run("EventCreateCookieReplyFailed", func(t *testing.T) {
 			t.Parallel()
 
@@ -5604,6 +2888,422 @@ func TestEventTypes(t *testing.T) {
 			})
 
 			ev.Errorf(FormatErrorfCreateCookieReplyFailed, errors.New(""))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventInterfaceCloseIgnoreRequestedState", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventInterfaceCloseIgnoreRequestedState
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefInterfaceCloseIgnoreRequestedState, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefInterfaceCloseIgnoreRequestedState, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefInterfaceCloseIgnoreRequestedState, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceCloseIgnoreRequestedState), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefInterfaceCloseIgnoreRequestedState, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefInterfaceCloseIgnoreRequestedState, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceCloseIgnoreRequestedState), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefInterfaceCloseIgnoreRequestedState, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventInterfaceCloseIgnoreRequestedState{}, ev)
+				require.Equal(t, NiceVerbosefInterfaceCloseIgnoreRequestedState, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefInterfaceCloseIgnoreRequestedState, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefInterfaceCloseIgnoreRequestedState, testStringer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventStoppedEncryptionWorker", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventStoppedEncryptionWorker
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefStoppedEncryptionWorker, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefStoppedEncryptionWorker, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStoppedEncryptionWorker, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedEncryptionWorker), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefStoppedEncryptionWorker, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStoppedEncryptionWorker, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStoppedEncryptionWorker), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefStoppedEncryptionWorker, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventStoppedEncryptionWorker{}, ev)
+				require.Equal(t, NiceVerbosefStoppedEncryptionWorker, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStoppedEncryptionWorker, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefStoppedEncryptionWorker, int(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventSequentialReaderStopped", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventSequentialReaderStopped
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefSequentialReaderStopped, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefSequentialReaderStopped, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialReaderStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReaderStopped), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefSequentialReaderStopped, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialReaderStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReaderStopped), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefSequentialReaderStopped, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventSequentialReaderStopped{}, ev)
+				require.Equal(t, NiceVerbosefSequentialReaderStopped, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialReaderStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefSequentialReaderStopped, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventUDPGSODisabled", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventUDPGSODisabled
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefUDPGSODisabled, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefUDPGSODisabled, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUDPGSODisabled, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUDPGSODisabled), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefUDPGSODisabled, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUDPGSODisabled, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUDPGSODisabled), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefUDPGSODisabled, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventUDPGSODisabled{}, ev)
+				require.Equal(t, NiceVerbosefUDPGSODisabled, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUDPGSODisabled, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefUDPGSODisabled, "")
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventHandshakeSendFailed", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventHandshakeSendFailed
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfHandshakeSendFailed, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfHandshakeSendFailed, ev.Nice())
+			require.Equal(t, 2, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfHandshakeSendFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfHandshakeSendFailed), nil, nil, nil), ev.Nice())
+				require.Equal(t, 3, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfHandshakeSendFailed, nil, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfHandshakeSendFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfHandshakeSendFailed), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfHandshakeSendFailed, nil, nil)
+		})
+
+		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfHandshakeSendFailed), &device.Peer{}, nil), ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfHandshakeSendFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfHandshakeSendFailed, &device.Peer{}, nil)
+
+		})
+
+		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventHandshakeSendFailed{}, ev)
+				require.Equal(t, NiceErrorfHandshakeSendFailed, ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfHandshakeSendFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfHandshakeSendFailed, &device.Peer{}, errors.New(""))
 
 		})
 
@@ -5712,17 +3412,117 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventEventWorkerStopped", func(t *testing.T) {
+		t.Run("EventDeriveKeypairFailed", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventEventWorkerStopped
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefEventWorkerStopped, ev.Format())
+			var ev EventDeriveKeypairFailed
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfDeriveKeypairFailed, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefEventWorkerStopped, ev.Nice())
+			require.Equal(t, NiceErrorfDeriveKeypairFailed, ev.Nice())
+			require.Equal(t, 2, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfDeriveKeypairFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfDeriveKeypairFailed), nil, nil, nil), ev.Nice())
+				require.Equal(t, 3, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfDeriveKeypairFailed, nil, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfDeriveKeypairFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfDeriveKeypairFailed), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfDeriveKeypairFailed, nil, nil)
+		})
+
+		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfDeriveKeypairFailed), &device.Peer{}, nil), ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfDeriveKeypairFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfDeriveKeypairFailed, &device.Peer{}, nil)
+
+		})
+
+		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventDeriveKeypairFailed{}, ev)
+				require.Equal(t, NiceErrorfDeriveKeypairFailed, ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfDeriveKeypairFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfDeriveKeypairFailed, &device.Peer{}, errors.New(""))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventInterfaceUpRequested", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventInterfaceUpRequested
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefInterfaceUpRequested, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefInterfaceUpRequested, ev.Nice())
 			require.Equal(t, 0, len(ev.Args()))
 
 		})
@@ -5733,37 +3533,37 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefEventWorkerStopped, ev.Format())
+				require.Equal(t, FormatVerbosefInterfaceUpRequested, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefEventWorkerStopped), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceUpRequested), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefEventWorkerStopped, nil)
+			ev.Verbosef(FormatVerbosefInterfaceUpRequested, nil)
 		})
 
 		t.Run("valid (no args)", func(t *testing.T) {
 			t.Parallel()
 
 			ev := Events(func(ev Event) {
-				require.IsType(t, &EventEventWorkerStopped{}, ev)
+				require.IsType(t, &EventInterfaceUpRequested{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefEventWorkerStopped, ev.Format())
+				require.Equal(t, FormatVerbosefInterfaceUpRequested, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, NiceVerbosefEventWorkerStopped, ev.Nice())
+				require.Equal(t, NiceVerbosefInterfaceUpRequested, ev.Nice())
 				require.Equal(t, 0, len(ev.Args()))
 
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Routine: event worker - stopped")
+			ev.Verbosef("Interface up requested")
 		})
 
 	})
@@ -5771,17 +3571,76 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventSendingHandshakeInitiation", func(t *testing.T) {
+		t.Run("EventInterfaceDownRequested", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventSendingHandshakeInitiation
+			var ev EventInterfaceDownRequested
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefSendingHandshakeInitiation, ev.Format())
+			require.Equal(t, FormatVerbosefInterfaceDownRequested, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefSendingHandshakeInitiation, ev.Nice())
+			require.Equal(t, NiceVerbosefInterfaceDownRequested, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefInterfaceDownRequested, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceDownRequested), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefInterfaceDownRequested, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventInterfaceDownRequested{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefInterfaceDownRequested, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceVerbosefInterfaceDownRequested, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef("Interface down requested")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventUAPIUpdatingPersistentKeepalive", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventUAPIUpdatingPersistentKeepalive
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefUAPIUpdatingPersistentKeepalive, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefUAPIUpdatingPersistentKeepalive, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -5792,17 +3651,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendingHandshakeInitiation, ev.Format())
+				require.Equal(t, FormatVerbosefUAPIUpdatingPersistentKeepalive, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingHandshakeInitiation), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingPersistentKeepalive), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSendingHandshakeInitiation, nil, nil)
+			ev.Verbosef(FormatVerbosefUAPIUpdatingPersistentKeepalive, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -5811,17 +3670,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendingHandshakeInitiation, ev.Format())
+				require.Equal(t, FormatVerbosefUAPIUpdatingPersistentKeepalive, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingHandshakeInitiation), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingPersistentKeepalive), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSendingHandshakeInitiation, nil)
+			ev.Verbosef(FormatVerbosefUAPIUpdatingPersistentKeepalive, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -5829,11 +3688,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventSendingHandshakeInitiation{}, ev)
-				require.Equal(t, NiceVerbosefSendingHandshakeInitiation, ev.Nice())
+				require.IsType(t, &EventUAPIUpdatingPersistentKeepalive{}, ev)
+				require.Equal(t, NiceVerbosefUAPIUpdatingPersistentKeepalive, ev.Nice())
 
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSendingHandshakeInitiation, ev.Format())
+				require.Equal(t, FormatVerbosefUAPIUpdatingPersistentKeepalive, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -5841,7 +3700,7 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Verbosef(FormatVerbosefSendingHandshakeInitiation, &device.Peer{})
+			ev.Verbosef(FormatVerbosefUAPIUpdatingPersistentKeepalive, &device.Peer{})
 
 		})
 
@@ -5850,17 +3709,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventSequentialSenderStarted", func(t *testing.T) {
+		t.Run("EventPacketIPVersionInvalid", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventSequentialSenderStarted
+			var ev EventPacketIPVersionInvalid
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefSequentialSenderStarted, ev.Format())
+			require.Equal(t, FormatVerbosefPacketIPVersionInvalid, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefSequentialSenderStarted, ev.Nice())
+			require.Equal(t, NiceVerbosefPacketIPVersionInvalid, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -5871,17 +3730,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialSenderStarted, ev.Format())
+				require.Equal(t, FormatVerbosefPacketIPVersionInvalid, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialSenderStarted), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPacketIPVersionInvalid), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSequentialSenderStarted, nil, nil)
+			ev.Verbosef(FormatVerbosefPacketIPVersionInvalid, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -5890,17 +3749,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialSenderStarted, ev.Format())
+				require.Equal(t, FormatVerbosefPacketIPVersionInvalid, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialSenderStarted), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPacketIPVersionInvalid), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefSequentialSenderStarted, nil)
+			ev.Verbosef(FormatVerbosefPacketIPVersionInvalid, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -5908,11 +3767,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventSequentialSenderStarted{}, ev)
-				require.Equal(t, NiceVerbosefSequentialSenderStarted, ev.Nice())
+				require.IsType(t, &EventPacketIPVersionInvalid{}, ev)
+				require.Equal(t, NiceVerbosefPacketIPVersionInvalid, ev.Nice())
 
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefSequentialSenderStarted, ev.Format())
+				require.Equal(t, FormatVerbosefPacketIPVersionInvalid, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -5920,8 +3779,1415 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Verbosef(FormatVerbosefSequentialSenderStarted, &device.Peer{})
+			ev.Verbosef(FormatVerbosefPacketIPVersionInvalid, &device.Peer{})
 
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventReceivedInvalidResponse", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventReceivedInvalidResponse
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefReceivedInvalidResponse, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefReceivedInvalidResponse, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivedInvalidResponse, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivedInvalidResponse), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefReceivedInvalidResponse, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivedInvalidResponse, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivedInvalidResponse), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefReceivedInvalidResponse, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventReceivedInvalidResponse{}, ev)
+				require.Equal(t, NiceVerbosefReceivedInvalidResponse, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivedInvalidResponse, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefReceivedInvalidResponse, "")
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventSendHandshakeInitiationFailed", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventSendHandshakeInitiationFailed
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfSendHandshakeInitiationFailed, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfSendHandshakeInitiationFailed, ev.Nice())
+			require.Equal(t, 2, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfSendHandshakeInitiationFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfSendHandshakeInitiationFailed), nil, nil, nil), ev.Nice())
+				require.Equal(t, 3, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfSendHandshakeInitiationFailed, nil, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfSendHandshakeInitiationFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfSendHandshakeInitiationFailed), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfSendHandshakeInitiationFailed, nil, nil)
+		})
+
+		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfSendHandshakeInitiationFailed), &device.Peer{}, nil), ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfSendHandshakeInitiationFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfSendHandshakeInitiationFailed, &device.Peer{}, nil)
+
+		})
+
+		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventSendHandshakeInitiationFailed{}, ev)
+				require.Equal(t, NiceErrorfSendHandshakeInitiationFailed, ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfSendHandshakeInitiationFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfSendHandshakeInitiationFailed, &device.Peer{}, errors.New(""))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventPeerStopping", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventPeerStopping
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefPeerStopping, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefPeerStopping, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefPeerStopping, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPeerStopping), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefPeerStopping, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefPeerStopping, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefPeerStopping), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefPeerStopping, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventPeerStopping{}, ev)
+				require.Equal(t, NiceVerbosefPeerStopping, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefPeerStopping, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefPeerStopping, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventHandshakeFlood", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventHandshakeFlood
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefHandshakeFlood, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefHandshakeFlood, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefHandshakeFlood, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefHandshakeFlood), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefHandshakeFlood, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefHandshakeFlood, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefHandshakeFlood), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefHandshakeFlood, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventHandshakeFlood{}, ev)
+				require.Equal(t, NiceVerbosefHandshakeFlood, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefHandshakeFlood, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefHandshakeFlood, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventTUNWriteFailed", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventTUNWriteFailed
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfTUNWriteFailed, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfTUNWriteFailed, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfTUNWriteFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfTUNWriteFailed), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfTUNWriteFailed, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfTUNWriteFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfTUNWriteFailed), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfTUNWriteFailed, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventTUNWriteFailed{}, ev)
+				require.Equal(t, NiceErrorfTUNWriteFailed, ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfTUNWriteFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfTUNWriteFailed, errors.New(""))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventInterfaceStateChanged", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventInterfaceStateChanged
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefInterfaceStateChanged, ev.Nice())
+			require.Equal(t, 3, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceStateChanged), nil, nil, nil, nil), ev.Nice())
+				require.Equal(t, 4, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefInterfaceStateChanged, nil, nil, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (3 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceStateChanged), nil, nil, nil), ev.Nice())
+				require.Equal(t, 3, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefInterfaceStateChanged, nil, nil, nil)
+		})
+
+		t.Run("valid (1 args), invalid (2 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceStateChanged), testStringer{}, nil, nil), ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 3, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefInterfaceStateChanged, testStringer{}, nil, nil)
+
+		})
+
+		t.Run("valid (2 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceStateChanged), testStringer{}, testStringer{}, nil), ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 3, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefInterfaceStateChanged, testStringer{}, testStringer{}, nil)
+
+		})
+
+		t.Run("valid (3 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventInterfaceStateChanged{}, ev)
+				require.Equal(t, NiceVerbosefInterfaceStateChanged, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefInterfaceStateChanged, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 3, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefInterfaceStateChanged, testStringer{}, testStringer{}, testStringer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventDecryptionWorkerStopped", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventDecryptionWorkerStopped
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefDecryptionWorkerStopped, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefDecryptionWorkerStopped, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefDecryptionWorkerStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDecryptionWorkerStopped), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefDecryptionWorkerStopped, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefDecryptionWorkerStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDecryptionWorkerStopped), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefDecryptionWorkerStopped, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventDecryptionWorkerStopped{}, ev)
+				require.Equal(t, NiceVerbosefDecryptionWorkerStopped, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefDecryptionWorkerStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefDecryptionWorkerStopped, int(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventUAPIRemovingPeer", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventUAPIRemovingPeer
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefUAPIRemovingPeer, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefUAPIRemovingPeer, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPIRemovingPeer, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIRemovingPeer), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefUAPIRemovingPeer, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPIRemovingPeer, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIRemovingPeer), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefUAPIRemovingPeer, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventUAPIRemovingPeer{}, ev)
+				require.Equal(t, NiceVerbosefUAPIRemovingPeer, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPIRemovingPeer, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefUAPIRemovingPeer, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventStartedHandshakeWorker", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventStartedHandshakeWorker
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefStartedHandshakeWorker, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefStartedHandshakeWorker, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStartedHandshakeWorker, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStartedHandshakeWorker), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefStartedHandshakeWorker, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStartedHandshakeWorker, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefStartedHandshakeWorker), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefStartedHandshakeWorker, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventStartedHandshakeWorker{}, ev)
+				require.Equal(t, NiceVerbosefStartedHandshakeWorker, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefStartedHandshakeWorker, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefStartedHandshakeWorker, int(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventValue", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventValue
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfValue, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfValue, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfValue, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfValue), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfValue, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfValue, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfValue), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfValue, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventValue{}, ev)
+				require.Equal(t, NiceErrorfValue, ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfValue, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfValue, errors.New(""))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventTunPacketReadFailed", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventTunPacketReadFailed
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfTunPacketReadFailed, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfTunPacketReadFailed, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfTunPacketReadFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfTunPacketReadFailed), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfTunPacketReadFailed, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfTunPacketReadFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfTunPacketReadFailed), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfTunPacketReadFailed, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventTunPacketReadFailed{}, ev)
+				require.Equal(t, NiceErrorfTunPacketReadFailed, ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfTunPacketReadFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfTunPacketReadFailed, errors.New(""))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventUpdateBind", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventUpdateBind
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfUpdateBind, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfUpdateBind, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfUpdateBind, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfUpdateBind), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfUpdateBind, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfUpdateBind, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfUpdateBind), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfUpdateBind, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventUpdateBind{}, ev)
+				require.Equal(t, NiceErrorfUpdateBind, ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfUpdateBind, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfUpdateBind, errors.New(""))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventSequentialReceiverStopped", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventSequentialReceiverStopped
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefSequentialReceiverStopped, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefSequentialReceiverStopped, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialReceiverStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReceiverStopped), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefSequentialReceiverStopped, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialReceiverStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReceiverStopped), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefSequentialReceiverStopped, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventSequentialReceiverStopped{}, ev)
+				require.Equal(t, NiceVerbosefSequentialReceiverStopped, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialReceiverStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefSequentialReceiverStopped, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventIPv4PacketDisallowed", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventIPv4PacketDisallowed
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefIPv4PacketDisallowed, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefIPv4PacketDisallowed, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefIPv4PacketDisallowed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefIPv4PacketDisallowed), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefIPv4PacketDisallowed, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefIPv4PacketDisallowed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefIPv4PacketDisallowed), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefIPv4PacketDisallowed, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventIPv4PacketDisallowed{}, ev)
+				require.Equal(t, NiceVerbosefIPv4PacketDisallowed, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefIPv4PacketDisallowed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefIPv4PacketDisallowed, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventReceivingCookieResponse", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventReceivingCookieResponse
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefReceivingCookieResponse, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefReceivingCookieResponse, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivingCookieResponse, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivingCookieResponse), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefReceivingCookieResponse, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivingCookieResponse, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivingCookieResponse), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefReceivingCookieResponse, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventReceivingCookieResponse{}, ev)
+				require.Equal(t, NiceVerbosefReceivingCookieResponse, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivingCookieResponse, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefReceivingCookieResponse, "")
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventMTUTooLarge", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventMTUTooLarge
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefMTUTooLarge, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefMTUTooLarge, ev.Nice())
+			require.Equal(t, 2, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefMTUTooLarge, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMTUTooLarge), nil, nil, nil), ev.Nice())
+				require.Equal(t, 3, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefMTUTooLarge, nil, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefMTUTooLarge, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMTUTooLarge), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefMTUTooLarge, nil, nil)
+		})
+
+		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefMTUTooLarge), int(0), nil), ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefMTUTooLarge, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefMTUTooLarge, int(0), nil)
+
+		})
+
+		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventMTUTooLarge{}, ev)
+				require.Equal(t, NiceVerbosefMTUTooLarge, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefMTUTooLarge, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefMTUTooLarge, int(0), int(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventDeviceClosed", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventDeviceClosed
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefDeviceClosed, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefDeviceClosed, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefDeviceClosed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDeviceClosed), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefDeviceClosed, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventDeviceClosed{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefDeviceClosed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceVerbosefDeviceClosed, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef("Device closed")
 		})
 
 	})
@@ -6029,76 +5295,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventInterfaceUpRequested", func(t *testing.T) {
+		t.Run("EventUAPIUpdatingPresharedKey", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventInterfaceUpRequested
+			var ev EventUAPIUpdatingPresharedKey
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefInterfaceUpRequested, ev.Format())
+			require.Equal(t, FormatVerbosefUAPIUpdatingPresharedKey, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefInterfaceUpRequested, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceUpRequested, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefInterfaceUpRequested), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefInterfaceUpRequested, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventInterfaceUpRequested{}, ev)
-				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefInterfaceUpRequested, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceVerbosefInterfaceUpRequested, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Interface up requested")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventDroppedPacketsFromMultiSegmentRead", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventDroppedPacketsFromMultiSegmentRead
-			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefDroppedPacketsFromMultiSegmentRead, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceVerbosefDroppedPacketsFromMultiSegmentRead, ev.Nice())
+			require.Equal(t, NiceVerbosefUAPIUpdatingPresharedKey, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -6109,17 +5316,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDroppedPacketsFromMultiSegmentRead, ev.Format())
+				require.Equal(t, FormatVerbosefUAPIUpdatingPresharedKey, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDroppedPacketsFromMultiSegmentRead), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingPresharedKey), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefDroppedPacketsFromMultiSegmentRead, nil, nil)
+			ev.Verbosef(FormatVerbosefUAPIUpdatingPresharedKey, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -6128,17 +5335,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDroppedPacketsFromMultiSegmentRead, ev.Format())
+				require.Equal(t, FormatVerbosefUAPIUpdatingPresharedKey, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefDroppedPacketsFromMultiSegmentRead), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingPresharedKey), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefDroppedPacketsFromMultiSegmentRead, nil)
+			ev.Verbosef(FormatVerbosefUAPIUpdatingPresharedKey, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -6146,11 +5353,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventDroppedPacketsFromMultiSegmentRead{}, ev)
-				require.Equal(t, NiceVerbosefDroppedPacketsFromMultiSegmentRead, ev.Nice())
+				require.IsType(t, &EventUAPIUpdatingPresharedKey{}, ev)
+				require.Equal(t, NiceVerbosefUAPIUpdatingPresharedKey, ev.Nice())
 
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefDroppedPacketsFromMultiSegmentRead, ev.Format())
+				require.Equal(t, FormatVerbosefUAPIUpdatingPresharedKey, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -6158,7 +5365,7 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Verbosef(FormatVerbosefDroppedPacketsFromMultiSegmentRead, errors.New(""))
+			ev.Verbosef(FormatVerbosefUAPIUpdatingPresharedKey, &device.Peer{})
 
 		})
 
@@ -6246,6 +5453,720 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
+		t.Run("EventSequentialReceiverStarted", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventSequentialReceiverStarted
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefSequentialReceiverStarted, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefSequentialReceiverStarted, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialReceiverStarted, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReceiverStarted), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefSequentialReceiverStarted, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialReceiverStarted, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialReceiverStarted), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefSequentialReceiverStarted, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventSequentialReceiverStarted{}, ev)
+				require.Equal(t, NiceVerbosefSequentialReceiverStarted, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialReceiverStarted, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefSequentialReceiverStarted, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventHandshakeDidNotComplete", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventHandshakeDidNotComplete
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefHandshakeDidNotComplete, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefHandshakeDidNotComplete, ev.Nice())
+			require.Equal(t, 2, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefHandshakeDidNotComplete, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefHandshakeDidNotComplete), nil, nil, nil), ev.Nice())
+				require.Equal(t, 3, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefHandshakeDidNotComplete, nil, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (2 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefHandshakeDidNotComplete, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefHandshakeDidNotComplete), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefHandshakeDidNotComplete, nil, nil)
+		})
+
+		t.Run("valid (1 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefHandshakeDidNotComplete), &device.Peer{}, nil), ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefHandshakeDidNotComplete, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefHandshakeDidNotComplete, &device.Peer{}, nil)
+
+		})
+
+		t.Run("valid (2 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventHandshakeDidNotComplete{}, ev)
+				require.Equal(t, NiceVerbosefHandshakeDidNotComplete, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefHandshakeDidNotComplete, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 2, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefHandshakeDidNotComplete, &device.Peer{}, int(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventUAPICreated", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventUAPICreated
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefUAPICreated, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefUAPICreated, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPICreated, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPICreated), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefUAPICreated, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPICreated, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPICreated), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefUAPICreated, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventUAPICreated{}, ev)
+				require.Equal(t, NiceVerbosefUAPICreated, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPICreated, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefUAPICreated, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventIPv6PacketDisallowed", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventIPv6PacketDisallowed
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefIPv6PacketDisallowed, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefIPv6PacketDisallowed, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefIPv6PacketDisallowed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefIPv6PacketDisallowed), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefIPv6PacketDisallowed, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefIPv6PacketDisallowed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefIPv6PacketDisallowed), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefIPv6PacketDisallowed, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventIPv6PacketDisallowed{}, ev)
+				require.Equal(t, NiceVerbosefIPv6PacketDisallowed, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefIPv6PacketDisallowed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefIPv6PacketDisallowed, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventRetryingHandshake", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventRetryingHandshake
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefRetryingHandshake, ev.Nice())
+			require.Equal(t, 3, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshake), nil, nil, nil, nil), ev.Nice())
+				require.Equal(t, 4, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefRetryingHandshake, nil, nil, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (3 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshake), nil, nil, nil), ev.Nice())
+				require.Equal(t, 3, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefRetryingHandshake, nil, nil, nil)
+		})
+
+		t.Run("valid (1 args), invalid (2 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshake), &device.Peer{}, nil, nil), ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 3, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefRetryingHandshake, &device.Peer{}, nil, nil)
+
+		})
+
+		t.Run("valid (2 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventAny{}, ev)
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefRetryingHandshake), &device.Peer{}, int(0), nil), ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 3, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefRetryingHandshake, &device.Peer{}, int(0), nil)
+
+		})
+
+		t.Run("valid (3 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventRetryingHandshake{}, ev)
+				require.Equal(t, NiceVerbosefRetryingHandshake, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefRetryingHandshake, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 3, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefRetryingHandshake, &device.Peer{}, int(0), uint32(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventNegativeMTU", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventNegativeMTU
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfNegativeMTU, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfNegativeMTU, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfNegativeMTU, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfNegativeMTU), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfNegativeMTU, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfNegativeMTU, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfNegativeMTU), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfNegativeMTU, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventNegativeMTU{}, ev)
+				require.Equal(t, NiceErrorfNegativeMTU, ev.Nice())
+
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfNegativeMTU, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Errorf(FormatErrorfNegativeMTU, int(0))
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventInitiationMessageDecodeFailed", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventInitiationMessageDecodeFailed
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfInitiationMessageDecodeFailed, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfInitiationMessageDecodeFailed, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfInitiationMessageDecodeFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfInitiationMessageDecodeFailed), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfInitiationMessageDecodeFailed, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventInitiationMessageDecodeFailed{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfInitiationMessageDecodeFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceErrorfInitiationMessageDecodeFailed, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf("Failed to decode initiation message")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventUAPIUpdatingFWMark", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventUAPIUpdatingFWMark
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefUAPIUpdatingFWMark, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefUAPIUpdatingFWMark, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPIUpdatingFWMark, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingFWMark), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefUAPIUpdatingFWMark, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventUAPIUpdatingFWMark{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefUAPIUpdatingFWMark, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceVerbosefUAPIUpdatingFWMark, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef("UAPI: Updating fwmark")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventTUNReaderStopped", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventTUNReaderStopped
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefTUNReaderStopped, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefTUNReaderStopped, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefTUNReaderStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefTUNReaderStopped), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefTUNReaderStopped, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventTUNReaderStopped{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefTUNReaderStopped, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceVerbosefTUNReaderStopped, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef("Routine: TUN reader - stopped")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
 		t.Run("EventReceivedHandshakeResponse", func(t *testing.T) {
 			t.Parallel()
 
@@ -6325,155 +6246,17 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventLoadMTUFailed", func(t *testing.T) {
+		t.Run("EventSendingHandshakeResponse", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventLoadMTUFailed
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfLoadMTUFailed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfLoadMTUFailed, ev.Nice())
-			require.Equal(t, 1, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfLoadMTUFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfLoadMTUFailed), nil, nil), ev.Nice())
-				require.Equal(t, 2, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfLoadMTUFailed, nil, nil)
-		})
-
-		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfLoadMTUFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfLoadMTUFailed), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfLoadMTUFailed, nil)
-		})
-
-		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-
-				require.IsType(t, &EventLoadMTUFailed{}, ev)
-				require.Equal(t, NiceErrorfLoadMTUFailed, ev.Nice())
-
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfLoadMTUFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, 1, len(ev.Args()))
-			})
-
-			ev.Errorf(FormatErrorfLoadMTUFailed, errors.New(""))
-
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventInitiationMessageDecodeFailed", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventInitiationMessageDecodeFailed
-			require.True(t, ev.IsErrorf())
-			require.Equal(t, FormatErrorfInitiationMessageDecodeFailed, ev.Format())
-			var buf bytes.Buffer
-			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-			require.NotEmpty(t, buf.Bytes())
-
-			require.Equal(t, NiceErrorfInitiationMessageDecodeFailed, ev.Nice())
-			require.Equal(t, 0, len(ev.Args()))
-
-		})
-
-		t.Run("invalid args length", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventAny{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfInitiationMessageDecodeFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, fmt.Sprintf(restring(FormatErrorfInitiationMessageDecodeFailed), nil), ev.Nice())
-				require.Equal(t, 1, len(ev.Args()))
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf(FormatErrorfInitiationMessageDecodeFailed, nil)
-		})
-
-		t.Run("valid (no args)", func(t *testing.T) {
-			t.Parallel()
-
-			ev := Events(func(ev Event) {
-				require.IsType(t, &EventInitiationMessageDecodeFailed{}, ev)
-				require.True(t, ev.IsErrorf())
-				require.Equal(t, FormatErrorfInitiationMessageDecodeFailed, ev.Format())
-				var buf bytes.Buffer
-				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
-				require.NotEmpty(t, buf.Bytes())
-
-				require.Equal(t, NiceErrorfInitiationMessageDecodeFailed, ev.Nice())
-				require.Equal(t, 0, len(ev.Args()))
-
-			})
-			require.NotNil(t, ev)
-			require.NotNil(t, ev.Errorf)
-			ev.Errorf("Failed to decode initiation message")
-		})
-
-	})
-
-	t.Run("type", func(t *testing.T) {
-		t.Parallel()
-
-		t.Run("EventHandshakeFlood", func(t *testing.T) {
-			t.Parallel()
-
-			var ev EventHandshakeFlood
+			var ev EventSendingHandshakeResponse
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefHandshakeFlood, ev.Format())
+			require.Equal(t, FormatVerbosefSendingHandshakeResponse, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefHandshakeFlood, ev.Nice())
+			require.Equal(t, NiceVerbosefSendingHandshakeResponse, ev.Nice())
 			require.Equal(t, 1, len(ev.Args()))
 
 		})
@@ -6484,17 +6267,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefHandshakeFlood, ev.Format())
+				require.Equal(t, FormatVerbosefSendingHandshakeResponse, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefHandshakeFlood), nil, nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingHandshakeResponse), nil, nil), ev.Nice())
 				require.Equal(t, 2, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefHandshakeFlood, nil, nil)
+			ev.Verbosef(FormatVerbosefSendingHandshakeResponse, nil, nil)
 		})
 
 		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
@@ -6503,17 +6286,17 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefHandshakeFlood, ev.Format())
+				require.Equal(t, FormatVerbosefSendingHandshakeResponse, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefHandshakeFlood), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSendingHandshakeResponse), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefHandshakeFlood, nil)
+			ev.Verbosef(FormatVerbosefSendingHandshakeResponse, nil)
 		})
 
 		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
@@ -6521,11 +6304,11 @@ func TestEventTypes(t *testing.T) {
 
 			ev := Events(func(ev Event) {
 
-				require.IsType(t, &EventHandshakeFlood{}, ev)
-				require.Equal(t, NiceVerbosefHandshakeFlood, ev.Nice())
+				require.IsType(t, &EventSendingHandshakeResponse{}, ev)
+				require.Equal(t, NiceVerbosefSendingHandshakeResponse, ev.Nice())
 
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefHandshakeFlood, ev.Format())
+				require.Equal(t, FormatVerbosefSendingHandshakeResponse, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
@@ -6533,7 +6316,7 @@ func TestEventTypes(t *testing.T) {
 				require.Equal(t, 1, len(ev.Args()))
 			})
 
-			ev.Verbosef(FormatVerbosefHandshakeFlood, &device.Peer{})
+			ev.Verbosef(FormatVerbosefSendingHandshakeResponse, &device.Peer{})
 
 		})
 
@@ -6542,17 +6325,155 @@ func TestEventTypes(t *testing.T) {
 	t.Run("type", func(t *testing.T) {
 		t.Parallel()
 
-		t.Run("EventTUNReaderStarted", func(t *testing.T) {
+		t.Run("EventSequentialSenderStarted", func(t *testing.T) {
 			t.Parallel()
 
-			var ev EventTUNReaderStarted
+			var ev EventSequentialSenderStarted
 			require.False(t, ev.IsErrorf())
-			require.Equal(t, FormatVerbosefTUNReaderStarted, ev.Format())
+			require.Equal(t, FormatVerbosefSequentialSenderStarted, ev.Format())
 			var buf bytes.Buffer
 			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 			require.NotEmpty(t, buf.Bytes())
 
-			require.Equal(t, NiceVerbosefTUNReaderStarted, ev.Nice())
+			require.Equal(t, NiceVerbosefSequentialSenderStarted, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialSenderStarted, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialSenderStarted), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefSequentialSenderStarted, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialSenderStarted, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefSequentialSenderStarted), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefSequentialSenderStarted, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventSequentialSenderStarted{}, ev)
+				require.Equal(t, NiceVerbosefSequentialSenderStarted, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefSequentialSenderStarted, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefSequentialSenderStarted, &device.Peer{})
+
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventResponseMessageDecodeFailed", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventResponseMessageDecodeFailed
+			require.True(t, ev.IsErrorf())
+			require.Equal(t, FormatErrorfResponseMessageDecodeFailed, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceErrorfResponseMessageDecodeFailed, ev.Nice())
+			require.Equal(t, 0, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfResponseMessageDecodeFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatErrorfResponseMessageDecodeFailed), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf(FormatErrorfResponseMessageDecodeFailed, nil)
+		})
+
+		t.Run("valid (no args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventResponseMessageDecodeFailed{}, ev)
+				require.True(t, ev.IsErrorf())
+				require.Equal(t, FormatErrorfResponseMessageDecodeFailed, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, NiceErrorfResponseMessageDecodeFailed, ev.Nice())
+				require.Equal(t, 0, len(ev.Args()))
+
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Errorf)
+			ev.Errorf("Failed to decode response message")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventUAPIUpdatingListenPort", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventUAPIUpdatingListenPort
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefUAPIUpdatingListenPort, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefUAPIUpdatingListenPort, ev.Nice())
 			require.Equal(t, 0, len(ev.Args()))
 
 		})
@@ -6563,37 +6484,116 @@ func TestEventTypes(t *testing.T) {
 			ev := Events(func(ev Event) {
 				require.IsType(t, &EventAny{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefTUNReaderStarted, ev.Format())
+				require.Equal(t, FormatVerbosefUAPIUpdatingListenPort, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefTUNReaderStarted), nil), ev.Nice())
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefUAPIUpdatingListenPort), nil), ev.Nice())
 				require.Equal(t, 1, len(ev.Args()))
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef(FormatVerbosefTUNReaderStarted, nil)
+			ev.Verbosef(FormatVerbosefUAPIUpdatingListenPort, nil)
 		})
 
 		t.Run("valid (no args)", func(t *testing.T) {
 			t.Parallel()
 
 			ev := Events(func(ev Event) {
-				require.IsType(t, &EventTUNReaderStarted{}, ev)
+				require.IsType(t, &EventUAPIUpdatingListenPort{}, ev)
 				require.False(t, ev.IsErrorf())
-				require.Equal(t, FormatVerbosefTUNReaderStarted, ev.Format())
+				require.Equal(t, FormatVerbosefUAPIUpdatingListenPort, ev.Format())
 				var buf bytes.Buffer
 				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
 				require.NotEmpty(t, buf.Bytes())
 
-				require.Equal(t, NiceVerbosefTUNReaderStarted, ev.Nice())
+				require.Equal(t, NiceVerbosefUAPIUpdatingListenPort, ev.Nice())
 				require.Equal(t, 0, len(ev.Args()))
 
 			})
 			require.NotNil(t, ev)
 			require.NotNil(t, ev.Verbosef)
-			ev.Verbosef("Routine: TUN reader - started")
+			ev.Verbosef("UAPI: Updating listen port")
+		})
+
+	})
+
+	t.Run("type", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("EventReceivedHandshakeInitiation", func(t *testing.T) {
+			t.Parallel()
+
+			var ev EventReceivedHandshakeInitiation
+			require.False(t, ev.IsErrorf())
+			require.Equal(t, FormatVerbosefReceivedHandshakeInitiation, ev.Format())
+			var buf bytes.Buffer
+			ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+			require.NotEmpty(t, buf.Bytes())
+
+			require.Equal(t, NiceVerbosefReceivedHandshakeInitiation, ev.Nice())
+			require.Equal(t, 1, len(ev.Args()))
+
+		})
+
+		t.Run("invalid args length", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivedHandshakeInitiation, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivedHandshakeInitiation), nil, nil), ev.Nice())
+				require.Equal(t, 2, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefReceivedHandshakeInitiation, nil, nil)
+		})
+
+		t.Run("valid (0 args), invalid (1 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+				require.IsType(t, &EventAny{}, ev)
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivedHandshakeInitiation, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, fmt.Sprintf(restring(FormatVerbosefReceivedHandshakeInitiation), nil), ev.Nice())
+				require.Equal(t, 1, len(ev.Args()))
+			})
+			require.NotNil(t, ev)
+			require.NotNil(t, ev.Verbosef)
+			ev.Verbosef(FormatVerbosefReceivedHandshakeInitiation, nil)
+		})
+
+		t.Run("valid (1 args), invalid (0 args)", func(t *testing.T) {
+			t.Parallel()
+
+			ev := Events(func(ev Event) {
+
+				require.IsType(t, &EventReceivedHandshakeInitiation{}, ev)
+				require.Equal(t, NiceVerbosefReceivedHandshakeInitiation, ev.Nice())
+
+				require.False(t, ev.IsErrorf())
+				require.Equal(t, FormatVerbosefReceivedHandshakeInitiation, ev.Format())
+				var buf bytes.Buffer
+				ev.Slog(slog.New(slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+				require.NotEmpty(t, buf.Bytes())
+
+				require.Equal(t, 1, len(ev.Args()))
+			})
+
+			ev.Verbosef(FormatVerbosefReceivedHandshakeInitiation, &device.Peer{})
+
 		})
 
 	})
