@@ -35,3 +35,5 @@ require (
 )
 
 replace golang.zx2c4.com/wireguard => golang.zx2c4.com/wireguard v0.0.0-20231022001213-2e0774f246fb
+
+retract [v0.0.1, v0.0.5] // dev versions
